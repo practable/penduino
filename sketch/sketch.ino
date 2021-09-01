@@ -21,10 +21,10 @@ clearButton = 8,
 encoderPinA = 2,
 encoderPinB = 3,
 driveLed = 10,
-drivePin = 6,
+drivePin = 5,
 loadLed = 12,
 loadPin = 4,
-brakingLed = 8
+brakingLed = 11
 };
 
 volatile int encoderPos = 0;
@@ -292,10 +292,9 @@ void setup() {
   pinMode(drivePin, OUTPUT);  
   digitalWrite(drivePin, HIGH); // PNP
 
-  // encoder pin on interrupt 0 (pin 2)
-  attachInterrupt(0, doEncoderA, CHANGE);
-  // encoder pin on interrupt 1 (pin 3)
-  attachInterrupt(1, doEncoderB, CHANGE);
+  // This for nano every (use 0, 1 for pin 2,3 on nano)
+  attachInterrupt(encoderPinA, doEncoderA, CHANGE);
+  attachInterrupt(encoderPinB, doEncoderB, CHANGE);
 
   Serial.setTimeout(50);
   Serial.begin(57600);
