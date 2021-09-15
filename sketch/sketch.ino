@@ -16,10 +16,13 @@ unsigned long interval = 10;
 StaticJsonDocument<COMMAND_SIZE> doc;
 char command[COMMAND_SIZE];
 
+// for interrupt on pins 2,3, use on nano interruptA,B= 0,1; on nano every use interruptA,B = 2,3
 enum PinAssignments {
 clearButton = 8,
 encoderPinA = 2,
 encoderPinB = 3,
+interruptA = 0,
+interruptB = 1,
 driveLed = 10,
 drivePin = 5,
 loadLed = 12,
@@ -292,9 +295,9 @@ void setup() {
   pinMode(drivePin, OUTPUT);  
   digitalWrite(drivePin, HIGH); // PNP
 
-  // This for nano every (use 0, 1 for pin 2,3 on nano)
-  attachInterrupt(encoderPinA, doEncoderA, CHANGE);
-  attachInterrupt(encoderPinB, doEncoderB, CHANGE);
+  // for pins 2,3 use on nano use 0,1; on nano every use 2,3
+  attachInterrupt(interruptA, doEncoderA, CHANGE);
+  attachInterrupt(interruptB, doEncoderB, CHANGE);
 
   Serial.setTimeout(50);
   Serial.begin(57600);
