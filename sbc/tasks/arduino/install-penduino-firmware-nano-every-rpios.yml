@@ -15,7 +15,7 @@
     when: st.stat.exists == False
     
   - git:
-      repo: https://github.com/dpreid/penduino.git
+      repo: https://github.com/practable/penduino.git
       dest: /home/pi/sources/penduino
       update: yes
      
