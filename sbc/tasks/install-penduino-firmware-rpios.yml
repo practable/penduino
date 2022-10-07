@@ -1,0 +1,7 @@
+---
+
+  - name: Include install arduino cli
+    include: ./arduino/install-arduino-cli-rpios.yml
+    
+  - name: Include install penduino firmware [rpios]
+    include: ./arduino/install-penduino-firmware-nano-every-rpios.yml

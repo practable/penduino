@@ -1,0 +1,4 @@
+---
+
+  - name: Include install penduino firmware [rpios]
+    include: ./arduino/install-penduino-firmware-nano-every-rpios.yml

@@ -1,0 +1,12 @@
+---
+- name: install firmware on penduino experiment (to arduino)
+  hosts: penduino
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+
+  - name: Include install-penduino-firmware-rpios task
+    include: ../tasks/install-penduino-firmware-rpios.yml
+
+

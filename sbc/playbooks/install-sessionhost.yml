@@ -1,0 +1,15 @@
+---
+- name: install sessionhost on penduino experiment
+  hosts: penduino
+  become: yes
+  gather_facts: yes
+  
+  tasks:
+
+  - name: Include install-sessionhost-rpios task
+    include: ../tasks/install-sessionhost-rpios.yml
+
+  handlers:
+
+  - name: Include sessionhost handlers
+    include: ../tasks/sessionhost-handlers.yml
