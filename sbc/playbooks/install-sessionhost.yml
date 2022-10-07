@@ -1,6 +1,6 @@
 ---
-- name: install sessionhost on rpi-spinner-v2 experiment
-  hosts: rpispinnerv2
+- name: install sessionhost on penduino experiment
+  hosts: penduino
   become: yes
   gather_facts: yes
   

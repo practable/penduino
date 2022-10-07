@@ -1,6 +1,6 @@
 ---
-- name: update shellhost on rpi spinner v2 experiment
-  hosts: rpispinnerv2
+- name: update shellhost on penduino experiment
+  hosts: penduino
   become: yes
   gather_facts: yes
   
