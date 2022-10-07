@@ -297,7 +297,7 @@ Create the configuration files we need, assuming we are using the standard pract
 ```
 #local
 cd scripts
-.configure pend 32 32 https://relay-access.practable.io https://shell-access.practable.io https://shell-access2.practable.io
+./configure pend 32 32 https://relay-access.practable.io https://shell-access.practable.io https://shell-access2.practable.io
 ```
 
 ##### Session
@@ -306,7 +306,7 @@ Now we can run our ansible playbooks - these each take some time, so get the ket
 
 ```
 #local
-cd playbooks
+cd ../playbooks
 ansible-playbook install-sessionhost.yml
 ansible-playbook install-shellhost.yml
 ansible-playbook install-firmware.yml

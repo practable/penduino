@@ -15,7 +15,7 @@
     when: st.stat.exists == False
     
   - git:
-      repo: https://github.com/practable/penduino.git
+      repo: https://github.com/dpreid/penduino.git
       dest: /home/pi/sources/penduino
       update: yes
      
@@ -26,12 +26,12 @@
     command: arduino-cli core install arduino:megaavr
 
   - name: Compile penduino firmware
-    command: arduino-cli compile --fqbn arduino:megaavr:nano_every Penduino/ 
+    command: arduino-cli compile --fqbn arduino:megaavr:nona4809 Penduino/ 
     args:
       chdir: /home/pi/sources/penduino/fw
 
   - name: Load penduino firmware onto arduino
-    command: arduino-cli upload --port /dev/ttyACM0 --fqbn arduino:megaavr:nano_every Penduino/ 
+    command: arduino-cli upload --port /dev/ttyACM0 --fqbn arduino:megaavr:nona4809 Penduino/ 
     args:
       chdir: /home/pi/sources/penduino/fw
     
