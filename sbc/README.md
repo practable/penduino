@@ -221,6 +221,8 @@ Make a note of the MAC address of your SBC so that you can share that with your 
 
 #### ssh into your RPI
 
+If you had to setup a new user following the instructions above (for new Raspberry Pi images) then you have already created your own password and can miss this step. You may want to check that you are able to ssh into the Raspberry Pi anyway. If you used an older Raspberry Pi OS image that still uses the default pi/raspberry user/password then update the password by following the instructions below.
+
 The standard user and password on the image is usually `pi/raspberry`
 
 On your machine, open a terminal
