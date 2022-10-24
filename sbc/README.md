@@ -138,6 +138,19 @@ Open the boot partition in a terminal, and create the file `ssh`
 touch ssh
 ```
 
+New Raspberry Pi images do not setup a 'pi' user as default and therefore a new user must be created before you can ssh into the Raspberry Pi. See [here](https://www.raspberrypi.com/news/raspberry-pi-bullseye-update-april-2022/) for details. To setup a user in headless mode, whilst in the boot partition of the Raspberry Pi as above, create a file called userconf. Then generate an encrypted password using:
+
+```
+echo 'mypassword' | openssl passwd -6 -stdin
+
+```
+
+Then copy a single line into the userconf file containing the user name you want to setup, a colon, and the encrypted password generated above.
+
+```
+username: encrypted-password
+```
+
 Exit the terminal, unmount/eject the `boot` and `rootfs` partitions, and remove the SD card from the reader.
 
 ### RPI OS
