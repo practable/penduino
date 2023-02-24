@@ -249,18 +249,18 @@ export default {
 			this.dataSocket.onopen = () =>  {
 				//dataOpen = true; 
                 _this.updateDrive(50);
-                _this.sendDrive();
+                _this.sendDrive(false);
                 console.log('drive');
 
                 setTimeout(() => {
                     _this.updateInterval(50);
-                    _this.sendInterval();
+                    _this.sendInterval(false);
                     console.log('interval');
                 }, 1000)
                 
                 setTimeout(() => {
                     _this.updateBrake(50);
-                    _this.sendBrake();
+                    _this.sendBrake(false);
                     console.log('brake');
                 }, 2000)
                 
@@ -355,8 +355,8 @@ export default {
 
 			
 			window.addEventListener('keydown', this.hotkey, false);
-			window.addEventListener('pagehide', this.free);				//closing window
-			window.addEventListener('beforeunload', this.free);			//refreshing page, changing URL
+			//window.addEventListener('pagehide', this.free);				//closing window
+			//window.addEventListener('beforeunload', this.free);			//refreshing page, changing URL
 	
 		
 	},

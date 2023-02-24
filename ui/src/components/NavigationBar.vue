@@ -40,34 +40,55 @@
               <li class="nav-item">
                   <a class="nav-link" href="#" tabindex="-1" @click='clearWorkspace'>Clear Workspace</a>
               </li>
+
+              <li v-if='getIsLoggingOn' class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="settingsdropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   Settings
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown2">
+                    <li><a class="dropdown-item" id='toggleconsentbutton' href="#" @click='this.$emit("toggleconsent")'>Change consent</a></li>
+                  </ul>
+              </li>
+
           </ul>
 
           <div class='d-flex'>
-            <toolbar class='me-5' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
-                  <template v-slot:popup id='navbar-popup'>
-                    <div class='row'>
-                    <div class='col-6'>
-                        <h2>Hotkeys:</h2>
-                        <p>Start: s</p>
-                        <p>Brake: b</p>
-                        <p>Free: f</p>
-                        <p>Load: l</p>
-                      </div>
-                      <div class='col-6'>
-                        <h2>UI Control:</h2>
-                        <p>When the Measuring Tools are added hold, 'o' whilst dragging a tool to rotate it</p>
-                        <p>Press 'w' to swap between controlling the measuring tools and the background UI. Click 'Clear Workspace' to remove the measuring tools</p>
-                        <p>Additional UI components can be added from the Menu bar.</p>
-                        <p>Components can be swapped by dragging to new positions. Click and drag from the grey background within the dotted line of the component you want to move. Release 
-                          inside the grey background of the dotted border that you want to move it to.</p>
-                        
-                      </div>
-                    </div>
-                  </template>
-            </toolbar>
-          </div>
-          <div class='d-flex'>
-              <clock />
+            <ul class="navbar-nav dropstart">
+            
+                <li class="nav-item dropdown">
+                    <a class="nav-link" >
+                        UUID: {{ getLogUUID }}
+                    </a> 
+                </li>
+
+                <toolbar class='me-1' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
+                    <template v-slot:popup id='navbar-popup'>
+                        <div class='row'>
+                        <div class='col-6'>
+                            <h2>Hotkeys:</h2>
+                            <p>Start: s</p>
+                            <p>Brake: b</p>
+                            <p>Free: f</p>
+                            <p>Load: l</p>
+                        </div>
+                        <div class='col-6'>
+                            <h2>UI Control:</h2>
+                            <p>When the Measuring Tools are added hold, 'o' whilst dragging a tool to rotate it</p>
+                            <p>Press 'w' to swap between controlling the measuring tools and the background UI. Click 'Clear Workspace' to remove the measuring tools</p>
+                            <p>Additional UI components can be added from the Menu bar.</p>
+                            <p>Components can be swapped by dragging to new positions. Click and drag from the grey background within the dotted line of the component you want to move. Release 
+                            inside the grey background of the dotted border that you want to move it to.</p>
+                            
+                        </div>
+                        </div>
+                    </template>
+                </toolbar>
+
+                <li class="nav-item dropdown">
+                    <clock class='nav-link' />
+                </li>
+
+            </ul>
           </div>
 
       </div>
@@ -80,10 +101,12 @@
 
 import Toolbar from './elements/Toolbar.vue';
 import Clock from "./Clock.vue";
+import { mapGetters } from 'vuex';
+
 export default {
 
   name: 'NavigationBar',
-  emits:['clearworkspace', 'togglegraph', 'togglestopwatch', 'toggletable', 'toggleautocommands', 'toggleworkspace', 'addruler', 'addprotractor', 'togglesnapshot'],
+  emits:['toggleconsent', 'clearworkspace', 'togglegraph', 'togglestopwatch', 'toggletable', 'toggleautocommands', 'toggleworkspace', 'addruler', 'addprotractor', 'togglesnapshot'],
   data () {
     return {
         
@@ -94,7 +117,10 @@ export default {
     Toolbar,
   },
   computed:{
-      
+      ...mapGetters([
+        'getIsLoggingOn',
+        'getLogUUID'
+      ])
   },
   methods: {
       addTool(tool){

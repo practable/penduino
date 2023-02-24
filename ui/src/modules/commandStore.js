@@ -86,15 +86,20 @@ const commandStore = {
         },
         start(context, value){
             context.commit('START', value)
+            //context.dispatch('logParameters', {log:'speed', data: {set: value, kp: context.rootState.data.p, ki: context.rootState.data.i, kd: context.rootState.data.d}});
+            context.dispatch('logAnalytics', {log: "start", data: {set: value}})
         },
         brake(context){
             context.commit('BRAKE');
+            context.dispatch('logAnalytics', {log: "brake"})
         },
         free(context){
             context.commit('FREE');
+            context.dispatch('logAnalytics', {log: "free"})
         },
         load(context){
             context.commit('LOAD');
+            context.dispatch('logAnalytics', {log: "load"})
         },
         calibrate(context){
             context.commit('CALIBRATE');
@@ -105,20 +110,32 @@ const commandStore = {
         updateDrive(context, value){
             context.commit('UPDATE_DRIVE', value);
         },
-        sendDrive(context){
+        sendDrive(context, toLog = true){
             context.commit('SEND_DRIVE');
+            if(toLog){
+                context.dispatch('logAnalytics', {log: "drive_perc", data: {set: context.state.drive}})
+            }
+            
         },
         updateBrake(context, value){
             context.commit('UPDATE_BRAKE', value);
         },
-        sendBrake(context){
+        sendBrake(context, toLog = true){
             context.commit('SEND_BRAKE');
+            if(toLog){
+                context.dispatch('logAnalytics', {log: "brake_perc", data: {set: context.state.brake}})
+            }
+            
         },
         updateInterval(context, value){
             context.commit('UPDATE_INTERVAL', value)
         },
-        sendInterval(context){
+        sendInterval(context, toLog = true){
             context.commit('SEND_INTERVAL');
+            if(toLog){
+                context.dispatch('logAnalytics', {log: "sampling", data: {set: context.state.interval}})
+            }
+            
         },
         setCurrentMode(context, mode){
             context.commit("SET_CURRENT_MODE", mode);

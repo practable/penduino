@@ -12,6 +12,8 @@ const streamStore = {
         videoURLObtained: false,
         dataURL: "",
         dataURLObtained: false,
+        logURL: "",
+        logURLObtained: false,
         remoteLabVersion: '',
         disableTooltips: false,
         expiryTime: '',
@@ -55,6 +57,14 @@ const streamStore = {
             state.dataURL = "";
             state.dataURLObtained = false;
           },
+          SET_LOG_URL(state, url){
+            state.logURL = url;
+            state.logURLObtained = true;
+          },
+          DELETE_LOG_URL(state){
+            state.logURL = "";
+            state.logURLObtained = false;
+          },
           SET_REMOTE_LAB_VERSION(state, version){
               state.remoteLabVersion = version;
           },
@@ -72,7 +82,7 @@ const streamStore = {
           },
           SET_SESSION_EXPIRED(state, set){
             state.sessionExpired = set;
-          }
+          },
       },
       actions:{
           setConnectionDroppedAt(context, when){
@@ -105,6 +115,12 @@ const streamStore = {
            deleteDataURL(context){
                context.commit("DELETE_DATA_URL");
            },
+           setLogURL(context, url){
+            context.commit("SET_LOG_URL", url);
+           },
+           deleteLogURL(context){
+              context.commit("DELETE_LOG_URL");
+            },
            setRemoteLabVersion(context, version){
                context.commit("SET_REMOTE_LAB_VERSION", version);
             },
@@ -160,6 +176,12 @@ const streamStore = {
         },
         getDataURLObtained(state){
             return state.dataURLObtained;
+        },
+        getLogURL(state){
+            return state.logURL;
+        },
+        getLogURLObtained(state){
+            return state.logURLObtained;
         },
         getRemoteLabVersion(state){
             return state.remoteLabVersion;
