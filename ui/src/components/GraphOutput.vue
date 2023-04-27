@@ -51,7 +51,7 @@
             <div v-if="currentFunction === 'linear'">
                
                 <div class='row justify-content-center'>
-                    <img id='linear_function' src='../../public/images/LinearFunction.png'>
+                    <img id='linear_function' src='/images/LinearFunction.png'>
                 </div>
 
 
@@ -77,7 +77,7 @@
                 <div v-else-if="currentFunction === 'quadratic'">
 
                     <div class='row justify-content-center'>
-                    <img id='linear_function' src='../../public/images/QuadraticFunction.png'>
+                    <img id='linear_function' src='/images/QuadraticFunction.png'>
                 </div>
 
 
@@ -102,7 +102,7 @@
             <div v-else-if="currentFunction === 'trigonometric'">
 
                 <div class='row justify-content-center'>
-                    <img id='trig_function' src='../../public/images/TrigFunction.png'>
+                    <img id='trig_function' src='/images/TrigFunction.png'>
                 </div>
 
 
@@ -131,7 +131,7 @@
             <div v-else-if="currentFunction === 'exponential'">
 
                  <div class='row justify-content-center'>
-                    <img id='linear_function' src='../../public/images/ExpFunction.png'>
+                    <img id='linear_function' src='/images/ExpFunction.png'>
                 </div>
 
 
