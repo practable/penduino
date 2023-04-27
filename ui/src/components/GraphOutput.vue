@@ -157,9 +157,19 @@
 
     </div>
 
-    <toolbar parentCanvasID="graph-canvas" parentComponentName="graph" parentDivID="graph" :showDownload='true' :showPopupHelp="false" :showOptions="false">  
+    <div class="d-flex flex-row">
+        <div class="col-auto me-2">
+            <toolbar parentCanvasID="graph-canvas" parentComponentName="graph" parentDivID="graph" :showDownload='true' :showPopupHelp="false" :showOptions="false">  
 
-    </toolbar>
+            </toolbar>
+        </div>
+        <div class="col-auto mt-2">
+            <p v-if="getNumData < maxDataPoints">Data plotted: {{ getNumData }} / {{ maxDataPoints }}</p>
+            <p v-else>Data plotted: {{ maxDataPoints }} / {{ maxDataPoints }} MAX REACHED</p>
+        </div>
+        
+    </div>
+    
 
 
 </div>
