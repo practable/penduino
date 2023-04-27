@@ -91,8 +91,7 @@ export default {
   created(){
     this.$store.dispatch('setUsesLocalStorage', this.hasStorage());
     //check if user has a UUID generated already and whether they have consented to take part in the study
-    this.updateUUID();
-    this.checkConsent();
+    
   },
   computed:{
     ...mapGetters([
@@ -102,6 +101,14 @@ export default {
       'getExperiment',
       'getIsLoggingOn'
     ])
+  },
+  watch:{
+    getCourse(){
+      console.log(this.getCourse)
+      console.log(this.getExperiment)
+      this.updateUUID();
+      this.checkConsent();
+    }
   },
   methods:{
     dragComponent(event){
@@ -242,7 +249,15 @@ export default {
                 this.$store.dispatch('setLoggingConsent', (logging_consent === 'true'));
             }
         } else{
+          // set consent internally
             this.$store.dispatch('setLoggingConsent', false);
+          // and set in local storage
+            if(this.getUsesLocalStorage){
+              let course = this.getCourse
+              let exp = this.getExperiment
+              const item = `consent-${exp}-${course}`
+                window.localStorage.setItem(item, false);
+            }
         }
         
         

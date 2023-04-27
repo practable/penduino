@@ -62,7 +62,7 @@
                 </li>
 
                 <toolbar class='me-1' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
-                    <template v-slot:popup id='navbar-popup'>
+                    <template v-slot:popup>
                         <div class='row'>
                         <div class='col-6'>
                             <h2>Hotkeys:</h2>
