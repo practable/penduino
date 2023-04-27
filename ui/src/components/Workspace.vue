@@ -1,11 +1,32 @@
 //Updated for Vue3, removing eventBus $on waiting for addruler/protractor event - now controlled through props from App.vue
 
 <template>
-<div>
-    <button class='button-sm button-primary me-2' @click='increaseRulerSize'>+</button>
-    <input type='text' class='input-disabled' placeholder='Ruler' size='3'>  
-    <button class='button-sm button-primary' @click='decreaseRulerSize'>-</button>
+<div class="d-flex justify-content-center">
+    <div class="col-4">
+        <button class='button-sm button-primary me-2' @mousedown='rotateRuler(-10)'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38"/></svg>
+        </button>
+        <button class='button-sm button-primary me-2' @mousedown='rotateRuler(-1)'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38"/></svg>
+        </button>
+
+        <input type='text' class='input-disabled' placeholder='Rotation' size='10'>  
+
+        <button class='button-sm button-primary me-2' @click='rotateRuler(1)'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38"/></svg>
+        </button>
+        <button class='button-sm button-primary me-2' @click='rotateRuler(10)'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38"/></svg>
+        </button>
     
+    </div>
+
+    <div class="col-4">
+        <button class='button-sm button-primary me-2' @click='increaseRulerSize'>+</button>
+        <input type='text' class='input-disabled' placeholder='Size (Ruler)' size='10'>  
+        <button class='button-sm button-primary' @click='decreaseRulerSize'>-</button>
+    </div>
+
     <canvas :class="workspace_canvas_clickable ? 'clickable' : 'unclickable'" id="workspace" @mousedown="checkClick" @mousemove="moveClicked" @mouseup="mouseUnclick"></canvas>
     <img id="ruler-image" src="/images/ruler.png" hidden>
     <img id="protractor" src="/images/protractor.png" hidden>
@@ -38,6 +59,7 @@ export default {
             ruler_width: 800,
             ruler_height: 80,
             ruler_ratio: 0.1,
+            mouseHeld: false
         }
     },
     created(){
@@ -268,6 +290,19 @@ export default {
                 this.ruler_height = this.ruler_ratio*this.ruler_width;
                 this.draw();
             }
+        },
+        rotateRuler(angle){
+            
+                if(shapes[0] != null){
+                    shapes[0].angle += angle*Math.PI/180;
+                }
+
+                if(shapes[1] != null){
+                    shapes[1].angle += angle*Math.PI/180;
+                }
+                
+                this.draw(); 
+          
         }
     }
 }
