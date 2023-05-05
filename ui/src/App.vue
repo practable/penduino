@@ -104,8 +104,6 @@ export default {
   },
   watch:{
     getCourse(){
-      console.log(this.getCourse)
-      console.log(this.getExperiment)
       this.updateUUID();
       this.checkConsent();
     }
