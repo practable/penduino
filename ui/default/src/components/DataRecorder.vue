@@ -1,5 +1,5 @@
 <template>
-    <div class='container-fluid m-2 background-white border rounded'>
+    <div class='container-fluid m-2 practable-component'>
        <div class="col pb-2 d-grid gap-2 d-sm-block">
         <button class="button-sm button-primary m-1" v-if="!getIsRecording" id="recordButton" @click="record">Record</button>
         <button class="button-sm button-danger m-1" v-if="getIsRecording" id="stopButton" @click="stopRecording">Stop</button>

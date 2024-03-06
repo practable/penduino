@@ -61,6 +61,17 @@
       border-color: rgba(20, 51, 186, 0.2) /* Persian Blue */
       
     }
+
+.drop-area.dark-theme {
+        background-color: black;
+        margin: 5px;
+        padding: 20px;
+        border-style: dashed;
+        border-radius:12px;
+        border-width: 2px;
+        border-color: rgba(255, 255, 255, 0.2)
+        
+    }
   
   /* Only have scrollable left and right screen divs if on a large screen size or bigger. */
   @media only screen and (min-width: 992px){
@@ -79,6 +90,10 @@
   .background-primary{
       background-color: #1433BA; /* Persian Blue */
   }
+
+  .background-primary.dark-theme{
+    background-color: #000000;
+}
   
   .background-secondary{
       background-color: #5FA8AB; /* Cadet Blue */
@@ -103,6 +118,10 @@
   .background-grey{
       background-color: rgba(159, 159, 159, 0.75); /* Grey */
   }
+
+  .background-grey.dark-theme{
+    background-color: rgba(0, 0, 0, 0.75);
+}
   
   .button{
       background-color: #1433BA; /* Persian Blue */

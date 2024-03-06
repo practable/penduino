@@ -1,12 +1,12 @@
 
 <template>
 
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark background-primary" id='navbar'>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-background" id='navbar'>
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-          <img src="/images/practable-icon.png" width="30" height="30" alt="">
+      <div class="navbar-brand">
+          <img src="/images/practable-icon.png" width="30" height="30" alt="practable.io logo">
           Remote Lab: Pendulum
-        </a>
+      </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
@@ -14,9 +14,9 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                    Menu
-                  </a>
+                  </div>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#" @click='toggleComponent("graph")'>Graph</a></li>
                     <li><a class="dropdown-item" href="#" @click='toggleComponent("stopwatch")'>Stopwatch</a></li>
@@ -41,6 +41,7 @@
                   <a class="nav-link" href="#" tabindex="-1" @click='clearWorkspace'>Clear Workspace</a>
               </li>
 
+
               <li v-if='getIsLoggingOn' class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="settingsdropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                    Settings
@@ -50,15 +51,22 @@
                   </ul>
               </li>
 
+              
+
           </ul>
 
           <div class='d-flex'>
             <ul class="navbar-nav dropstart">
-            
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" >
                         UUID: {{ getLogUUID }}
                     </a> 
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <clock class='nav-link' />
                 </li>
 
                 <toolbar class='me-1' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
@@ -84,9 +92,13 @@
                     </template>
                 </toolbar>
 
-                <li class="nav-item dropdown">
-                    <clock class='nav-link' />
-                </li>
+                <li class="nav-item">
+                  <button type='button' class='button-toolbar button-secondary' id='download-button' @click='toggleTheme'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"/>
+                    </svg>
+                  </button>
+              </li>
 
             </ul>
           </div>
@@ -133,7 +145,10 @@ export default {
       },
       clearWorkspace(){
           this.$emit('clearworkspace');
-      }
+      },
+      toggleTheme(){
+        document.body.classList.toggle("dark-theme");
+        }
   }
 }
 </script>

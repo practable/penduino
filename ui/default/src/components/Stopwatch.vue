@@ -1,7 +1,7 @@
 //Vue3 updated
 
 <template>
-    <div class='container-fluid m-2 background-white border rounded stopwatch-container' id='stopwatch-container'>
+    <div class='container-fluid m-2 practable-component stopwatch-container' id='stopwatch-container'>
         <div class="row-sm m-2">
             <div class='form-group'><input type='text' class='form-control' id="stopwatch" :value="time_string" readonly></div>
         </div>

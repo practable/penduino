@@ -1,5 +1,5 @@
 <template>
-<div class='container-fluid m-2 background-white border rounded'>
+<div class='container-fluid m-2 practable-component'>
 <div class='row' id="video">
 	<div class='col-12'>
 		<!-- <canvas id="video-canvas"></canvas> -->

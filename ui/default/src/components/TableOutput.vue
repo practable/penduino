@@ -1,11 +1,11 @@
 <template>
-<div class='container-fluid m-2 background-white border rounded table'>
+<div class='container-fluid m-2 practable-component table'>
     <div class="row ">
     <!-- <input type="text" id="search" v-on:keyup="search" v-model="search_field" placeholder="Search the table..."> -->
 
         <table>
             <thead class='table-head'>
-                <tr class='background-primary text-white'>
+                <tr>
                     <!-- <th scope="col">ID</th> -->
                     <th scope="col">Time[s]</th>
                     <th scope="col">Angle[rad]</th>

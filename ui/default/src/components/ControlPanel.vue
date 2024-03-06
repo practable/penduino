@@ -1,5 +1,5 @@
 <template>
-<div class='container-fluid m-2 background-white border rounded'>
+<div class='container-fluid m-2 practable-component'>
 	<div>
 		<canvas id="smoothie-chart" width="640" height="120"></canvas>
 	</div>
@@ -7,16 +7,16 @@
 		<article>
 			<!-- <button id="start" class="btn btn-default btn-lg" @click="start">Start</button> -->
             <button id="start" class="button-lg button-primary" @click="start">Start</button>
-			<button id="brake" class="button-lg button-secondary" @click="brake">Brake</button>
-			<button id="load" class="button-lg button-tertiary" @click="load">Load</button>
-			<button id="free" class="button-lg button-warning" @click="free">Free</button>
-			<button id="cal" class="button-lg button-danger" @click="calibrate">Cal</button>
+			<button id="brake" class="button-lg button-primary" @click="brake">Brake</button>
+			<button id="load" class="button-lg button-primary" @click="load">Load</button>
+			<button id="free" class="button-lg button-primary" @click="free">Free</button>
+			<button id="cal" class="button-lg button-warning" @click="calibrate">Cal</button>
 		</article>
 	</div>
 
 <article>
 
-<h2 class='txt-primary m-2'> Settings </h2>
+<h2 class='m-2'> Settings </h2>
 
 
 <div class="row">

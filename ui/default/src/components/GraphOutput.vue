@@ -1,5 +1,5 @@
 <template>
-<div class='container-fluid m-2 background-white border rounded'>
+<div class='container-fluid m-2 practable-component'>
     <div class="row mb-5 justify-content-center" id="chart-canvas">
         <div class="col">
             <canvas id='graph-canvas' @mousedown="startLine" @mouseup="endDrag" @mousemove="endLine"></canvas>
@@ -10,7 +10,7 @@
         <div class="col-sm-6 flex-column">
             <!-- Graph type -->
             <div>
-                <label class='m-2 txt-primary' for="graphSelect">Graph:</label>
+                <label class='m-2' for="graphSelect">Graph:</label>
                 <select class='button-sm button-secondary col-sm-6' name="graphSelect" id="graphSelect" v-model="currentDataParameter" @change="getAllData(true)">    
                     <option value="theta">Angle</option>
                     <option value="omega">Angular Velocity</option>
@@ -19,7 +19,7 @@
 
             <!-- Gradient -->
             <div>
-                <label class='m-2 txt-primary' for="gradient">Gradient:</label>
+                <label class='m-2' for="gradient">Gradient:</label>
                 <input class='input-disabled col-sm-4' id="gradient" :value="gradient" readonly> 
             </div>
             <!-- Error bars -->
@@ -40,7 +40,7 @@
         </div>
         
         <div class='col-sm-6 flex-column'>
-            <label class='m-2 txt-primary' for="graph">Plot function: </label>
+            <label class='m-2' for="graph">Plot function: </label>
             <select class='button-sm button-secondary col-sm-6' name="function" id="function" v-model="currentFunction">
                 <option value="linear">Linear</option>
                 <option value="quadratic">Quadratic</option>
@@ -57,13 +57,13 @@
 
                 <div class='row justify-content-center'>
                     <div>
-                        <label class='txt-primary m-2' for="func_a">a = </label>
+                        <label class='m-2' for="func_a">a = </label>
                         <input type='number' class='input col-sm-3' id="func_a" v-model="func_a">
                     </div>
                     
 
                     <div>
-                        <label class='txt-primary m-2' for="func_b">b = </label>
+                        <label class='m-2' for="func_b">b = </label>
                         <input type='number' class='input col-sm-3' id="func_b" v-model="func_b">                
                     </div>
                 </div>
@@ -83,13 +83,13 @@
 
                 <div class='row justify-content-center'>
                     <div>
-                        <label class='txt-primary m-2' for="func_a">a = </label>
+                        <label class='m-2' for="func_a">a = </label>
                         <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
                     </div>
                     
 
                     <div>
-                        <label class='txt-primary m-2' for="func_b">b = </label>
+                        <label class='m-2' for="func_b">b = </label>
                         <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">                
                     </div>
                 </div>
@@ -108,17 +108,17 @@
 
                 <div class='row justify-content-center'>
                     <div>
-                        <label class='txt-primary m-2' for="func_a">A</label>
+                        <label class='m-2' for="func_a">A</label>
                         <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
                     </div>
                     
                     <div>
-                        <label class='txt-primary m-2' for="func_b">&omega;</label>
+                        <label class='m-2' for="func_b">&omega;</label>
                         <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">
                     </div>
 
                     <div>
-                        <label class='txt-primary m-2' for="func_c">&phi;</label>
+                        <label class='m-2' for="func_c">&phi;</label>
                         <input type='number' class='input col-sm-3' id="func_c" v-model="func_c" size="3">                
                     </div>
                 </div>
@@ -137,13 +137,13 @@
 
                 <div class='row justify-content-center'>
                     <div>
-                        <label class='txt-primary m-2' for="func_a">A = </label>
+                        <label class='m-2' for="func_a">A = </label>
                         <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
                     </div>
                     
 
                     <div>
-                        <label class='txt-primary m-2' for="func_b">b = </label>
+                        <label class='m-2' for="func_b">b = </label>
                         <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">                
                     </div>
                 </div>

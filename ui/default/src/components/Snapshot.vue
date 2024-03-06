@@ -1,12 +1,12 @@
 <template>
 
-<div class="container-fluid m-2 background-white border rounded" id='snapshot-div'>
+<div class="container-fluid m-2 practable-component" id='snapshot-div'>
 
     <div class="row table" id='table'>
 
         <table>
-            <thead class='table-head background-primary'>
-                <tr class='background-primary text-white'>
+            <thead class='table-head'>
+                <tr>
                     <th v-for='heading in headings' :key="heading" scope="col">{{heading}}</th>
                 </tr>
             </thead>
