@@ -3,7 +3,7 @@
         <div class="row d-flex flex-row align-items-top">
             <div class='col-md-3 d-flex flex-column align-items-center'>
                 <label class='txt-bold m-1' for="addCommand">Command</label>
-                <select class='button-sm button-secondary col-sm-12' name="addCommand" id="addCommand" v-model="command_to_add" @change="checkCommandParameter">
+                <select class='button-sm button-primary col-sm-12' name="addCommand" id="addCommand" v-model="command_to_add" @change="checkCommandParameter">
                     <option value="start">Start</option>
                     <option value="updateDrive">Drive Param</option>
                     <option value="brake">Brake</option>

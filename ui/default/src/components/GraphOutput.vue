@@ -11,7 +11,7 @@
             <!-- Graph type -->
             <div>
                 <label class='m-2' for="graphSelect">Graph:</label>
-                <select class='button-sm button-secondary col-sm-6' name="graphSelect" id="graphSelect" v-model="currentDataParameter" @change="getAllData(true)">    
+                <select class='button-sm button-primary col-sm-6' name="graphSelect" id="graphSelect" v-model="currentDataParameter" @change="getAllData(true)">    
                     <option value="theta">Angle</option>
                     <option value="omega">Angular Velocity</option>
                 </select> 
@@ -41,7 +41,7 @@
         
         <div class='col-sm-6 flex-column'>
             <label class='m-2' for="graph">Plot function: </label>
-            <select class='button-sm button-secondary col-sm-6' name="function" id="function" v-model="currentFunction">
+            <select class='button-sm button-primary col-sm-6' name="function" id="function" v-model="currentFunction">
                 <option value="linear">Linear</option>
                 <option value="quadratic">Quadratic</option>
                 <option value="trigonometric">Trigonometric</option>
@@ -685,12 +685,6 @@ export default {
     height: 30px;
 }
 
-select{
-    color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    
-}
 
 #chart-canvas{
     cursor: crosshair;

@@ -18,62 +18,32 @@
 
 <h2 class='m-2'> Settings </h2>
 
-
-<div class="row">
-	<div class="column1-4">&nbsp; </div>
-	<div class="column2-4">
-		<div class="row">
-			<div class="column1-3  sliderlabel"> Drive ({{driveParam}}%)</div>
-			<div class="column2-3" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-				<input type="range" min="0" max="100" v-model="driveParam" class="slider" id="driveSlider" @change="sendDrive">
-			</div>
-		</div>
+<div class="row mb-4">
+	<label class="col-4 sliderlabel" for="driveSlider"> Drive ({{driveParam}}%)</label>
+	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+		<input type="range" min="0" max="100" v-model="driveParam" class="slider" id="driveSlider" @change="sendDrive">
 	</div>
-	<div class="column1-4"></div>
+</div>
+
+<div class="row mb-4">
+	<label class="col-4 sliderlabel"> Brake ({{brakeParam}}%)</label>
+	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+		<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake'>
+	</div>
+</div>
+
+<div class="row mb-4">
+	<label class="col-4 sliderlabel"> Start bump ({{startParam}}ms)</label>
+	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+		<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" > 
+	</div>
 </div>
 
 <div class="row">
-	<div class="column1-3 sliderlabel"></div>
-	<div class="column1-2"></div>
-</div>
-
-<div class="row">
-	<div class="column1-4">&nbsp; </div>
-	<div class="column2-4">
-		<div class="row">
-			<div class="column1-3  sliderlabel"> Brake ({{brakeParam}}%)</div>
-		<div class="column2-3" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-			<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake'>
-		</div>
+	<label class="col-4 sliderlabel"> Report every {{intervalParam}}ms</label> 
+	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+		<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval'>
 	</div>
-	</div>
-	<div class="column1-4"></div>
-</div>
-
-<div class="row">
-	<div class="column1-4">&nbsp; </div>
-	<div class="column2-4">
-		<div class="row">
-			<div class="column1-3  sliderlabel"> Start bump ({{startParam}}ms)</div>
-			<div class="column2-3" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-				<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" > 
-			</div>
-	</div>
-	</div>
-	<div class="column1-4"></div>
-</div>
-
-<div class="row">
-	<div class="column1-4">&nbsp; </div>
-	<div class="column2-4">
-		<div class="row">
-			<div class="column1-3  sliderlabel"> Report every {{intervalParam}}ms</div> 
-			<div class="column2-3" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-				<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval'>
-			</div>
-			</div>
-		</div>
-	<div class="column1-4"></div>
 </div>
 
 
@@ -376,80 +346,8 @@ export default {
 	height: 120px;
 }
 
-.slidecontainer {
-	width: 100%; /* Width of the outside container */
-}
-.slider {
-	/* -webkit-appearance: none; */
-	width: 100%;
-	height: 15px;
-	border-radius: 5px;  
-	background: #d3d3d3;
-	outline: none;
-	opacity: 0.7;
-	-webkit-transition: .2s;
-	transition: opacity .2s;
-    cursor:pointer;
-}
+.sliderlabel{ text-align: right;}
 
-.slider::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	appearance: none;
-	width: 25px;
-	height: 25px;
-	border-radius: 50%; 
-	background: #1433BA; /* Persian Blue */
-	cursor: grab;
-}
-
-.slider::-moz-range-thumb {
-	width: 25px;
-	height: 25px;
-	border-radius: 50%;
-	background: #1433BA; /* Persian Blue */
-	cursor: grab;
-}
-
-/* Mouse-over effects */
-.slider:hover {
-	opacity: 1; /* Fully shown on mouse-over */
-}
-
-.column {
-	float: left;
-	width: 50%;
-}
-
-
-.sliderlabel{ text-align: left;}
-
-.column1-4 {
-	float: left;
-	width: 30%;
-}
-
-.column2-4 {
-	float: left;
-	width: 40%;
-}
-
-.column3-4 {
-	float: left;
-	width: 75%;
-}
-
-.column1-3 {
-	float: left;
-	width: 33.3%;
-}
-.column2-3 {
-	float: left;
-	width: 66.6%;
-}
-
-.row{
-	margin-top: 12px;
-}
 
 /* Clear floats after the columns */
 .row:after {

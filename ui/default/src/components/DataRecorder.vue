@@ -4,7 +4,7 @@
         <button class="button-sm button-primary m-1" v-if="!getIsRecording" id="recordButton" @click="record">Record</button>
         <button class="button-sm button-danger m-1" v-if="getIsRecording" id="stopButton" @click="stopRecording">Stop</button>
         <button class="button-sm button-warning m-1" id="clearButton" @click="clearGraph">Reset</button>
-        <button class="button-sm button-secondary m-1" v-if="hasData" id="outputButton" @click="outputToCSV">Download CSV</button>
+        <button class="button-sm button-primary m-1" v-if="hasData" id="outputButton" @click="outputToCSV">Download CSV</button>
     </div>
     <div class='row m-2 justify-content-center'>
       <div v-if='getIsRecording' class='col-2'>
