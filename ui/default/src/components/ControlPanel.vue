@@ -179,10 +179,7 @@ export default {
 				this.load();
 			} else if(event.key == 's'){
 				this.start();
-			}
-		},
-		test(){
-			console.log('SECOND');
+			} 
 		},
 		connect(){
 

@@ -39,7 +39,7 @@ export default {
     
   },
   created(){
-		
+		window.addEventListener('keydown', this.hotkey, false);
 	},
   computed:{
     ...mapGetters([
@@ -128,6 +128,13 @@ export default {
           hiddenElement.download = 'pendulum.csv';
           hiddenElement.click();
       },
+      hotkey(event){
+			if(event.key == "r"){
+        this.record();
+      } else if(event.key == "t"){
+        this.stopRecording();
+      }
+		},
       
   }
 }
