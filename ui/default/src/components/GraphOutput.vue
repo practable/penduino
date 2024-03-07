@@ -40,7 +40,7 @@
         </div>
         
         <div class='col-sm-6 flex-column'>
-            <label class='m-2' for="graph">Plot function: </label>
+            <label class='m-2' for="function">Plot function: </label>
             <select class='button-sm button-primary col-sm-6' name="function" id="function" v-model="currentFunction">
                 <option value="linear">Linear</option>
                 <option value="quadratic">Quadratic</option>
@@ -51,7 +51,7 @@
             <div v-if="currentFunction === 'linear'">
                
                 <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/LinearFunction.png'>
+                    <img id='linear_function' src='/images/LinearFunction.png' alt="linear function equation">
                 </div>
 
 
@@ -77,7 +77,7 @@
                 <div v-else-if="currentFunction === 'quadratic'">
 
                     <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/QuadraticFunction.png'>
+                    <img id='linear_function' src='/images/QuadraticFunction.png' alt="quadratic function equation">
                 </div>
 
 
@@ -102,7 +102,7 @@
             <div v-else-if="currentFunction === 'trigonometric'">
 
                 <div class='row justify-content-center'>
-                    <img id='trig_function' src='/images/TrigFunction.png'>
+                    <img id='trig_function' src='/images/TrigFunction.png' alt="trigonometric function equation">
                 </div>
 
 
@@ -131,7 +131,7 @@
             <div v-else-if="currentFunction === 'exponential'">
 
                  <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/ExpFunction.png'>
+                    <img id='linear_function' src='/images/ExpFunction.png' alt="exponential function equation">
                 </div>
 
 

@@ -69,6 +69,7 @@
                     <clock class='nav-link' />
                 </li>
 
+                <li>
                 <toolbar class='me-1' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
                     <template v-slot:popup>
                         <div class='row'>
@@ -91,7 +92,8 @@
                         </div>
                     </template>
                 </toolbar>
-
+              </li>
+              
                 <li class="nav-item">
                   <button type='button' class='button-toolbar button-secondary' id='download-button' @click='toggleTheme'>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16">

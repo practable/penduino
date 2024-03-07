@@ -26,21 +26,21 @@
 </div>
 
 <div class="row mb-4">
-	<label class="col-4 sliderlabel"> Brake ({{brakeParam}}%)</label>
+	<label class="col-4 sliderlabel" for="brakeSlider"> Brake ({{brakeParam}}%)</label>
 	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
 		<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake'>
 	</div>
 </div>
 
 <div class="row mb-4">
-	<label class="col-4 sliderlabel"> Start bump ({{startParam}}ms)</label>
+	<label class="col-4 sliderlabel" for="startSlider"> Start bump ({{startParam}}ms)</label>
 	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
 		<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" > 
 	</div>
 </div>
 
 <div class="row">
-	<label class="col-4 sliderlabel"> Report every {{intervalParam}}ms</label> 
+	<label class="col-4 sliderlabel" for="dataSlider"> Report every {{intervalParam}}ms</label> 
 	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
 		<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval'>
 	</div>
