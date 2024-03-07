@@ -216,6 +216,7 @@ export default {
             x_error_range: 0,
             y_error_range: 0.1,
             previous_t: 0,
+            
         }
     },
     mounted() {
@@ -228,7 +229,8 @@ export default {
             'getData',
             'getNumData',
             'getIsRecording',
-            'getColourIndex'
+            'getColourIndex',
+            'getDarkTheme'
         ]),
         getAxisLabel(){
             if(this.currentDataParameter == 'theta'){
@@ -238,11 +240,14 @@ export default {
             } else{
                 return ''
             }
-        }
+        },
     },
     watch:{
         getData(){
             this.clearData(); //only runs if data array gets reset to [];
+        },
+        getDarkTheme(){
+            this.clearData();
         }
     },
     methods: {
@@ -280,32 +285,33 @@ export default {
                 datasets: [{
                     label: 'colour0',
                     data: [],
-                    pointBackgroundColor: 'rgba(0, 0, 0, 1)',
+                    // pointBackgroundColor: 'rgba(0, 0, 0, 1)',
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                 },
                 {
                     label: 'colour1',
                     data: [],
-                    pointBackgroundColor: 'rgba(0, 0, 255, 1)',
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 255, 1)' : 'rgba(255, 0, 255, 1)'
                 },
                 {
                     label: 'colour2',
                     data: [],
-                    pointBackgroundColor: 'rgba(0, 255, 0, 1)',
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 0, 1)' : 'rgba(0, 255, 0, 1)'
                 },
                 {
                     label: 'colour3',
                     data: [],
-                    pointBackgroundColor: 'rgba(255, 0, 0, 1)',
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 255, 1)' : 'rgba(0, 255, 255, 1)'
                 },
                 {
                     label: 'colour4',
                     data: [],
-                    pointBackgroundColor: 'rgba(255, 120, 0, 1)',
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 0, 1)' : 'rgba(255, 255, 0, 1)'
                 },
                 {
                     label: 'colour5',
                     data: [],
-                    pointBackgroundColor: 'rgba(150, 0, 150, 1)',
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 0, 1)' : 'rgba(255, 0, 0, 1)'
                 }]
             },
             options: {
@@ -316,7 +322,8 @@ export default {
                     xAxes: [{
                         scaleLabel:{
                             display: true,
-                            labelString: 'time/s'
+                            labelString: 'time/s',
+                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
                         type: 'linear',
                         position: 'bottom',
@@ -325,13 +332,19 @@ export default {
                                 this.updateXAxisMax(value, index, values);
                                 this.updateXAxisMin(value, index);
                                 return value;
-                            }
+                            },
+                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
+                        gridLines: {
+                            zeroLineColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
+                        }
                     }],
                     yAxes: [{
                         scaleLabel:{
                             display: true,
-                            labelString: this.getAxisLabel
+                            labelString: this.getAxisLabel,
+                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
                         type: 'linear',
                         position: 'left',
@@ -340,8 +353,13 @@ export default {
                                 this.updateYAxisMax(value, index);
                                 this.updateYAxisMin(value, index, values);
                                 return value;
-                            }
+                            },
+                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
+                        gridLines: {
+                            zeroLineColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
+                        }
                     }],
                 },
                 responsive: true
@@ -688,6 +706,8 @@ export default {
 
 #chart-canvas{
     cursor: crosshair;
+    background-color: var(--background-color)
 }
+
 
 </style>

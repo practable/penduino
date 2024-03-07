@@ -148,6 +148,7 @@ export default {
       },
       toggleTheme(){
         document.body.classList.toggle("dark-theme");
+        this.$store.dispatch('setDarkTheme', document.body.classList.contains("dark-theme"));
         }
   }
 }

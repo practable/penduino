@@ -7,6 +7,7 @@ const uiStore = {
        isDraggable: true,
        usesLocalStorage: false,        //can only use localStorage if the browser allows it.
         colour_index: 0,
+        darkTheme: document.body.classList.contains('dark-theme') ? true : false
        }),
        mutations:{
          SET_DATA_RECORDER(state, set){
@@ -21,6 +22,9 @@ const uiStore = {
          SET_USES_LOCAL_STORAGE(state, set){
             state.usesLocalStorage = set;
          },
+         SET_DARK_THEME(state, set){
+            state.darkTheme = set;
+         }
          
 
        },
@@ -38,6 +42,9 @@ const uiStore = {
          setUsesLocalStorage(context, set){
             context.commit('SET_USES_LOCAL_STORAGE', set);
          },
+         setDarkTheme(context, set){
+            context.commit('SET_DARK_THEME', set);
+         }
 
 
        },
@@ -54,6 +61,9 @@ const uiStore = {
          getUsesLocalStorage(state){
             return state.usesLocalStorage;
          },
+         getDarkTheme(state){
+            return state.darkTheme;
+         }
          
          
        },  
