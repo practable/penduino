@@ -13,7 +13,7 @@ body {
     --text-color-inverted: #fffffe;
     --background-color: #DDDEE4;
     --background-color-inverted: #232946;
-    --background-color-secondary: white;
+    --background-color-secondary: #bebfc5;
     --button-color-primary: #090C9B;
     --button-color-secondary: #3066BE;
     --button-color-hover: #DDDEE4;
@@ -27,7 +27,7 @@ body.dark-theme {
     --text-color-inverted: #121629;
     --background-color: #232946;
     --background-color-inverted: #DDDEE4;
-    --background-color-secondary: black;
+    --background-color-secondary: #202541;
     --button-color-primary: #B4E1F9;
     --button-color-secondary: #3066BE;
     --button-color-hover: #232946;
