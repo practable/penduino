@@ -72,7 +72,7 @@
                   <toolbar parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
                       <template v-slot:popup>
                           <div class='row'>
-                          <div class='col-6'>
+                          <div class='col-lg-6'>
                               <h2>Hotkeys:</h2>
                               <p>Start: s</p>
                               <p>Brake: b</p>
@@ -81,7 +81,7 @@
                               <p>Record: r</p>
                               <p>Stop (record): t</p>
                           </div>
-                          <div class='col-6'>
+                          <div class='col-lg-6'>
                               <h2>UI Control:</h2>
                               <p>When the Measuring Tools are added hold, 'o' whilst dragging a tool to rotate it</p>
                               <p>Press 'w' to swap between controlling the measuring tools and the background UI. Click 'Clear Workspace' to remove the measuring tools</p>

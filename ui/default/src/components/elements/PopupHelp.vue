@@ -84,18 +84,19 @@ export default {
     left:50%;
     transform:translate(-50%,-50%);
     width:50%;
-    border: 5px solid #000000;
     z-index: 998;
-    background-color: rgba(0,0,0,0.8);
-    color: white;
+    background: var(--background-color-inverted);
+    color: var(--text-color-inverted);
+    opacity: 0.9;
     overflow: scroll;
     max-height: 50vh;
+    padding: 10px;
 
 }
 
 #close-button{
     position:absolute;
-    right:0px;
+    right:10px;
 }
 
 #popup-text{
