@@ -291,27 +291,27 @@ export default {
                 {
                     label: 'colour1',
                     data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 255, 1)' : 'rgba(255, 0, 255, 1)'
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 255, 1)' : 'rgba(255, 0, 0, 1)'
                 },
                 {
                     label: 'colour2',
                     data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 0, 1)' : 'rgba(0, 255, 0, 1)'
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 0, 1)' : 'rgba(0, 0, 255, 1)'
                 },
                 {
                     label: 'colour3',
                     data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 255, 1)' : 'rgba(0, 255, 255, 1)'
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 255, 1)' : '#A3A3A3'
                 },
                 {
                     label: 'colour4',
                     data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 0, 1)' : 'rgba(255, 255, 0, 1)'
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 0, 1)' : '#F5A300'
                 },
                 {
                     label: 'colour5',
                     data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 0, 1)' : 'rgba(255, 0, 0, 1)'
+                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 0, 1)' : '#5B5F97'
                 }]
             },
             options: {
