@@ -298,6 +298,14 @@ input[type=checkbox] {
     transition: border-color .25s ease-in-out,box-shadow .15s ease-in-out;
 }
 
+.input[type=text]{
+    min-width: 100px;
+}
+
+.input[type=number]{
+    min-width: 100px;
+}
+
 .table{
     overflow: scroll;
     max-height: 500px;

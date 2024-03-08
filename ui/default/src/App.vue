@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class='container-fluid-sm m-0 background-grey'>
+  <div id="app" class='container-fluid-sm m-0'>
        <navigation-bar @toggleconsent="showConsentModal = true" @togglesnapshot="toggleSnapshot" @togglegraph="toggleGraph" @toggleautocommands="toggleAutoCommands" @togglestopwatch="toggleStopwatch" @toggletable="toggleTable" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"/>
 
        <consent v-if='showConsentModal && getIsLoggingOn' @consentset="closeConsentModal"/>

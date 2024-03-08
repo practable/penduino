@@ -1,7 +1,7 @@
 //Vue3 updated
 
 <template>
-    <div class='container-fluid m-2 practable-component stopwatch-container' id='stopwatch-container'>
+    <div class='container-fluid m-2 practable-component' id='stopwatch-container'>
         <div class="row-sm m-2">
             <div class='form-group'><input type='text' class='form-control' id="stopwatch" :value="time_string" readonly></div>
         </div>
@@ -83,17 +83,10 @@ export default {
 </script>
 
 <style scoped>
-.stopwatch-container{
-    position: relative;
-    max-width: 40%;
-    min-width: 300px;
-    min-height: 100px;
-}
 
 #stopwatch{
     font-size: 14;
     text-align: center;
-    width: 100%;
 }
 
 </style>
