@@ -26,8 +26,8 @@
 
             <div class='col-md-3'>
                 <div class='d-grid gap-2 d-sm-block'>
-                    <button class="button-sm button-primary" id="addButton" @click="addCommand">Add</button>
-                    <button class="button-sm button-danger" id="deleteButton" @click="deletePreviousCommand">Delete</button>
+                    <button class="button-sm button-primary" id="addButton" @click="addCommand" aria-label="add command">Add</button>
+                    <button class="button-sm button-danger" id="deleteButton" @click="deletePreviousCommand" aria-label="delete command">Delete</button>
                 </div>
             </div>
 
@@ -47,9 +47,9 @@
         <div v-if='commands.length > 0' class='h-divider'></div>
 
         <div class="row m-2 d-flex flex-row justify-content-center">
-            <button v-if='commands.length > 0' class="button-sm button-primary col-sm-2" id="startCommands" @click="runCommands">Start</button>
-            <button v-if='commands.length > 0' class="button-sm button-warning col-sm-2" id="stopCommands" @click="stopCommands">Stop</button>
-            <button v-if='commands.length > 0' class="button-sm button-danger col-sm-2" id="clearCommands" @click="clearCommands">Clear</button>
+            <button v-if='commands.length > 0' class="button-sm button-primary col-sm-2" id="startCommands" @click="runCommands" aria-label="start commands">Start</button>
+            <button v-if='commands.length > 0' class="button-sm button-warning col-sm-2" id="stopCommands" @click="stopCommands" aria-label="stop commands">Stop</button>
+            <button v-if='commands.length > 0' class="button-sm button-danger col-sm-2" id="clearCommands" @click="clearCommands" aria-label="clear commands">Clear</button>
         </div>
 
 
