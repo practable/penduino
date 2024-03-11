@@ -2,6 +2,7 @@
 
 <template>
     <div>
+
         <download-image-button v-if='showDownload' :parentComponentName="getParentComponentName" :parentCanvasID="getCanvasID"/>
        
         <popup-help v-if='showPopupHelp' :parentDivID="getParentDivID"> 

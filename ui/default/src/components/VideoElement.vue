@@ -11,12 +11,12 @@
         <canvas id="video-canvas"></canvas>
       </div>
     </div>
-    <div class="row">
-      <div class="col-1">
-        <toolbar parentCanvasID="video-canvas" parentComponentName="webcam" parentDivID='video-element' :showDownload='true' :showPopupHelp='false' :showOptions="false"></toolbar>
-      </div>
+    
+   <div class="d-flex flex-row"> 
+    <toolbar parentCanvasID="video-canvas" parentComponentName="webcam" parentDivID='video-element' :showDownload='true' :showPopupHelp='false' :showOptions="false"></toolbar>
+  </div> 
       
-    </div>
+    
 </div>    
     
     

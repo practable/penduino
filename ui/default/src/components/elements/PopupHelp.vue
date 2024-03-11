@@ -9,13 +9,35 @@
         </svg>
     </button>
 
-
-    <transition name='fade'>
+    <!-- Original div popup -->
+    <!-- <transition name='fade'>
         <div v-if='popup_showing' id='popup-div'>
              <button type='button' :class="getDarkTheme ? 'btn-close' : 'btn-close btn-close-white'" id='close-button' @click='toggleHelp'></button>
             <slot id='popup-text'></slot>
         </div>
-    </transition>
+    </transition> -->
+
+
+    <transition name='fade'>
+        <div v-if='popup_showing' class="modal" id='modal-show' tabindex="-1">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Help</h5>
+                    <button type='button' :class="getDarkTheme ? 'btn-close' : 'btn-close btn-close-white'" id='close-button' @click='toggleHelp'></button>
+                </div>
+                <div class="modal-body">
+                    <slot id='popup-text'></slot>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" @click="toggleHelp">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </transition>
     
 </div>
 </template>
@@ -81,7 +103,7 @@ export default {
 
 <style scoped>
 
-#popup-div{
+/* #popup-div{
     position: fixed;
     top:50%;
     left:50%;
@@ -95,7 +117,7 @@ export default {
     max-height: 50vh;
     padding: 10px;
 
-}
+} */
 
 #close-button{
     position:absolute;
