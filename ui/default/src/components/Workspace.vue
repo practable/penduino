@@ -277,12 +277,9 @@ export default {
             
         // },
         increaseRulerSize(){
-            if(this.ruler_width < 1000){
-                this.ruler_width += 10;
-                this.ruler_height = this.ruler_ratio*this.ruler_width;
-                this.draw();
-            }
-            
+            this.ruler_width += 10;
+            this.ruler_height = this.ruler_ratio*this.ruler_width;
+            this.draw();
         },
         decreaseRulerSize(){
             if(this.ruler_width > 100){
