@@ -92,6 +92,7 @@ export default {
       },
       stopRecording(){
           this.setIsRecording(false);
+          //update dataSetIndex ++
       },
       plot(){
           this.data_points_count++;
@@ -99,6 +100,7 @@ export default {
           let time = this.getTime;
           let ang_vel = this.getCurrentAngularVelocity;
           
+          //add in a dataSetIndex int so that each set of data can be identified
           let data_object = {id: this.getNumData, t: parseFloat(time), theta: parseFloat(angle), omega: ang_vel};
           this.addData(data_object);
           this.hasPlotted = true;
