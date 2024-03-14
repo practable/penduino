@@ -3,21 +3,25 @@
     <div class="row ">
     <!-- <input type="text" id="search" v-on:keyup="search" v-model="search_field" placeholder="Search the table..."> -->
 
-        <table>
+        <table v-for="table in tableData">
             <thead class='table-head'>
                 <tr>
-                    <!-- <th scope="col">ID</th> -->
+                    <th scope="col">Dataset</th>
                     <th scope="col">Time[s]</th>
                     <th scope="col">Angle[rad]</th>
                     <th scope="col">Angular Velocity[rad/s]</th>
                 </tr>
             </thead>
-            <tr v-for="row in tableData" :id="row.id" :key="row.id" v-bind:class="[row.id == selected_row_id ? 'selected-row' : '']" @click="changeSelected(row.id)">
-                <!-- <td>{{row.id}}</td> -->
+            <tr v-for="row in table" :id="row.id" :key="row.id" v-bind:class="[row.id == selected_row_id ? 'selected-row' : '']" @click="changeSelected(row.id)">
+                <td>{{row.set}}</td>
                 <td>{{row.t.toFixed(2)}}</td>
                 <td>{{row.theta.toFixed(2)}}</td>
                 <td>{{row.omega.toFixed(2)}}</td>
             </tr>
+
+            <tfoot class="table-head">
+                <td><p></p></td>
+            </tfoot>
                                 
         </table> 
 
@@ -44,7 +48,8 @@ export default {
     },
     methods: {
         updateTable(){
-            this.tableData = [...this.getData];     //get a clone of the data, not set tableData to the getData getter
+            //this.tableData = [...this.getData];     //get a clone of the data, not set tableData to the getData getter
+            this.tableData = [...this.getDataSets];
         },
     //     search(){
     //         if(this.search_field == ""){
@@ -80,6 +85,7 @@ export default {
         ...mapGetters([
             'getIsRecording',
             'getData',
+            'getDataSets'
         ])
       },
       watch:{
