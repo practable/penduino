@@ -33,6 +33,7 @@ export default {
         hasPlotted: false,
         max_data_points: 5000,
         max_reached: false,
+        data_set_index: 0,      //NEW for identifying different datasets
     }
   },
   components: {
@@ -92,7 +93,7 @@ export default {
       },
       stopRecording(){
           this.setIsRecording(false);
-          //update dataSetIndex ++
+          this.data_set_index += 1;
       },
       plot(){
           this.data_points_count++;
@@ -101,7 +102,7 @@ export default {
           let ang_vel = this.getCurrentAngularVelocity;
           
           //add in a dataSetIndex int so that each set of data can be identified
-          let data_object = {id: this.getNumData, t: parseFloat(time), theta: parseFloat(angle), omega: ang_vel};
+          let data_object = {id: this.getNumData, t: parseFloat(time), set: this.data_set_index, theta: parseFloat(angle), omega: ang_vel};
           this.addData(data_object);
           this.hasPlotted = true;
           
@@ -111,6 +112,7 @@ export default {
           this.clearAllData();
           this.max_reached = false;
           this.hasPlotted = false;
+          this.data_set_index = 0;
       },
       outputToCSV(){
           let csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
