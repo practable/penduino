@@ -117,7 +117,7 @@ export default {
           let data_object = {id: this.getNumData, t: parseFloat(time), theta: parseFloat(angle), omega: ang_vel};
           let snap_object = {t: parseFloat(time), theta: parseFloat(angle), omega: ang_vel};
           //gets added to the data for plotting
-          this.addData(data_object);
+          //this.addData(data_object);              //DON'T ADD SNAPSHOT TO DATA COLLECTION?
           //gets added to the snaps list
           this.snaps.push(snap_object);
 
