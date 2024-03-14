@@ -115,9 +115,23 @@ export default {
           this.data_set_index = 0;
       },
       outputToCSV(){
-          let csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
           let data = this.$store.getters.getData;
+          let current_dataset = 0;
+          let csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
+
           data.forEach(function(d){
+
+            if(d.set == current_dataset + 1){
+              let hiddenElement = document.createElement('a');
+              hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+              hiddenElement.target = '_blank';
+              hiddenElement.download = `pendulum-run${current_dataset}.csv`;
+              hiddenElement.click();
+
+              csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
+              current_dataset += 1;
+            }
+
               csv += d.t.toString();
               csv += ",";
               csv += d.theta.toString();
@@ -126,12 +140,32 @@ export default {
               csv += "\n";
           });
           //console.log(csv);
+          //output the final dataset
           let hiddenElement = document.createElement('a');
           hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
           hiddenElement.target = '_blank';
-          hiddenElement.download = 'pendulum.csv';
+          hiddenElement.download = `pendulum-run${current_dataset}.csv`;
           hiddenElement.click();
       },
+      // ORIGINAL METHOD
+      // outputToCSV(){
+      //     let csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
+      //     let data = this.$store.getters.getData;
+      //     data.forEach(function(d){
+      //         csv += d.t.toString();
+      //         csv += ",";
+      //         csv += d.theta.toString();
+      //         csv += ',';
+      //         csv += d.omega.toString();
+      //         csv += "\n";
+      //     });
+      //     //console.log(csv);
+      //     let hiddenElement = document.createElement('a');
+      //     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+      //     hiddenElement.target = '_blank';
+      //     hiddenElement.download = 'pendulum.csv';
+      //     hiddenElement.click();
+      // },
       hotkey(event){
 			if(event.key == "r"){
         this.record();
