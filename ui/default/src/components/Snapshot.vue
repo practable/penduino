@@ -32,7 +32,7 @@
 	</div>
 
     <div class='d-grid gap-2 d-sm-block'>
-        <button id="snapshot" type='button' class="button-sm button-primary" @click="snapshot(); scrollTo('table-bottom')">Record Snapshot</button>
+        <button id="snapshot" type='button' class="button-sm button-primary" @click="snapshot">Record Snapshot</button>
         <button id="reset_snaps" type='button' class="button-sm button-warning" @click="toggleResetModal">Reset</button>
         <button id="download_snaps" type='button' class="button-sm button-primary" @click="outputToCSV">Download Snapshots</button>
     </div>
