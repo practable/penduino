@@ -96,7 +96,7 @@
                 </li>
               
                 <li class="nav-item me-1">
-                  <button type='button' class='button-toolbar button-secondary' id='download-button' @click='toggleTheme'>
+                  <button type='button' class='button-toolbar button-secondary' id='download-button' @click='toggleTheme' :disabled="disableThemeButton">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"/>
                     </svg>
@@ -123,7 +123,7 @@ export default {
   emits:['toggleconsent', 'clearworkspace', 'togglegraph', 'togglestopwatch', 'toggletable', 'toggleautocommands', 'toggleworkspace', 'addruler', 'addprotractor', 'togglesnapshot'],
   data () {
     return {
-        
+      disableThemeButton: false,
     }
   },
   components: {
@@ -149,10 +149,15 @@ export default {
       clearWorkspace(){
           this.$emit('clearworkspace');
       },
+      // needs a short delay before can be rerun so as to enable the chart to recolour everything
       toggleTheme(){
-        document.body.classList.toggle("dark-theme");
-        this.$store.dispatch('setDarkTheme', document.body.classList.contains("dark-theme"));
-        }
+          document.body.classList.toggle("dark-theme");
+          this.$store.dispatch('setDarkTheme', document.body.classList.contains("dark-theme"));
+          this.disableThemeButton = true;
+          setTimeout(() => {
+            this.disableThemeButton = false
+          }, 500);
+      }
   }
 }
 </script>
