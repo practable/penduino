@@ -227,7 +227,6 @@ export default {
             'getData',
             'getNumData',
             'getIsRecording',
-            'getColourIndex',
             'getDarkTheme'
         ]),
         getAxisLabel(){
@@ -489,9 +488,9 @@ export default {
 
                         }
                         if(this.areErrorBarsOn){
-                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, this.getColourIndex);
+                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data.set % 6);
                         } else{
-                            this.addDataToChart({x: x_data, y: y_data}, this.getColourIndex);
+                            this.addDataToChart({x: x_data, y: y_data}, data.set % 6);
                     }
                     } else{
                         //console.log("no data");
@@ -514,9 +513,9 @@ export default {
 
                         }
                         if(this.areErrorBarsOn){
-                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, this.getColourIndex);
+                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data.set % 6);
                         } else{
-                            this.addDataToChart({x: x_data, y: y_data}, this.getColourIndex);
+                            this.addDataToChart({x: x_data, y: y_data}, data.set % 6);
                     }
                     } else{
                         //console.log("no data");

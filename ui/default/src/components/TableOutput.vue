@@ -25,6 +25,18 @@
                                 
         </table> 
 
+        <!-- If there is no current data stored then just display a table heading -->
+        <table v-if="tableData.length == 0">
+            <thead class='table-head'>
+                <tr>
+                    <th scope="col">Dataset</th>
+                    <th scope="col">Time[s]</th>
+                    <th scope="col">Angle[rad]</th>
+                    <th scope="col">Angular Velocity[rad/s]</th>
+                </tr>
+            </thead>
+        </table>
+
     </div>
 </div>
 </template>

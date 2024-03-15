@@ -76,7 +76,6 @@ export default {
       'setIsRecording',
       'addData',
       'clearAllData',
-      'updateColourIndex',
       'logAnalytics'
     ]),
       record(){
@@ -84,9 +83,6 @@ export default {
           this.$store.dispatch('setStartTime', this.getCurrentTime);
           this.data_points_count = 0;
           this.setIsRecording(true);
-
-          //update the colour index for plotting in a new colour on graph
-            this.updateColourIndex();
 
             this.logAnalytics({log:'record'});
           
