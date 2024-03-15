@@ -51,6 +51,10 @@
                   </ul>
               </li>
 
+              <li class="nav-item dropdown" id="chat">
+                <chat />
+              </li>
+
               
 
           </ul>
@@ -115,6 +119,7 @@
 
 import Toolbar from './elements/Toolbar.vue';
 import Clock from "./Clock.vue";
+import Chat from "./Chat.vue";
 import { mapGetters } from 'vuex';
 
 export default {
@@ -129,6 +134,7 @@ export default {
   components: {
     Clock,
     Toolbar,
+    Chat
   },
   computed:{
       ...mapGetters([

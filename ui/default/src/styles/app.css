@@ -34,7 +34,10 @@ body.dark-theme {
     --text-color-hover: #DDDEE4;
 }
 
-
+.chat{
+    background-color: var(--background-color-inverted);
+    color: var(--text-color-inverted);
+}
 
 .navbar-background{
     background-color: var(--background-color-inverted);
