@@ -151,12 +151,12 @@ export default {
       },
       // needs a short delay before can be rerun so as to enable the chart to recolour everything
       toggleTheme(){
-          document.body.classList.toggle("dark-theme");
-          this.$store.dispatch('setDarkTheme', document.body.classList.contains("dark-theme"));
           this.disableThemeButton = true;
           setTimeout(() => {
             this.disableThemeButton = false
-          }, 500);
+          }, 1000);
+          document.body.classList.toggle("dark-theme");
+          this.$store.dispatch('setDarkTheme', document.body.classList.contains("dark-theme"));
       }
   }
 }
