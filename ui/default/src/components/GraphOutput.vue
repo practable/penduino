@@ -213,7 +213,6 @@ export default {
             areErrorBarsOn: false,
             x_error_range: 0,
             y_error_range: 0.1,
-            previous_t: 0,
             
         }
     },
@@ -364,13 +363,13 @@ export default {
         });
             this.chart = scatterChart;
 
-            canvas.onclick = function(event){
-                let active_points = scatterChart.getElementsAtEvent(event);
-                if(active_points[0]){
-                    _this.$emit('newselectedobject', active_points[0]._index);       //data point selected so send event to let other elements know.
-                }
+            // canvas.onclick = function(event){
+            //     let active_points = scatterChart.getElementsAtEvent(event);
+            //     if(active_points[0]){
+            //         _this.$emit('newselectedobject', active_points[0]._index);       //data point selected so send event to let other elements know.
+            //     }
                 
-            };
+            // };
         },
         getChartType(){
             if(this.areErrorBarsOn){
@@ -419,7 +418,7 @@ export default {
         },
         //By default will not clear the graph of previous data
         //If passed true, will clear all data first and then get new data.
-        getAllData(toClear = false, colour_index = 0){
+        getAllData(toClear = false){
                 if(toClear){
                     this.clearData(false);
                 }
@@ -439,16 +438,10 @@ export default {
 
                     }
 
-                    if(this.previous_t > x_data){
-                        colour_index = (colour_index + 1) % 6
-                    }
-
-                    this.previous_t = x_data;
-
                     if(this.areErrorBarsOn){
-                        this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, colour_index);
+                        this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data[i].set % 6);
                     } else{
-                        this.addDataToChart({x: x_data, y: y_data}, colour_index);
+                        this.addDataToChart({x: x_data, y: y_data}, data[i].set % 6);
                     }
                     
 
@@ -462,7 +455,7 @@ export default {
 
                     if(this.current_data_index < this.getNumData && this.current_data_index <= this.maxDataPoints){
                         this.chart.update(0);
-                        setTimeout(this.getAllData(false, colour_index), 20);
+                        setTimeout(this.getAllData(false), 20);
                     } else{
                         this.chart.update(0);
                         this.current_data_index = 0;
