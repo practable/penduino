@@ -200,8 +200,8 @@ export default {
 			let debug = false;
 			let wrapEncoder = true;
 
-			var initialSamplingCount = 1200 // 2 mins at 10Hz
-			var delayWeightingFactor = 60  // 1 minute drift in 1 hour
+			var initialSamplingCount = 1200
+			var delayWeightingFactor = 30 
 			let encoderPPR = 2400
 
 			let responsiveSmoothie = true;
@@ -275,8 +275,10 @@ export default {
 					if (messageCount < initialSamplingCount) {
 						thisDelay = ((delay * messageCount) + thisDelay) / (messageCount + 1)
 					} else {
-						thisDelay = (delay * b) + (thisDelay * a)
+						//thisDelay = (delay * b) + (thisDelay * a)
+						thisDelay = (b * thisDelay) + (a * delay)
 					}
+
 					
 					messageCount += 1
 
