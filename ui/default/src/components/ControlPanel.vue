@@ -211,7 +211,7 @@ export default {
 			this.canvas = document.getElementById("smoothie-chart");
 			let series = new TimeSeries();
 			chart.addTimeSeries(series, {lineWidth:2,strokeStyle:'#0024ff'});
-			chart.streamTo(this.canvas, 0);
+			chart.streamTo(this.canvas, 200);
 
 			this.dataSocket.onopen = () =>  {
 				//dataOpen = true; 
