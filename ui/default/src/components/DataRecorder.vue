@@ -114,6 +114,7 @@ export default {
           let data = this.$store.getters.getData;
           let current_dataset = 0;
           let csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
+          let date = new Date();
 
           data.forEach(function(d){
 
@@ -121,7 +122,7 @@ export default {
               let hiddenElement = document.createElement('a');
               hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
               hiddenElement.target = '_blank';
-              hiddenElement.download = `pendulum-run${current_dataset}.csv`;
+              hiddenElement.download = `pendulum-${date.getHours()}-${date.getMinutes()}-run${current_dataset}.csv`;
               hiddenElement.click();
 
               csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
@@ -137,10 +138,11 @@ export default {
           });
           //console.log(csv);
           //output the final dataset
+          
           let hiddenElement = document.createElement('a');
           hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
           hiddenElement.target = '_blank';
-          hiddenElement.download = `pendulum-run${current_dataset}.csv`;
+          hiddenElement.download = `pendulum-${date.getHours()}-${date.getMinutes()}-run${current_dataset}.csv`;
           hiddenElement.click();
       },
       // ORIGINAL METHOD
