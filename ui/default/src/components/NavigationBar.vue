@@ -51,17 +51,7 @@
                   </ul>
               </li>
 
-              <li class="nav-item dropdown" id="chat">
-                <chat />
-              </li>
-
-              
-
-          </ul>
-
-            <ul class="navbar-nav dropstart">
-
-                <li class="nav-item">
+              <li class="nav-item">
                     <a class="nav-link" >
                         UUID: {{ getLogUUID }}
                     </a> 
@@ -70,6 +60,14 @@
 
                 <li class="nav-item">
                     <clock class='nav-link' />
+                </li>
+
+          </ul>
+
+            <ul class="navbar-nav dropstart">
+
+                <li class="nav-item me-1" id="chat">
+                  <chat />
                 </li>
 
                 <li class="nav-item me-1">

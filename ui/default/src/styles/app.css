@@ -14,6 +14,8 @@ body {
     --background-color: #DDDEE4;
     --background-color-inverted: #232946;
     --background-color-secondary: #bebfc5;
+    --background-color-warning: #ff7b00;
+    --background-color-danger: #e00000;
     --button-color-primary: #090C9B;
     --button-color-secondary: #3066BE;
     --button-color-hover: #DDDEE4;
@@ -28,15 +30,12 @@ body.dark-theme {
     --background-color: #232946;
     --background-color-inverted: #DDDEE4;
     --background-color-secondary: #202541;
+    --background-color-warning: #ff7b00;
+    --background-color-danger: #e00000;
     --button-color-primary: #B4E1F9;
     --button-color-secondary: #3066BE;
     --button-color-hover: #232946;
     --text-color-hover: #DDDEE4;
-}
-
-.chat{
-    background-color: var(--background-color-inverted);
-    color: var(--text-color-inverted);
 }
 
 .navbar-background{
