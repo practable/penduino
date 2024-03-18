@@ -69,6 +69,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #chat-container{
-  background-color: var(--background-color);
+  background-color: var(--background-color-inverted);
 }
 </style>

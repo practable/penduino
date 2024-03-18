@@ -122,7 +122,7 @@ export default {
 #message-container{
     overflow: scroll;
     max-height: 500px;
-    background-color: var(--background-color);
+    background-color: var(--background-color-inverted);
 }
 
 #bottom-container{
