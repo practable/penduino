@@ -11,7 +11,7 @@
               </button>
         
               <ul class="dropdown-menu" id="chat-container" aria-label="chat messages">
-                  <chat-widget :message_list="message_list" :message_count="messageCount" @onMessageSent="handleMessageSent" class='m-3' @click.stop/>
+                  <chat-widget :message_list="getMessages" :message_count="getNumMessages" @onMessageSent="handleMessageSent" class='m-3' @click.stop/>
               </ul>
 
             </li>
@@ -33,9 +33,7 @@ export default {
   },
   data () {
         return {
-           message_list: [{sender:'me', time: 1000000000, text: 'hello david'}, 
-                          {sender:'admin', time: 0, text: 'this experiment needs to be shutdown now'},
-                          {sender:'hardware', time: 1000000000, text: 'error when setting position'}]
+           
         }
     },
     mounted(){
@@ -44,21 +42,19 @@ export default {
     },
   computed:{
         ...mapGetters([
-            
+            'getMessages',
+            'getNumMessages'
         ]),
-        messageCount(){
-          return this.message_list.length;
-        }
     },
     watch:{
     
     },
     methods:{
         ...mapActions([
-
+          'addMessage'
         ]),
         handleMessageSent(message){
-          this.message_list.push(message);
+          this.addMessage(message);
           console.log(message);
         },
         

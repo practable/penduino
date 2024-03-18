@@ -3,7 +3,7 @@
         <div class="toast-container" id='message-container'>
             <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide='false'>
                 <div class='toast-header'>
-                    <strong class="me-auto">Remote Lab Messages</strong>
+                    <strong class="me-auto">Remote Lab Chat</strong>
                 </div>
             </div>
 
