@@ -7,6 +7,7 @@ Originally based upon ['penduino-ui'](https://github.com/timdrysdale/penduino-ui
 
 ## New for Version 3.
 
+- chat widget and corresponding vuex state added
 - Dark and light themes available
 - Updated CSS
 - Accessibility updates including aria-labels for screen readers, visible highlighting of components on tab and improved contrast ratios
