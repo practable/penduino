@@ -3,6 +3,7 @@
 
 const chatStore = {
     state: () => ({
+         isChatOn: false,
          messages: [{sender:'admin', time: Date.now(), text: 'Messages from the hardware, admin team and collaborators will appear here'}]
        }),
        mutations:{
@@ -20,6 +21,9 @@ const chatStore = {
 
        },
        getters:{
+         getIsChatOn(state){
+            return state.isChatOn;
+         },
          getMessages(state){
             return state.messages;
          },

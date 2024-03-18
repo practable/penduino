@@ -66,7 +66,7 @@
 
             <ul class="navbar-nav dropstart">
 
-                <li class="nav-item me-1" id="chat">
+                <li v-if="getIsChatOn" class="nav-item me-1" id="chat">
                   <chat />
                 </li>
 
@@ -138,7 +138,8 @@ export default {
       ...mapGetters([
         'getIsLoggingOn',
         'getLogUUID',
-        'getDarkTheme'
+        'getDarkTheme',
+        'getIsChatOn'
       ])
   },
   methods: {
