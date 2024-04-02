@@ -200,12 +200,10 @@ export default {
     dragEnter(event){
       let dropData = event.dataTransfer.getData('text/html');
       let dropItems = dropData.split("|");
-      let draggedZone = document.getElementById(dropItems[0]);
-      let droppedElement = document.getElementById(event.target.id);
       let draggedID = dropItems[1];
       if(draggedID != 'empty' && document.getElementById(draggedID) != null){
         let element = document.getElementById(event.target.id);
-        if(element.classList.contains('drop-area')){
+        if(element != null && element.classList.contains('drop-area')){
           element.classList.add('drop-area-highlighted');
         }
         
@@ -214,7 +212,10 @@ export default {
     },
     dragLeave(event){
       let element = document.getElementById(event.target.id);
-      element.classList.remove('drop-area-highlighted');
+      if(element != null){
+        element.classList.remove('drop-area-highlighted');
+      }
+      
     },
     selectedGraphPoint(point){
       this.selected_graph_point = point;
