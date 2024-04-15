@@ -70,7 +70,7 @@ export default {
 
       //get configuration parameters
       let conf_url = query.get('config');
-      if(conf_url != ''){
+      if(conf_url != null){
         try{
           fetch(conf_url)
             .then(response => response.json())
