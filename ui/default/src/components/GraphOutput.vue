@@ -280,39 +280,7 @@ export default {
             scatterChart = new Chart(ctx, {
             type: _this.getChartType(),
             data: {
-                datasets: [],
-                //6 colours to loop through
-                // datasets: [{
-                //     label: 'colour0',
-                //     data: [],
-                //     // pointBackgroundColor: 'rgba(0, 0, 0, 1)',
-                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
-                // },
-                // {
-                //     label: 'colour1',
-                //     data: [],
-                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 255, 1)' : 'rgba(255, 0, 0, 1)'
-                // },
-                // {
-                //     label: 'colour2',
-                //     data: [],
-                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 0, 1)' : 'rgba(0, 0, 255, 1)'
-                // },
-                // {
-                //     label: 'colour3',
-                //     data: [],
-                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 255, 1)' : '#A3A3A3'
-                // },
-                // {
-                //     label: 'colour4',
-                //     data: [],
-                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 0, 1)' : '#F5A300'
-                // },
-                // {
-                //     label: 'colour5',
-                //     data: [],
-                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 0, 1)' : '#5B5F97'
-                // }]
+                datasets: []
             },
             options: {
                 legend:{
@@ -406,7 +374,8 @@ export default {
         },
         addDataToChart(data, dataset_index) {
             //check if the next dataset doesn't exist and create it
-            if(dataset_index == scatterChart.data.datasets.length){
+            if(dataset_index == this.countDataSets()){
+                this.deleteFunctionDataset();
                 this.addEmptyDataSet(dataset_index);
             }
             //add data to the existing dataset
@@ -646,7 +615,7 @@ export default {
                     new_data.push(data);
                 }
                 
-                this.addNewDataSet('rgba(224, 0, 0, 0.5)', new_data);
+                this.addFunctionPlot('rgba(224, 0, 0, 0.5)', new_data);
             },
             linear(t){
                 return (parseFloat(this.func_a)*t + parseFloat(this.func_b));
@@ -660,9 +629,9 @@ export default {
             exponential(t){
                 return parseFloat(this.func_a)*Math.exp(parseFloat(this.func_b)*t);
             },
-            addNewDataSet(colour, data){
+            addFunctionPlot(colour, data){
                 scatterChart.data.datasets.push({
-                    label:"plotted function",
+                    label:"function",
                     pointBackgroundColor: colour,
                     data: data
                     });
@@ -677,9 +646,13 @@ export default {
                     scatterChart.update(0);
             },
             deleteFunctionDataset(){
-                scatterChart.data.datasets = scatterChart.data.datasets.filter(set => set.label !== "plotted function");
+                scatterChart.data.datasets = scatterChart.data.datasets.filter(set => set.label !== "function");
                 scatterChart.update(0);
             },
+            countDataSets(){
+                let datasets = scatterChart.data.datasets.filter(set => set.label.includes("dataset"));
+                return datasets.length;
+            }
             
 
       },
