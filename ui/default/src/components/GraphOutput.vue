@@ -181,6 +181,7 @@ import { Chart } from 'chart.js';
 import 'chartjs-chart-error-bars'
 
 import Toolbar from './elements/Toolbar.vue';
+var scatterChart = null;        //if part of the responsive Vue data then causes a recursion error on dynamically adding datasets.
 export default {
     
     name: 'GraphOutput',
@@ -191,7 +192,7 @@ export default {
     emits:['newselectedobject'],
     data(){
         return{
-            chart: null,
+            //chart: null,
             currentDataParameter: 'theta',
             gradient_start_point: {x:0, y:0},
             gradient_end_point: {x:0, y:0},
@@ -213,6 +214,8 @@ export default {
             areErrorBarsOn: false,
             x_error_range: 0,
             y_error_range: 0.1,
+            light_colours: ['rgba(0, 0, 0, 1)', 'rgba(255, 0, 0, 1)', 'rgba(0, 0, 255, 1)', '#A3A3A3', '#F5A300', '#5B5F97'],
+            dark_colours: ['rgba(255, 255, 255, 1)', 'rgba(255, 0, 255, 1)', 'rgba(0, 255, 0, 1)', 'rgba(0, 255, 255, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 0, 0, 1)']
             
         }
     },
@@ -258,9 +261,9 @@ export default {
                         this.getDataAtIndex(i);
                     }
                     this.latest_index = max_index;
-                    if(this.chart.ctx != null){
-                        this.chart.update(0);                       //actually updating the chart moved to here!
-                        this.chart.options.scales.yAxes[0].scaleLabel.labelString = this.getAxisLabel;
+                    if(scatterChart.ctx != null){
+                        scatterChart.update(0);                       //actually updating the chart moved to here!
+                        scatterChart.options.scales.yAxes[0].scaleLabel.labelString = this.getAxisLabel;
                     } else{
                         console.log('error updating chart');
                     }
@@ -274,45 +277,46 @@ export default {
             let _this = this;
             const canvas = document.getElementById('graph-canvas');
             const ctx = canvas.getContext('2d');
-            var scatterChart = new Chart(ctx, {
+            scatterChart = new Chart(ctx, {
             type: _this.getChartType(),
             data: {
+                datasets: [],
                 //6 colours to loop through
-                datasets: [{
-                    label: 'colour0',
-                    data: [],
-                    // pointBackgroundColor: 'rgba(0, 0, 0, 1)',
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
-                },
-                {
-                    label: 'colour1',
-                    data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 255, 1)' : 'rgba(255, 0, 0, 1)'
-                },
-                {
-                    label: 'colour2',
-                    data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 0, 1)' : 'rgba(0, 0, 255, 1)'
-                },
-                {
-                    label: 'colour3',
-                    data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 255, 1)' : '#A3A3A3'
-                },
-                {
-                    label: 'colour4',
-                    data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 0, 1)' : '#F5A300'
-                },
-                {
-                    label: 'colour5',
-                    data: [],
-                    pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 0, 1)' : '#5B5F97'
-                }]
+                // datasets: [{
+                //     label: 'colour0',
+                //     data: [],
+                //     // pointBackgroundColor: 'rgba(0, 0, 0, 1)',
+                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
+                // },
+                // {
+                //     label: 'colour1',
+                //     data: [],
+                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 255, 1)' : 'rgba(255, 0, 0, 1)'
+                // },
+                // {
+                //     label: 'colour2',
+                //     data: [],
+                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 0, 1)' : 'rgba(0, 0, 255, 1)'
+                // },
+                // {
+                //     label: 'colour3',
+                //     data: [],
+                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(0, 255, 255, 1)' : '#A3A3A3'
+                // },
+                // {
+                //     label: 'colour4',
+                //     data: [],
+                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 255, 0, 1)' : '#F5A300'
+                // },
+                // {
+                //     label: 'colour5',
+                //     data: [],
+                //     pointBackgroundColor: _this.getDarkTheme ? 'rgba(255, 0, 0, 1)' : '#5B5F97'
+                // }]
             },
             options: {
                 legend:{
-                    display: false
+                    display: true
                 },
                 scales: {
                     xAxes: [{
@@ -361,7 +365,7 @@ export default {
                 responsive: true
             }
         });
-            this.chart = scatterChart;
+            //this.chart = scatterChart;
 
             // canvas.onclick = function(event){
             //     let active_points = scatterChart.getElementsAtEvent(event);
@@ -401,8 +405,13 @@ export default {
             }
         },
         addDataToChart(data, dataset_index) {
+            //check if the next dataset doesn't exist and create it
+            if(dataset_index == scatterChart.data.datasets.length){
+                this.addEmptyDataSet(dataset_index);
+            }
+            //add data to the existing dataset
             try{
-                this.chart.data.datasets[dataset_index].data.push(data);
+                scatterChart.data.datasets[dataset_index].data.push(data);
             } catch(e){
                 console.log(e);
             }
@@ -412,9 +421,9 @@ export default {
                 this.latest_index = 0;          
             }
 
-            this.chart.destroy();
+            scatterChart.destroy();
             this.createChart();
-            this.chart.update(0); //make sure chart is displayed again, even with no data
+            scatterChart.update(0); //make sure chart is displayed again, even with no data
         },
         //By default will not clear the graph of previous data
         //If passed true, will clear all data first and then get new data.
@@ -439,9 +448,9 @@ export default {
                     }
 
                     if(this.areErrorBarsOn){
-                        this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data[i].set % 6);
+                        this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data[i].set);
                     } else{
-                        this.addDataToChart({x: x_data, y: y_data}, data[i].set % 6);
+                        this.addDataToChart({x: x_data, y: y_data}, data[i].set);
                     }
                     
 
@@ -454,10 +463,10 @@ export default {
                 }
 
                     if(this.current_data_index < this.getNumData && this.current_data_index <= this.maxDataPoints){
-                        this.chart.update(0);
+                        scatterChart.update(0);
                         setTimeout(this.getAllData(false), 20);
                     } else{
-                        this.chart.update(0);
+                        scatterChart.update(0);
                         this.current_data_index = 0;
                     }
                     
@@ -481,9 +490,9 @@ export default {
 
                         }
                         if(this.areErrorBarsOn){
-                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data.set % 6);
+                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data.set);
                         } else{
-                            this.addDataToChart({x: x_data, y: y_data}, data.set % 6);
+                            this.addDataToChart({x: x_data, y: y_data}, data.set);
                     }
                     } else{
                         //console.log("no data");
@@ -506,9 +515,9 @@ export default {
 
                         }
                         if(this.areErrorBarsOn){
-                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data.set % 6);
+                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data.set);
                         } else{
-                            this.addDataToChart({x: x_data, y: y_data}, data.set % 6);
+                            this.addDataToChart({x: x_data, y: y_data}, data.set);
                     }
                     } else{
                         //console.log("no data");
@@ -518,18 +527,18 @@ export default {
                 this.getAllData(true);      //need to recreate the whole graph with a different graph type. getAllData(true) will do this.
             },
             updateErrorBars(){
-                for(let i=0; i < this.chart.data.datasets[0].data.length; i++){
-                    let point = this.chart.data.datasets[0].data[i];
+                for(let i=0; i < scatterChart.data.datasets[0].data.length; i++){
+                    let point = scatterChart.data.datasets[0].data[i];
                     point.xMax = point.x + this.x_error_range;
                     point.xMin = point.x - this.x_error_range;
                     point.yMax = point.y + this.y_error_range;
                     point.yMin = point.y - this.y_error_range;
                 }   
 
-                this.chart.update(0);
+                scatterChart.update(0);
             },
             removeChart(){
-                this.chart.destroy();
+                scatterChart.destroy();
             },
             startLine(event){
                 event.preventDefault();
@@ -605,7 +614,7 @@ export default {
                 let canvas = document.getElementById('graph-canvas');
                 const context = canvas.getContext('2d');
                 context.clearRect(0, 0, canvas.width, canvas.height);
-                this.chart.update(0);       //instantly update with no animation
+                scatterChart.update(0);       //instantly update with no animation
 
                 context.beginPath(); 
                 // Staring point 
@@ -652,16 +661,24 @@ export default {
                 return parseFloat(this.func_a)*Math.exp(parseFloat(this.func_b)*t);
             },
             addNewDataSet(colour, data){
-                this.chart.data.datasets.push({
+                scatterChart.data.datasets.push({
                     label:"plotted function",
                     pointBackgroundColor: colour,
                     data: data
                     });
-                this.chart.update(0);
+                    scatterChart.update(0);
+            },
+            addEmptyDataSet(new_index){
+                scatterChart.data.datasets.push({
+                    label:`dataset${new_index}`,
+                    pointBackgroundColor: this.getDarkTheme ? this.dark_colours[new_index % this.dark_colours.length] : this.light_colours[new_index % this.light_colours.length],
+                    data: []
+                    });
+                    scatterChart.update(0);
             },
             deleteFunctionDataset(){
-                this.chart.data.datasets = this.chart.data.datasets.filter(set => set.label !== "plotted function");
-                this.chart.update(0);
+                scatterChart.data.datasets = scatterChart.data.datasets.filter(set => set.label !== "plotted function");
+                scatterChart.update(0);
             },
             
 
