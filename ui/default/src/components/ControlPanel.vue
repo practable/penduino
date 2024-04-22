@@ -201,7 +201,7 @@ export default {
 			let wrapEncoder = true;
 
 			var initialSamplingCount = 1200
-			var delayWeightingFactor = 120 
+			var delayWeightingFactor = 5
 			let encoderPPR = 2400
 
 			let responsiveSmoothie = true;
@@ -296,7 +296,7 @@ export default {
 					
 					if (!isNaN(thisTime) && !isNaN(enc)){
 						series.append(msgTime + thisDelay, enc)
-
+	
                         //Calculate angular velocity using new data sent through as well as currently stored values - before updating those values
                         let values = {theta_1: enc * Math.PI / 180, theta_0:_this.$store.getters.getCurrentAngle, t_1:msgTime, t_0:_this.$store.getters.getCurrentTime}
                         _this.$store.dispatch('setCurrentAngVel', values)
