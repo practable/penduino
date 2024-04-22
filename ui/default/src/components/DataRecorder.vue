@@ -76,16 +76,12 @@ export default {
       'setIsRecording',
       'addData',
       'clearAllData',
-      'logAnalytics'
     ]),
       record(){
           //this.$store.dispatch('setStartTime', new Date().getTime());
           this.$store.dispatch('setStartTime', this.getCurrentTime);
           this.data_points_count = 0;
-          this.setIsRecording(true);
-
-            this.logAnalytics({log:'record'});
-          
+          this.setIsRecording(true); 
       },
       stopRecording(){
           this.setIsRecording(false);

@@ -216,18 +216,18 @@ export default {
 			this.dataSocket.onopen = () =>  {
 				//dataOpen = true; 
                 _this.updateDrive(50);
-                _this.sendDrive(false);
+                _this.sendDrive();
                 console.log('drive');
 
                 setTimeout(() => {
                     _this.updateInterval(50);
-                    _this.sendInterval(false);
+                    _this.sendInterval();
                     console.log('interval');
                 }, 1000)
                 
                 setTimeout(() => {
                     _this.updateBrake(50);
-                    _this.sendBrake(false);
+                    _this.sendBrake();
                     console.log('brake');
                 }, 2000)
                 
