@@ -5,7 +5,7 @@ User interface for the [penduino](https://github.com/practable/penduino) remote 
 Originally based upon ['penduino-ui'](https://github.com/timdrysdale/penduino-ui) by Tim Drysdale
 
 
-## New for Version 3.
+## New for Version 2.
 
 - chat widget and corresponding vuex state added
 - Dark and light themes available
