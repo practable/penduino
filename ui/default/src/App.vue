@@ -110,13 +110,13 @@ export default {
   },
   created(){
     this.$store.dispatch('setUsesLocalStorage', this.hasStorage());
+    this.updateUUID();
+    this.checkConsent();
   },
   computed:{
     ...mapGetters([
       'getDraggable',
       'getUsesLocalStorage',
-      'getCourse',
-      'getExperiment',
       'getIsLoggingOn'
     ]),
     isMobile(){
@@ -128,10 +128,7 @@ export default {
     }
   },
   watch:{
-    getCourse(){
-      this.updateUUID();
-      this.checkConsent();
-    }
+   
   },
   methods:{
     dragComponent(event){
@@ -259,10 +256,6 @@ export default {
       // This function should just find that userName and set it in vuex, else set uuid to null
     updateUUID(){
         let stored_uuid;
-        // let course = this.getCourse;
-        // let exp = this.getExperiment;
-        // const item = `uuid-${exp}-${course}`
-
         if(this.getUsesLocalStorage){
           stored_uuid = window.localStorage.getItem('userName');
         } else {
@@ -272,30 +265,20 @@ export default {
         if(stored_uuid){
             this.$store.dispatch('setUUID', stored_uuid);
         } else{
-          this.$store.dispatch('setUUID', 'NA');
+          this.$store.dispatch('setUUID', 'null');
         }
-        // } else{
-        //     let uuid = uuidv4();
-        //     this.$store.dispatch('setUUID', uuid);
-        //     if(this.getUsesLocalStorage){
-        //       window.localStorage.setItem(item, uuid);
-        //     }
-            
-        // }
       },
       checkConsent(){
         let logging_consent;
         if(this.getIsLoggingOn){
             if(this.getUsesLocalStorage){
-                let course = this.getCourse;
-                let exp = this.getExperiment;
-                const item = `consent-${exp}-${course}`
+                const item = 'practable-consent'
                 logging_consent = window.localStorage.getItem(item);
             } else {
                 logging_consent = null;
             }
             
-            if(logging_consent == null){
+            if(logging_consent == null || logging_consent == 'false'){
                 this.showConsentModal = true;
             
             } else{
@@ -303,18 +286,14 @@ export default {
                 this.$store.dispatch('setLoggingConsent', (logging_consent === 'true'));
             }
         } else{
-          // set consent internally
             this.$store.dispatch('setLoggingConsent', false);
-          // and set in local storage
+            this.showConsentModal = false;
+
             if(this.getUsesLocalStorage){
-              let course = this.getCourse
-              let exp = this.getExperiment
-              const item = `consent-${exp}-${course}`
+                const item = 'practable-consent'
                 window.localStorage.setItem(item, false);
             }
         }
-        
-        
       },
       closeConsentModal(){
         this.showConsentModal = false;
