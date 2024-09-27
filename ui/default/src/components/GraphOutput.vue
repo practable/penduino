@@ -1,174 +1,181 @@
 <template>
-<div class='container-fluid m-2 practable-component'>
-    <div class="row mb-5 justify-content-center" id="chart-canvas">
-        <div class="col">
-            <canvas id='graph-canvas' ref="graphCanvas" @mousedown="startLine" @mouseup="endDrag" @mousemove="endLine"></canvas>
-        </div>
-    </div>
-
-    <div class="row m-2 d-flex-sm" id="chart-functions" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-        <div class="col-sm-6 flex-column">
-            <!-- Graph type -->
-            <div>
-                <label class='m-2' for="graphSelect">Graph:</label>
-                <select class='button-sm button-primary col-sm-6' name="graphSelect" id="graphSelect" v-model="currentDataParameter" @change="getAllData(true)">    
-                    <option value="theta">Angle</option>
-                    <option value="omega">Angular Velocity</option>
-                </select> 
-            </div>
-
-            <!-- Gradient -->
-            <div>
-                <label class='m-2' for="gradient">Gradient:</label>
-                <input class='input-disabled col-sm-4' id="gradient" :value="gradient" readonly> 
-            </div>
-            <!-- Error bars -->
-            <!-- <div>
-                <label class='m-2 txt-primary' for="errorbars">Error bars</label>
-                <input type='checkbox' class='col-sm' id="errorbars" v-model="areErrorBarsOn" @change='toggleErrorBars'> 
-            </div> -->
-
-            <!-- <div v-if='areErrorBarsOn'>
-                <label class='m-2 txt-primary' for="xerrorrange">+/- X</label>
-                <input type='number' step='0.01' class='input col-sm-3' id="xerrorrange" v-model="x_error_range" @change='updateErrorBars'> 
-            </div>
-
-            <div v-if='areErrorBarsOn'>
-                <label class='m-2 txt-primary' for="yerrorrange">+/- Y</label>
-                <input type='number' step='0.01' class='input col-sm-3' id="yerrorrange" v-model="y_error_range" @change='updateErrorBars'> 
-            </div> -->
-        </div>
+<div class='practable-component'>
+    <div class="d-flex flex-row mb-4 align-items-center toolbar-top">
+        <download-image-button class="me-2" id="download-graph-image" parentCanvasID="graph-canvas" parentComponentName="graph"></download-image-button>
         
-        <div class='col-sm-6 flex-column'>
-            <label class='m-2' for="function">Plot function: </label>
-            <select class='button-sm button-primary col-sm-6' name="function" id="function" v-model="currentFunction">
-                <option value="linear">Linear</option>
-                <option value="quadratic">Quadratic</option>
-                <option value="trigonometric">Trigonometric</option>
-                <option value="exponential">Exponential</option>
-            </select> 
-
-            <div v-if="currentFunction === 'linear'">
-               
-                <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/LinearFunction.png' alt="linear function equation">
+        <popup-help class="me-2" id="popup-help-graph">
+            <template v-slot:header>
+                <h5> Graph Help </h5>
+            </template>
+            <template v-slot:body>
+                <div class='row mb-2'>
+                    <h5>Recording more than 5000 data points</h5>
+                    <p>For smooth running of the web app there is a limit of 5000 recorded data points and 2000 data points on the Graph tool. Please download this dataset or perform the necessary analysis
+                        and then reset the data and run again in order to collect more data. For collecting single data points over a long time you may be best to use the Snapshot tool which can continue to collect data beyond this limit.
+                    </p>
+                </div>
+                
+                <div class='row mb-2'>
+                    <h5> Gradient tool </h5>
+                    <p> Click and drag on the graph in order to draw a straight line segment. The gradient of this line is displayed in the Gradient box.</p>
                 </div>
 
-
-                <div class='row justify-content-center'>
-                    <div>
-                        <label class='m-2' for="func_a">a = </label>
-                        <input type='number' class='input col-sm-3' id="func_a" v-model="func_a">
-                    </div>
-                    
-
-                    <div>
-                        <label class='m-2' for="func_b">b = </label>
-                        <input type='number' class='input col-sm-3' id="func_b" v-model="func_b">                
-                    </div>
+                <div class='row mb-2'>
+                    <h5> Interactive data points </h5>
+                    <p> Hover over a graph point to display the corresponding data. Click on a coloured key item to toggle the display of that dataset on the graph.
+                    </p>
                 </div>
 
-
-                <div class="row-sm justify-content-center">
-                    <button class="button-sm button-primary m-1" id="plotFunctionButton" @click="plotFunc(linear)">Plot</button>
-                    <button class="button-sm button-danger m-1" id="clearFunctionButton" @click="deleteFunctionDataset">Clear</button>
-                </div>
-            </div>
-                <div v-else-if="currentFunction === 'quadratic'">
-
-                    <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/QuadraticFunction.png' alt="quadratic function equation">
+                <div class='row mb-2'>
+                    <h5> Function Plotting </h5>
+                    <p> Function plotting is available by clicking the toolbar button above the graph. Select the function type from the dropdown menu. Input the function parameters. Angular parameters are in radians. Click plot to display the function.
+                        The function is plotted up to the maximum time value currently displayed on the x-axis.
+                    </p>
                 </div>
 
-
-                <div class='row justify-content-center'>
-                    <div>
-                        <label class='m-2' for="func_a">a = </label>
-                        <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
-                    </div>
-                    
-
-                    <div>
-                        <label class='m-2' for="func_b">b = </label>
-                        <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">                
-                    </div>
+                <div class='row mb-2'>
+                    <h5> Download </h5>
+                    <p> An image of the plotted datasets can be downloaded by clicking the download toolbar button. The datasets themselves can be downloaded as separate CSV files by
+                        clicking 'Download CSV' which is available after datasets have been plotted.
+                    </p>
                 </div>
+            </template>
+        </popup-help>
 
-                <div class="row-sm justify-content-center">
-                    <button class="button-sm button-primary m-1" id="plotFunctionButton" @click="plotFunc(quadratic)">Plot</button>
-                    <button class="button-sm button-danger m-1" id="clearFunctionButton" @click="deleteFunctionDataset">Clear</button>
-                </div>
-            </div>
-            <div v-else-if="currentFunction === 'trigonometric'">
-
-                <div class='row justify-content-center'>
-                    <img id='trig_function' src='/images/TrigFunction.png' alt="trigonometric function equation">
-                </div>
-
-
-                <div class='row justify-content-center'>
-                    <div>
-                        <label class='m-2' for="func_a">A</label>
-                        <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
-                    </div>
-                    
-                    <div>
-                        <label class='m-2' for="func_b">&omega;</label>
-                        <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">
-                    </div>
-
-                    <div>
-                        <label class='m-2' for="func_c">&phi;</label>
-                        <input type='number' class='input col-sm-3' id="func_c" v-model="func_c" size="3">                
-                    </div>
-                </div>
-
-                <div class="row-sm justify-content-center">
-                    <button class="button-sm button-primary m-1" id="plotFunctionButton" @click="plotFunc(trigonometric)">Plot</button>
-                    <button class="button-sm button-danger m-1" id="clearFunctionButton" @click="deleteFunctionDataset">Clear</button>
-                </div>
-            </div>
-            <div v-else-if="currentFunction === 'exponential'">
-
-                 <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/ExpFunction.png' alt="exponential function equation">
-                </div>
-
-
-                <div class='row justify-content-center'>
-                    <div>
-                        <label class='m-2' for="func_a">A = </label>
-                        <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
-                    </div>
-                    
-
-                    <div>
-                        <label class='m-2' for="func_b">b = </label>
-                        <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">                
-                    </div>
-                </div>
-
-                <div class="row-sm justify-content-center">
-                    <button class="button-sm button-primary m-1" id="plotFunctionButton" @click="plotFunc(exponential)">Plot</button>
-                    <button class="button-sm button-danger m-1" id="clearFunctionButton" @click="deleteFunctionDataset">Clear</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="d-flex flex-row">
-        <div class="col-auto me-2">
-            <toolbar parentCanvasID="graph-canvas" parentComponentName="graph" parentDivID="graph" :showDownload='true' :showPopupHelp="false" :showOptions="false"></toolbar>
-        </div>
-        <div class="col-auto mt-2">
-            <p v-if="getNumData < maxDataPoints">Data plotted: {{ getNumData }} / {{ maxDataPoints }}</p>
-            <p v-else>Data plotted: {{ maxDataPoints }} / {{ maxDataPoints }} MAX REACHED</p>
-        </div>
+        <button type='button' class="button-toolbar button-secondary me-2" id="show-plotting-button" aria-label="show plotting functions" @click="showPlotting = !showPlotting" data-bs-toggle="tooltip" title="Function Plotting">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+            </svg>
+        </button>
         
+        <div>
+            <span v-if="getNumData < maxDataPoints" class="align-middle">Plotted: {{ getNumData }} / {{ maxDataPoints }}</span>
+            <span v-else class="align-middle">Plotted: {{ maxDataPoints }} / {{ maxDataPoints }} MAX REACHED</span>
+            <span class="align-middle ms-2" for="gradient">Gradient: {{ gradient.toFixed(2) }}</span>
+        </div>
     </div>
+
+    <canvas id='graph-canvas' ref="graphCanvas" @mousedown="startLine" @mouseup="endDrag" @mousemove="endLine"></canvas>
+
+
+    <transition name='fade'>
+      <div v-if="showPlotting" class="modal" id='modal-show' tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Plot Function</h5>
+                <button type='button' :class="getDarkTheme ? 'btn-close btn-close-white' : 'btn-close'" id='close-button' aria-label="Close" @click='showPlotting = false'>
+
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="chart-functions" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+					<div class="dropdown">
+						<button class="button-sm button-dropdown dropdown-toggle" type="button" id="function-select-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+							{{ currentFunction }}
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="function-dropdown-menu">
+							<li><a class="dropdown-item" id='select-linear-option' aria-label="select linear function" @click="currentFunction = 'linear'">Linear</a></li>
+							<li><a class="dropdown-item" id='select-quadratic-option' aria-label="select quadratic function" @click="currentFunction = 'quadratic'">Quadratic</a></li>
+                            <li><a class="dropdown-item" id='select-trigonometric-option' aria-label="select trigonometric function" @click="currentFunction = 'trigonometric'">Trigonometric</a></li>
+                            <li><a class="dropdown-item" id='select-exponential-option' aria-label="select exponential function" @click="currentFunction = 'exponential'">Exponential</a></li>
+                        </ul>
+					</div>
+      
+   
+                    <div v-if="currentFunction === 'linear'">
+                            <img id='linear_function' src='/images/LinearFunction.png' alt="linear function equation">
+
+                            <div class='input-group mt-2 mb-2'>
+                                <label class='input-group-text' for="func_a">a = </label>
+                                <input type="number" class='form-control' id="func_a" v-model="func_a">
+                            </div>
+                        
+                            <div class='input-group mt-2 mb-2'>
+                                <label class='input-group-text' for="func_b">b = </label>
+                                <input type="number" class='form-control' id="func_b" v-model="func_b">
+                            </div>
+                    </div>
+
+                    <div v-else-if="currentFunction === 'quadratic'">
+                            <img id='linear_function' src='/images/QuadraticFunction.png' alt="quadratic function equation">
+                        
+                            <div class='input-group mt-2 mb-2'>
+                                <label class='input-group-text' for="func_a">a = </label>
+                                <input type="number" class='form-control' id="func_a" v-model="func_a">
+                            </div>
+                     
+                            <div class='input-group mt-2 mb-2'>
+                                <label class='input-group-text' for="func_b">b = </label>
+                                <input type="number" class='form-control' id="func_b" v-model="func_b">
+                            </div>
+                    </div>
+
+                    <div v-else-if="currentFunction === 'trigonometric'">
+                        <img id='trig_function' src='/images/TrigFunction.png' alt="trigonometric function equation">
+                       
+                        <div class='input-group mt-2 mb-2'>
+                            <label class='input-group-text' for="func_a">A = </label>
+                            <input type="number" class='form-control' id="func_a" v-model="func_a">
+                        </div>
+
+                        <div class='input-group mt-2 mb-2'>
+                            <label class='input-group-text' for="func_b">&omega; = </label>
+                            <input type="number" class='form-control' id="func_b" v-model="func_b">
+                        </div>
+                          
+                        <div class='input-group mt-2 mb-2'>
+                            <label class='input-group-text' for="func_c">&phi; = </label>
+                            <input type="number" class='form-control' id="func_c" v-model="func_c">
+                        </div>
+                    </div>
+
+       <div v-else-if="currentFunction === 'exponential'">
+            <img id='linear_function' src='/images/ExpFunction.png' alt="exponential function equation">
+
+            <div class='input-group mt-2 mb-2'>
+                <label class='input-group-text' for="func_a">A = </label>
+                <input type="number" class='form-control' id="func_a" v-model="func_a">
+            </div>
     
+            <div class='input-group mt-2 mb-2'>
+                <label class='input-group-text' for="func_b">b = </label>
+                <input type="number" class='form-control' id="func_b" v-model="func_b">
+            </div>
+       </div>
 
+   </div>
+            </div>
+
+            <div class="modal-footer d-flex flex-row">
+                <button v-if="currentFunction === 'linear'" class="button-sm button-primary m-1" id="plotFunctionButton" @click="plotFunc(linear)">Plot</button>
+                <button v-else-if="currentFunction === 'quadratic'" class="button-sm button-primary m-1" id="plotFunctionButton" @click="plotFunc(quadratic)">Plot</button>
+                <button v-else-if="currentFunction === 'trigonometric'" class="button-sm button-primary m-1" id="plotFunctionButton" @click="plotFunc(trigonometric)">Plot</button>
+                <button v-else-if="currentFunction === 'exponential'" class="button-sm button-primary m-1" id="plotFunctionButton" @click="plotFunc(exponential)">Plot</button>
+                    
+                <button class="button-sm button-warning m-1" id="clearFunctionButton" @click="deleteFunctionDataset">Clear</button>
+                <button type="button" class="button-sm button-danger" id="close-plotting-modal" aria-label="close plotting modal" @click='showPlotting = false'>Close</button>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+      </transition>
+
+
+
+
+
+
+
+<!-- 
+    <div>
+        <label class='m-2' for="graphSelect">Graph:</label>
+        <select class='button-sm button-primary col-sm-6' name="graphSelect" id="graphSelect" v-model="currentDataParameter" @change="getAllData(true)">    
+            <option value="theta">Angle</option>
+            <option value="omega">Angular Velocity</option>
+        </select> 
+    </div> -->
 
 </div>
 
@@ -176,10 +183,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-
 import Chart from 'chart.js/auto';
-
-import Toolbar from './elements/Toolbar.vue';
+import DownloadImageButton from './elements/DownloadImageButton.vue';
+import PopupHelp from './elements/PopupHelp.vue';
 var scatterChart = null;        //if part of the responsive Vue data then causes a recursion error on dynamically adding datasets.
 
 export default {
@@ -187,7 +193,8 @@ export default {
     name: 'GraphOutput',
     props: ['type'],
     components:{
-        Toolbar,
+        DownloadImageButton,
+        PopupHelp
     },
     emits:['newselectedobject'],
     data(){
@@ -207,7 +214,7 @@ export default {
             YAxisMin: 0,
             XAxisMax: 0,
             XAxisMin: 0,
-            maxDataPoints: 1200,
+            maxDataPoints: 2000,
             current_data_index: 0,
             data_index_interval: 100,
             latest_index: 0,
@@ -215,8 +222,8 @@ export default {
             x_error_range: 0,
             y_error_range: 0.1,
             light_colours: ['rgba(0, 0, 0, 1)', 'rgba(255, 0, 0, 1)', 'rgba(0, 0, 255, 1)', '#A3A3A3', '#F5A300', '#5B5F97'],
-            dark_colours: ['rgba(255, 255, 255, 1)', 'rgba(255, 0, 255, 1)', 'rgba(0, 255, 0, 1)', 'rgba(0, 255, 255, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 0, 0, 1)']
-            
+            dark_colours: ['rgba(255, 255, 255, 1)', 'rgba(255, 0, 255, 1)', 'rgba(0, 255, 0, 1)', 'rgba(0, 255, 255, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 0, 0, 1)'],
+            showPlotting: false
         }
     },
     mounted() {

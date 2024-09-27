@@ -1,7 +1,7 @@
 
 <template>
 
-    <nav :class="getDarkTheme ? 'navbar navbar-light fixed-top navbar-expand-lg navbar-background' : 'navbar navbar-dark fixed-top navbar-expand-lg  navbar-background'" id='navbar'>
+    <nav :class="getDarkTheme ? 'navbar navbar-dark fixed-top navbar-expand-lg navbar-background' : 'navbar navbar-light fixed-top navbar-expand-lg navbar-background'" id='navbar'>
     <div class="container-fluid">
       <div class="navbar-brand">
           <img src="/images/practable-icon.png" width="30" height="30" alt="practable.io logo">
@@ -15,15 +15,14 @@
           <ul class="navbar-nav me-auto">
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                   Menu
+                   Add Component
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#" @click='toggleComponent("graph")'>Graph</a></li>
-                    <li><a class="dropdown-item" href="#" @click='toggleComponent("stopwatch")'>Stopwatch</a></li>
-                    <li><a class="dropdown-item" href="#" @click='toggleComponent("table")'>Table</a></li>
-                    <li><a class="dropdown-item" href="#" @click='toggleComponent("autocommands")'>Auto Commands</a></li>
-                    <li><a class="dropdown-item" href="#" @click='toggleComponent("snapshot")'>Snapshot</a></li>
-                    <!-- <li><a class="dropdown-item" href="#" @click='toggleComponent("workspace")'>Measuring Tools</a></li> -->
+                    <li><a class="dropdown-item" id='graphmenu' href="#" @click='toggleComponent("graph")'>Graph</a></li>
+                    <li><a class="dropdown-item" id='stopwatchmenu' href="#" @click='toggleComponent("stopwatch")'>Stopwatch</a></li>
+                    <li><a class="dropdown-item" id='tablemenu' href="#" @click='toggleComponent("table")'>Table</a></li>
+                    <li><a class="dropdown-item" id='autocommandsmenu' href="#" @click='toggleComponent("autocommands")'>Auto Commands</a></li>
+                    <li><a class="dropdown-item" id='snapshotmenu' href="#" @click='toggleComponent("snapshot")'>Snapshot</a></li>
                   </ul>
               </li>
 
@@ -51,28 +50,51 @@
                   </ul>
               </li>
 
-              <li class="nav-item">
-                    <a class="nav-link" >
-                        UUID: {{ getLogUUID }}
-                    </a> 
-                </li>
-
-
-                <li class="nav-item">
-                    <clock class='nav-link' />
-                </li>
 
           </ul>
 
             <ul class="navbar-nav dropstart">
+
+              <li class="nav-item">
+                    <clock class='nav-link' />
+                </li>
 
                 <li v-if="getIsChatOn" class="nav-item me-1" id="chat">
                   <chat />
                 </li>
 
                 <li class="nav-item me-1">
-                  <toolbar parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
-                      <template v-slot:popup>
+                  <popup-help id="popup-help-navbar">
+                      <template v-slot:header>
+                        <h5>Information</h5>
+                      </template>
+
+                      <template v-slot:body>
+                        <h5>Student user ID: {{ getLogUUID }}</h5>
+                        <p>Your unique user ID is given above. This helps us provide support through learning analytics.</p>
+
+                        <h5>Customise the UI (Large screens only)</h5>
+                        <p>You can drag a component from one slot to another to switch their positions.</p>
+                        <p>Components can also be resized horizontally by clicking and dragging in the bottom right-hand corner of a slot.</p>
+
+                        <h5>Toggling components</h5>
+                        <p>The <b>Add Component</b> menu in the navigation bar can be used to toggle components visibility. Most components are displayed by default.
+                        However, the <b>data snapshot</b> and <b>data table</b> tools can be added using this menu and visble components can be hidden.</p>
+
+                        <h5>Report issues</h5>
+                        <p>If you have any problems with the remote laboratory then you can contact us at support@practable.io
+                        </p>
+                      </template>
+                  </popup-help>
+                </li>
+
+                <li class="nav-item me-1">
+                  <popup-controls-help id="popup-controls-navbar">
+                      <template v-slot:header>
+                        <h5>Controls</h5>
+                      </template>
+
+                      <template v-slot:body>
                           <div class='row'>
                           <div class='col-lg-6'>
                               <h2>Hotkeys:</h2>
@@ -94,11 +116,11 @@
                           </div>
                           </div>
                       </template>
-                  </toolbar>
+                  </popup-controls-help>
                 </li>
               
                 <li class="nav-item me-1">
-                  <button type='button' class='button-toolbar button-secondary' id='download-button' @click='toggleTheme' :disabled="disableThemeButton" aria-label="dark theme toggle">
+                  <button type='button' class='button-toolbar button-secondary' id='toggle-dark-light-theme' @click='toggleTheme' :disabled="disableThemeButton" aria-label="dark theme toggle" data-bs-toggle="tooltip" title="Toggle Theme">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"/>
                     </svg>
@@ -115,7 +137,9 @@
 
 <script>
 
-import Toolbar from './elements/Toolbar.vue';
+// import Toolbar from './elements/Toolbar.vue';
+import PopupHelp from "./elements/PopupHelp.vue";
+import PopupControlsHelp from "./elements/PopupControlsHelp.vue";
 import Clock from "./Clock.vue";
 import Chat from "./Chat.vue";
 import { mapGetters } from 'vuex';
@@ -131,7 +155,9 @@ export default {
   },
   components: {
     Clock,
-    Toolbar,
+    // Toolbar,
+    PopupHelp,
+    PopupControlsHelp,
     Chat
   },
   computed:{
@@ -150,7 +176,7 @@ export default {
         if(config.parameters != undefined){
           return config.name;
         } else{
-          console.log('blank')
+          //console.log('blank')
           return '';
         }
       },
