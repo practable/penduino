@@ -21,7 +21,7 @@
 
                 <div class='row'>
                   <div class='col-8'>
-                    <p><h4>Are you happy for this anonymous data to be collected?</h4></p>
+                    <h4>Are you happy for this anonymous data to be collected?</h4>
                   </div>
                   <div class="d-flex flex-column col-4">
                     <button type="button" class="button-sm button-primary mb-2" id='consent-yes-button' @click="consent(true)">Yes</button>

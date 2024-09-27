@@ -2,7 +2,7 @@
 <div class='container-fluid m-2 practable-component'>
     <div class="row mb-5 justify-content-center" id="chart-canvas">
         <div class="col">
-            <canvas id='graph-canvas' @mousedown="startLine" @mouseup="endDrag" @mousemove="endLine"></canvas>
+            <canvas id='graph-canvas' ref="graphCanvas" @mousedown="startLine" @mouseup="endDrag" @mousemove="endLine"></canvas>
         </div>
     </div>
 
@@ -177,11 +177,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-import { Chart } from 'chart.js';
-import 'chartjs-chart-error-bars'
+import Chart from 'chart.js/auto';
 
 import Toolbar from './elements/Toolbar.vue';
 var scatterChart = null;        //if part of the responsive Vue data then causes a recursion error on dynamically adding datasets.
+
 export default {
     
     name: 'GraphOutput',
@@ -275,62 +275,67 @@ export default {
         },
         createChart() {
             let _this = this;
-            const canvas = document.getElementById('graph-canvas');
+            //const canvas = document.getElementById('graph-canvas');
+            const canvas = this.$refs.graphCanvas;
             const ctx = canvas.getContext('2d');
             scatterChart = new Chart(ctx, {
-            type: _this.getChartType(),
+            type: 'scatter',
             data: {
                 datasets: []
             },
             options: {
+                responsive: true,
+                animation: false,
+                normalized: true,
+                parsing: true,
+                maintainAspectRatio: false,
                 legend:{
                     display: true
                 },
                 scales: {
-                    xAxes: [{
-                        scaleLabel:{
-                            display: true,
-                            labelString: 'time/s',
-                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
-                        },
+                    x: {
                         type: 'linear',
                         position: 'bottom',
+                        title:{
+                            display: true,
+                            text: 'time/s',
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
+                        },
                         ticks: {
                             callback : (value,index,values) => {
-                                this.updateXAxisMax(value, index, values);
-                                this.updateXAxisMin(value, index);
+                                _this.updateXAxisMax(value, index, values);
+                                _this.updateXAxisMin(value, index);
                                 return value;
                             },
-                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
-                        gridLines: {
-                            zeroLineColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                        grid: {
                             color: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
                         }
-                    }],
-                    yAxes: [{
-                        scaleLabel:{
-                            display: true,
-                            labelString: this.getAxisLabel,
-                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
-                        },
+                    },
+                    y: {
                         type: 'linear',
                         position: 'left',
+                        title:{
+                            display: true,
+                            text: this.getAxisLabel,
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
+                        },
                         ticks: {
                             callback : (value,index,values) => {
                                 this.updateYAxisMax(value, index);
                                 this.updateYAxisMin(value, index, values);
                                 return value;
                             },
-                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
-                        gridLines: {
-                            zeroLineColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                        grid: {
+                            // zeroLineColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
                             color: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
                         }
-                    }],
+                    },
                 },
-                responsive: true
+                
             }
         });
             //this.chart = scatterChart;
@@ -343,13 +348,13 @@ export default {
                 
             // };
         },
-        getChartType(){
-            if(this.areErrorBarsOn){
-                return 'scatterWithErrorBars';
-            } else{
-                return 'scatter';
-            }
-        },
+        // getChartType(){
+        //     if(this.areErrorBarsOn){
+        //         return 'scatterWithErrorBars';
+        //     } else{
+        //         return 'scatter';
+        //     }
+        // },
         updateYAxisMax(value, index){
             if(index == 0){
                 this.YAxisMax = value;

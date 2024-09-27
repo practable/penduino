@@ -19,9 +19,9 @@
                 <td>{{row.omega.toFixed(2)}}</td>
             </tr>
 
-            <tfoot class="table-head">
+            <!-- <tfoot class="table-head">
                 <td><p></p></td>
-            </tfoot>
+            </tfoot> -->
                                 
         </table> 
 

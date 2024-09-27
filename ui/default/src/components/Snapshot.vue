@@ -11,6 +11,7 @@
                 </tr>
             </thead>
 
+            <tbody>
             <tr v-for="row in snaps" :id="row.t" :key="row.t">
                 <td v-for='key in Object.keys(row)' :key="key">{{row[key].toFixed(2)}}</td>
             </tr>
@@ -19,12 +20,14 @@
                 <td>{{getTime.toFixed(2)}}</td>
                 <td>{{getCurrentAngle.toFixed(2)}}</td>
                 <td>{{getCurrentAngularVelocity.toFixed(2)}}</td>
-            </tr>    
+            </tr> 
+            
+            </tbody>
 
-            <div id='table-bottom'>
+            <!-- <div id='table-bottom'>
                 <div class='white-divider'>
                 </div>
-            </div>  
+            </div>   -->
         </table> 
 
         
