@@ -1,29 +1,62 @@
 <template>
-<div class='container-fluid m-2 practable-component'>
-<div class='row' id="video">
-	<div class='col-12'>
-		<!-- <canvas id="video-canvas"></canvas> -->
-		<video-element :url="url" />
+<div class='container-fluid practable-component'>
+	<div class='d-flex flex-column' id="video">
+
+		<canvas class="mb-2" id="smoothie-chart"></canvas>
+		
+		<video-element :url="getVideoURL" />
+
+		<div class="d-flex flex-row toolbar-bottom">
+			<download-image-button class="me-2" id="download-image-webcam" parentCanvasID="video-canvas" parentComponentName="webcam"></download-image-button>
+			
+			<options-tool id="options-live-stream" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+				<template v-slot:header>
+					<h4>Live graph options</h4>
+				</template>
+				
+				<template v-slot:body>
+					<div class='row'>
+						<div class='col-lg-12'>
+							<div class="d-flex flex-row justify-content-start align-items-center">
+								<label class='m-2 flex-fill' for="smoothie_y_max">Y<sub>max</sub></label>
+								<input type="number" class="flex-grow-1" id="smoothie_y_max" v-model="smoothie_y_max_pos">
+							</div>
+							<div class="d-flex flex-row justify-content-center align-items-center">
+								<label class='m-2 flex-fill' for="smoothie_y_min">Y<sub>min</sub></label>
+								<input class="flex-grow-1" type="number" id="smoothie_y_min" v-model="smoothie_y_min_pos">
+							</div>
+							<div class="d-flex flex-row justify-content-center align-items-center">
+								<label class='m-2 flex-fill' for="smoothie_millis_per_pixel">ms/pixel</label>
+								<input type="number" class="flex-grow-1" id="smoothie_millis_per_pixel" v-model="smoothie_millis_per_pixel">
+							</div>
+						</div>
+					</div>
+				</template>
+
+				<template v-slot:footer>
+					<button class="button-sm button-warning" id="reset-smoothie-options" aria-label="reset smoothie options" @click="resetSmoothieSettings">Reset</button>
+				</template>
+			</options-tool>
+
+		</div>
 	</div>
-</div>
+
 </div>
 </template>
 
 <script>
-//import * as pendulum from "../pendulum";
-//import { eventBus } from "../main";
-//import { JSMpeg } from "../../public/js/jsmpeg.min.js";
-//import JSMpeg from "jsmpeg";
-//import JSMpeg from '@cycjimmy/jsmpeg-player';
-//playerUrl = scheme + host + ':' + port + '/' + stream;
-//let playerUrl = 'ws://video.practable.io:8080/out/dpr/video0';
+import { mapGetters, mapActions } from 'vuex';
 import axios from "axios";
 import VideoElement from "./VideoElement.vue";
+import DownloadImageButton from "./elements/DownloadImageButton.vue";
+import OptionsTool from './elements/OptionsTool.vue';
 
 export default {
 	name: "WebcamStream",
 	components:{
 		VideoElement,
+		DownloadImageButton,
+		OptionsTool
 	},
     data(){
         return{
@@ -32,17 +65,38 @@ export default {
         }
     },
     computed:{
-		urlOK() {
-			return this.$store.getters.getVideoURLObtained;
-		},
+		...mapGetters([
+			'getVideoURL',
+			'getVideoURLObtained',
+			'getCurrentMode'
+		]),
 		streamOK(){			
 			return this.$store.getters.getStream("video");
 		},
-		url(){
-			return this.$store.getters.getVideoURL;
-			
+		smoothie_y_max_pos: {
+			get(){
+				return this.$store.getters.getYMaxPos;
+			},
+			set(val){
+				this.$store.dispatch('setYMaxPos', val);
+			}
 		},
-		
+		smoothie_y_min_pos: {
+			get(){
+				return this.$store.getters.getYMinPos;
+			},
+			set(val){
+				this.$store.dispatch('setYMinPos', val);
+			}
+		},
+		smoothie_millis_per_pixel: {
+			get(){
+				return this.$store.getters.getMillisPerPixel;
+			},
+			set(val){
+				this.$store.dispatch('setMillisPerPixel', val);
+			}
+		}
 	},
 	mounted(){
 		var _this = this;
@@ -53,6 +107,10 @@ export default {
 		document.addEventListener("streams:dropped", reconnect);
 	},
 	methods:{
+		...mapActions([
+			'setDraggable',
+			'resetSmoothieSettings'
+		]),
 		accessVideo(){
 			this.stream = this.$store.getters.getStream("video");
 				var accessURL = this.stream.url;
@@ -90,6 +148,11 @@ export default {
 <style scoped>
 #video-canvas{
 	width:80%;
-	height: 100%;
+	height: 50%;
+}
+
+#smoothie-chart{
+	width:100%;
+	height: 60px;
 }
 </style>

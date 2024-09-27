@@ -1,8 +1,8 @@
 <template>
 <div class='container-fluid m-2 practable-component'>
-	<div>
+	<!-- <div>
 		<canvas id="smoothie-chart" width="640" height="120"></canvas>
-	</div>
+	</div> -->
 	<div id="buttons">
 		<article>
 			<!-- <button id="start" class="btn btn-default btn-lg" @click="start">Start</button> -->
@@ -77,7 +77,7 @@ export default {
     data(){
         return{
 			dataSocket: null,
-			canvas: null,
+			//canvas: null,
         }
     },
     computed:{
@@ -120,7 +120,31 @@ export default {
             set(val){
                 this.updateStart(val);
             }
-        }
+        },
+		smoothie_y_max_pos: {
+			get(){
+				return this.$store.getters.getYMaxPos;
+			},
+			set(val){
+				this.$store.dispatch('setYMaxPos', val);
+			}
+		},
+		smoothie_y_min_pos: {
+			get(){
+				return this.$store.getters.getYMinPos;
+			},
+			set(val){
+				this.$store.dispatch('setYMinPos', val);
+			}
+		},
+		smoothie_millis_per_pixel: {
+			get(){
+				return this.$store.getters.getMillisPerPixel;
+			},
+			set(val){
+				this.$store.dispatch('setMillisPerPixel', val);
+			}
+		}
     },
 	watch:{
 		url(){
@@ -153,7 +177,9 @@ export default {
             'updateInterval',
             'sendDrive',
             'sendBrake',
-            'sendInterval'
+            'sendInterval',
+			'setChartTheta',
+			'setCanvasTheta'
 		]),
 		start(){
 			this.$store.dispatch('start', this.startParam);
@@ -207,11 +233,13 @@ export default {
 			let responsiveSmoothie = true;
 			let thisTime;
 
-			var chart = new SmoothieChart({responsive: responsiveSmoothie, millisPerPixel:10,grid:{fillStyle:'#ffffff'}, interpolation:"linear",maxValue:135,minValue:-135,labels:{fillStyle:'#0024ff',precision:0}}); //interpolation:'linear
-			this.canvas = document.getElementById("smoothie-chart");
+			var chart = new SmoothieChart({responsive: responsiveSmoothie, millisPerPixel:_this.smoothie_millis_per_pixel,grid:{fillStyle:'#eeeeee'}, interpolation:"linear",maxValue:_this.smoothie_y_max_pos,minValue:_this.smoothie_y_min_pos,interpolation:"linear", labels:{fillStyle:'#000000',precision:2}}); //interpolation:'linear
+			let canvas = document.getElementById("smoothie-chart");
 			let series = new TimeSeries();
-			chart.addTimeSeries(series, {lineWidth:2,strokeStyle:'#0024ff'});
-			chart.streamTo(this.canvas, 200);
+			chart.addTimeSeries(series, {lineWidth:2,strokeStyle:'#000000'});
+			chart.streamTo(canvas, 200);
+			_this.setChartTheta(chart);
+			_this.setCanvasTheta(canvas);
 
 			this.dataSocket.onopen = () =>  {
 				//dataOpen = true; 

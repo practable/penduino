@@ -270,7 +270,7 @@ export default {
                     this.latest_index = max_index;
                     if(scatterChart.ctx != null){
                         scatterChart.update(0);                       //actually updating the chart moved to here!
-                        scatterChart.options.scales.yAxes[0].scaleLabel.labelString = this.getAxisLabel;
+                        //scatterChart.options.scales['y'].title.text = this.getAxisLabel;
                     } else{
                         console.log('error updating chart');
                     }
@@ -314,7 +314,8 @@ export default {
                                 _this.updateXAxisMin(value, index);
                                 return value;
                             },
-                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)',
+                            precision: 1
                         },
                         grid: {
                             color: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
@@ -334,7 +335,8 @@ export default {
                                 this.updateYAxisMin(value, index, values);
                                 return value;
                             },
-                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)',
+                            precision: 1
                         },
                         grid: {
                             // zeroLineColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
@@ -540,51 +542,20 @@ export default {
 
                     let pointer_ratio = (this.gradient_start_point.y - this.gradient_end_point.y) / (this.gradient_end_point.x - this.gradient_start_point.x);  //pointer ratio
 
-                    let canvas_offset = 32;         //might need to change/check this 
+                    let canvas_width_offset = 61;
+                    let canvas_height_offset = 83;
                     let canvas = document.getElementById('graph-canvas');
-                    let canvas_height = canvas.clientHeight - canvas_offset;
-                    let canvas_width = canvas.clientWidth;
+                    let canvas_height = canvas.clientHeight - canvas_height_offset;
+                    let canvas_width = canvas.clientWidth - canvas_width_offset;
                     let canvas_ratio = canvas_height/canvas_width;      //canvas ratio
                     
                     
-                    // let min_x = Infinity;
-                    // let min_y = Infinity;
-                    // let max_x = -Infinity;
-                    // let max_y = -Infinity;
-                    // this.chartData.forEach(element => {
-                    //     if(element.x < min_x){
-                    //         min_x = element.x;
-                    //     }
-                    //     if(element.x > max_x){
-                    //         max_x = element.x;
-                    //     }
-
-                    //     if(element.y < min_y){
-                    //         min_y = element.y;
-                    //     }
-                    //     if(element.y > max_y){
-                    //         max_y = element.y;
-                    //     }
-
-                    // });
-
-                    // if(min_x > 0){       //if two data points set then limits are set to min and max dataset points
-                    //     min_x = 0;
-                    // }
-                    // if(min_y > 0){
-                    //     min_y = 0;
-                    // }
-
-                    // let y_diff = max_y - min_y;
-                    // let x_diff = max_x - min_x;
                     let y_diff = this.YAxisMax - this.YAxisMin;
                     let x_diff = this.XAxisMax - this.XAxisMin;
                     let axis_ratio = y_diff/x_diff;         //axis ratio
 
-                    if(this.getNumData > 1){
-                        this.gradient = axis_ratio*pointer_ratio/canvas_ratio;
-                        this.drawLine(this.gradient_start_point, this.gradient_end_point);
-                    }
+                    this.gradient = -axis_ratio*pointer_ratio/canvas_ratio; //negative comes from difference in direction of Y increase between axis and screen
+                    this.drawLine(this.gradient_start_point, this.gradient_end_point);
                 }
                 
             },
@@ -677,14 +648,12 @@ export default {
 
 
 <style scoped>
-#transfer_function{
-    width: 120px;
-    height: 50px;
-}
 
-#second_order_transfer_function{
-    width: 160px;
-    height: 50px;
+#graph-canvas{
+    cursor: crosshair;
+    background-color: var(--background-color-highlight);
+    max-height: 90%;
+    max-width: 100%;
 }
 
 #linear_function{
@@ -697,10 +666,8 @@ export default {
     height: 30px;
 }
 
-
-#chart-canvas{
-    cursor: crosshair;
-    background-color: var(--background-color)
+#chart-functions{
+    min-height: 40dvh;
 }
 
 
