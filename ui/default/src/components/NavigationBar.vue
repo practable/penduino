@@ -1,18 +1,18 @@
 
 <template>
 
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark background-primary" id='navbar'>
+    <nav :class="getDarkTheme ? 'navbar navbar-light fixed-top navbar-expand-lg navbar-background' : 'navbar navbar-dark fixed-top navbar-expand-lg  navbar-background'" id='navbar'>
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-          <img src="/images/practable-icon.png" width="30" height="30" alt="">
-          Remote Lab: Pendulum
-        </a>
+      <div class="navbar-brand">
+          <img src="/images/practable-icon.png" width="30" height="30" alt="practable.io logo">
+          {{ labName }}
+      </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto">
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                    Menu
@@ -31,15 +31,16 @@
                   <a class="nav-link dropdown-toggle" href="#" id="toolsdropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                    Tools
                   </a>
-                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown2">
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
                     <li><a class="dropdown-item" id='rulermenu' href="#" @click='addTool("ruler")'>Ruler</a></li>
                     <li><a class="dropdown-item" id='protractormenu' href="#" @click='addTool("protractor")'>Protractor</a></li>
                   </ul>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item" id="clearworkspace">
                   <a class="nav-link" href="#" tabindex="-1" @click='clearWorkspace'>Clear Workspace</a>
               </li>
+
 
               <li v-if='getIsLoggingOn' class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="settingsdropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,46 +51,61 @@
                   </ul>
               </li>
 
-          </ul>
-
-          <div class='d-flex'>
-            <ul class="navbar-nav dropstart">
-            
-                <li class="nav-item dropdown">
+              <li class="nav-item">
                     <a class="nav-link" >
                         UUID: {{ getLogUUID }}
                     </a> 
                 </li>
 
-                <toolbar class='me-1' parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
-                    <template v-slot:popup>
-                        <div class='row'>
-                        <div class='col-6'>
-                            <h2>Hotkeys:</h2>
-                            <p>Start: s</p>
-                            <p>Brake: b</p>
-                            <p>Free: f</p>
-                            <p>Load: l</p>
-                        </div>
-                        <div class='col-6'>
-                            <h2>UI Control:</h2>
-                            <p>When the Measuring Tools are added hold, 'o' whilst dragging a tool to rotate it</p>
-                            <p>Press 'w' to swap between controlling the measuring tools and the background UI. Click 'Clear Workspace' to remove the measuring tools</p>
-                            <p>Additional UI components can be added from the Menu bar.</p>
-                            <p>Components can be swapped by dragging to new positions. Click and drag from the grey background within the dotted line of the component you want to move. Release 
-                            inside the grey background of the dotted border that you want to move it to.</p>
-                            
-                        </div>
-                        </div>
-                    </template>
-                </toolbar>
 
-                <li class="nav-item dropdown">
+                <li class="nav-item">
                     <clock class='nav-link' />
                 </li>
 
+          </ul>
+
+            <ul class="navbar-nav dropstart">
+
+                <li v-if="getIsChatOn" class="nav-item me-1" id="chat">
+                  <chat />
+                </li>
+
+                <li class="nav-item me-1">
+                  <toolbar parentCanvasID="" parentDivID="navbar" parentComponentName="navbar" :showDownload="false" :showOptions="false" :showPopupHelp="true">
+                      <template v-slot:popup>
+                          <div class='row'>
+                          <div class='col-lg-6'>
+                              <h2>Hotkeys:</h2>
+                              <p>Start: s</p>
+                              <p>Brake: b</p>
+                              <p>Free: f</p>
+                              <p>Load: l</p>
+                              <p>Record: r</p>
+                              <p>Stop (record): t</p>
+                          </div>
+                          <div class='col-lg-6'>
+                              <h2>UI Control:</h2>
+                              <p>When the Measuring Tools are added hold, 'o' whilst dragging a tool to rotate it</p>
+                              <p>Press 'w' to swap between controlling the measuring tools and the background UI. Click 'Clear Workspace' to remove the measuring tools</p>
+                              <p>Additional UI components can be added from the Menu bar.</p>
+                              <p>Components can be swapped by dragging to new positions. Click and drag from the grey background within the dotted line of the component you want to move. Release 
+                              inside the grey background of the dotted border that you want to move it to.</p>
+                              
+                          </div>
+                          </div>
+                      </template>
+                  </toolbar>
+                </li>
+              
+                <li class="nav-item me-1">
+                  <button type='button' class='button-toolbar button-secondary' id='download-button' @click='toggleTheme' :disabled="disableThemeButton" aria-label="dark theme toggle">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"/>
+                    </svg>
+                  </button>
+              </li>
+
             </ul>
-          </div>
 
       </div>
     </div>
@@ -101,6 +117,7 @@
 
 import Toolbar from './elements/Toolbar.vue';
 import Clock from "./Clock.vue";
+import Chat from "./Chat.vue";
 import { mapGetters } from 'vuex';
 
 export default {
@@ -109,18 +126,47 @@ export default {
   emits:['toggleconsent', 'clearworkspace', 'togglegraph', 'togglestopwatch', 'toggletable', 'toggleautocommands', 'toggleworkspace', 'addruler', 'addprotractor', 'togglesnapshot'],
   data () {
     return {
-        
+      disableThemeButton: false,
     }
   },
   components: {
     Clock,
     Toolbar,
+    Chat
   },
   computed:{
       ...mapGetters([
         'getIsLoggingOn',
-        'getLogUUID'
-      ])
+        'getLogUUID',
+        'getDarkTheme',
+        'getIsChatOn',
+        'getConfigJSON'
+      ]),
+      labName(){
+        return this.getLabID == '' ? 'Pendulum Lab': ('Pendulum Lab: ' + this.getLabID);
+      },
+      getLabID(){
+        let config = this.getConfigJSON;
+        if(config.parameters != undefined){
+          return config.name;
+        } else{
+          console.log('blank')
+          return '';
+        }
+      },
+    //   getLabTitle(){
+    //   let config = this.getConfigJSON;
+    //   if(config.parameters != undefined){
+    //     let id = config.name;
+    //     let title = config.parameters.find(parameters => {
+    //     return parameters.for === "ui"
+    //   })
+    //     return title.are[0].v + ' (' + id + ')';
+    //   } 
+    //   else {
+    //     return '';
+    //   }
+    // },
   },
   methods: {
       addTool(tool){
@@ -133,6 +179,15 @@ export default {
       },
       clearWorkspace(){
           this.$emit('clearworkspace');
+      },
+      // needs a short delay before can be rerun so as to enable the chart to recolour everything
+      toggleTheme(){
+          this.disableThemeButton = true;
+          setTimeout(() => {
+            this.disableThemeButton = false
+          }, 1000);
+          document.body.classList.toggle("dark-theme");
+          this.$store.dispatch('setDarkTheme', document.body.classList.contains("dark-theme"));
       }
   }
 }

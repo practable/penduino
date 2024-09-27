@@ -1,8 +1,8 @@
 //Vue3 update
 
 <template>
-    <div class='d-flex flex-row'>
-        
+    <div>
+
         <download-image-button v-if='showDownload' :parentComponentName="getParentComponentName" :parentCanvasID="getCanvasID"/>
        
         <popup-help v-if='showPopupHelp' :parentDivID="getParentDivID"> 

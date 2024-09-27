@@ -1,12 +1,12 @@
 <template>
 
-<div class="container-fluid m-2 background-white border rounded" id='snapshot-div'>
+<div class="container-fluid m-2 practable-component" id='snapshot-div'>
 
     <div class="row table" id='table'>
 
         <table>
-            <thead class='table-head background-primary'>
-                <tr class='background-primary text-white'>
+            <thead class='table-head'>
+                <tr>
                     <th v-for='heading in headings' :key="heading" scope="col">{{heading}}</th>
                 </tr>
             </thead>
@@ -32,24 +32,28 @@
 	</div>
 
     <div class='d-grid gap-2 d-sm-block'>
-        <button id="snapshot" type='button' class="button-sm button-primary" @click="snapshot(); scrollTo('table-bottom')">Record Snapshot</button>
-        <button id="reset_snaps" type='button' class="button-sm button-danger" @click="toggleResetModal">Reset</button>
-        <button id="download_snaps" type='button' class="button-sm button-secondary" @click="outputToCSV">Download Snapshots</button>
+        <button id="snapshot" type='button' class="button-sm button-primary" @click="snapshot">Record Snapshot</button>
+        <button id="reset_snaps" type='button' class="button-sm button-warning" @click="toggleResetModal">Reset</button>
+        <button id="download_snaps" type='button' class="button-sm button-primary" @click="outputToCSV">Download Snapshots</button>
     </div>
     
-     <toolbar parentCanvasID="" parentComponentName="snapshot" parentDivID="snapshot-div" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
-        <template v-slot:popup id='snapshot-popup'>
-            <div class='row mb-2'>
-                <div class='col'>
-                    <h3> Snapshot tool </h3>
-                    <p> Click 'Record Snapshot' to save the current state to the snapshot table. Every time you click a new data set will be added. Click 'Download Snapshots'
-                        to download all the snapshots as a .csv file.
-                    </p>
+   <div class="d-flex flex-row">
+        <toolbar parentCanvasID="" parentComponentName="snapshot" parentDivID="snapshot-div" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
+            <template v-slot:popup>
+                <div class='row mb-2'>
+                    <div class='col'>
+                        <h3> Snapshot tool </h3>
+                        <p> Click 'Record Snapshot' to save the current state to the snapshot table. Every time you click a new data set will be added. Click 'Download Snapshots'
+                            to download all the snapshots as a .csv file.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </template>
+        </toolbar>
+    </div>
+        
 
-        </template>
-    </toolbar>
+    
 
     <div v-if='showResetConfirmModal' class="modal modal-show" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -113,7 +117,7 @@ export default {
           let data_object = {id: this.getNumData, t: parseFloat(time), theta: parseFloat(angle), omega: ang_vel};
           let snap_object = {t: parseFloat(time), theta: parseFloat(angle), omega: ang_vel};
           //gets added to the data for plotting
-          this.addData(data_object);
+          //this.addData(data_object);              //DON'T ADD SNAPSHOT TO DATA COLLECTION?
           //gets added to the snaps list
           this.snaps.push(snap_object);
 

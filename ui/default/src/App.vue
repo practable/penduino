@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class='container-fluid-sm m-0 background-grey'>
+  <div id="app" class='container-fluid-sm m-0'>
        <navigation-bar @toggleconsent="showConsentModal = true" @togglesnapshot="toggleSnapshot" @togglegraph="toggleGraph" @toggleautocommands="toggleAutoCommands" @togglestopwatch="toggleStopwatch" @toggletable="toggleTable" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"/>
 
        <consent v-if='showConsentModal && getIsLoggingOn' @consentset="closeConsentModal"/>
@@ -10,22 +10,42 @@
 
         <streams id='streams' />
 
-        <div class='row' id='component-grid'>
+        <div v-if='!isMobile' class='row' id='component-grid'>
 
             <div class='col-lg-6' id='left-screen'>
-                <div class='col drop-area' id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><webcam-stream id='webcam-stream' /></div>
-                <div class='col drop-area' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><data-stream id='data-stream' /></div>
-                <div class='col drop-area' id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><table-output v-if='isTableOn' id='table' :selected_point="selected_graph_point"/></div>
-                <div class='col drop-area' id='drop_3_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent></div>
-                <div class='col drop-area' id='drop_4_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent></div>
+                <div class='col drop-area' id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><webcam-stream id='webcam-stream' /></div>
+                <div class='col drop-area' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
+                <div class='col drop-area' id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><table-output v-if='isTableOn' id='table' :selected_point="selected_graph_point"/></div>
+                <div class='col drop-area' id='drop_3_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
+                <div class='col drop-area' id='drop_4_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
             </div>
 
             <div class='col-lg-6' id='right-screen'>
-                <div class='col drop-area' id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><data-recorder id='data-recorder' /></div>
-                <div class='col drop-area' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time/s', 'Angle/rad', 'Ang. Vel./rad/s']"/></div>
-                <div class='col drop-area' id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><graph-output v-if='isGraphOn' id='graph' type="graph" @newselectedobject="selectedGraphPoint"/></div>
-                <div class='col drop-area' id='drop_3_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><auto-command v-if='isAutoCommandOn' id='auto-command' /></div>
-                <div class='col drop-area' id='drop_4_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter.prevent><stopwatch v-if='isStopwatchOn' id='stopwatch'/></div>
+                <div class='col drop-area' id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-recorder id='data-recorder' /></div>
+                <div class='col drop-area' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><graph-output v-if='isGraphOn' id='graph' type="graph" @newselectedobject="selectedGraphPoint"/></div>
+                <div class='col drop-area' id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time/s', 'Angle/rad', 'Ang. Vel./rad/s']"/></div>
+                <div class='col drop-area' id='drop_3_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><auto-command v-if='isAutoCommandOn' id='auto-command' /></div>
+                <div class='col drop-area' id='drop_4_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><stopwatch v-if='isStopwatchOn' id='stopwatch'/></div>
+            </div>
+
+        </div>
+
+        <div v-else class='row' id='component-grid'>
+
+            <div class='col-12' id='left-screen'>
+                <div class='col drop-area' id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><webcam-stream id='webcam-stream' /></div>
+                <div class='col drop-area' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
+                <div class='col drop-area' id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-recorder id='data-recorder' /></div>
+                <div class='col drop-area' id='drop_3_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><graph-output v-if='isGraphOn' id='graph' type="graph" @newselectedobject="selectedGraphPoint"/></div>
+                <div class='col drop-area' id='drop_4_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><table-output v-if='isTableOn' id='table' :selected_point="selected_graph_point"/></div>
+            </div>
+
+            <div class='col-12' id='right-screen'>
+                <div class='col drop-area' id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time/s', 'Angle/rad', 'Ang. Vel./rad/s']"/></div>
+                <div class='col drop-area' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><auto-command v-if='isAutoCommandOn' id='auto-command' /></div>
+                <div class='col drop-area' id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><stopwatch v-if='isStopwatchOn' id='stopwatch'/></div>
+                <div class='col drop-area' id='drop_3_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
+                <div class='col drop-area' id='drop_4_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
             </div>
 
         </div>
@@ -51,7 +71,7 @@ import Snapshot from "./components/Snapshot.vue"
 import Consent from "./components/Consent.vue"
 
 import { mapGetters } from 'vuex'
-import { v4 as uuidv4 } from 'uuid';
+//import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: 'App',
@@ -90,23 +110,25 @@ export default {
   },
   created(){
     this.$store.dispatch('setUsesLocalStorage', this.hasStorage());
-    //check if user has a UUID generated already and whether they have consented to take part in the study
-    
+    this.updateUUID();
+    this.checkConsent();
   },
   computed:{
     ...mapGetters([
       'getDraggable',
       'getUsesLocalStorage',
-      'getCourse',
-      'getExperiment',
       'getIsLoggingOn'
-    ])
+    ]),
+    isMobile(){
+      if(window.screen.width < 992){
+        return true;
+      } else{
+        return false;
+      }
+    }
   },
   watch:{
-    getCourse(){
-      this.updateUUID();
-      this.checkConsent();
-    }
+   
   },
   methods:{
     dragComponent(event){
@@ -114,16 +136,22 @@ export default {
          console.log("Dragged id: " + event.target.id);
          let element = event.target;
          if(element.classList.contains('drop-area')){
-           console.log(element.id);
-            event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
-            console.log(element.childNodes[0]);
+           if(element.childNodes[0] != null){
+              event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
+           } else{
+              event.dataTransfer.setData("text/html", element.id + "|" + 'empty');
+           }
+            
          } else{
            while(element.parentNode){
               element = element.parentNode;
               console.log(element.id);
               if(element.classList.contains('drop-area')){
-                event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
-                console.log(element.childNodes[0]);
+                if(element.childNodes[0] != null){
+                  event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
+              } else{
+                  event.dataTransfer.setData("text/html", element.id + "|" + 'empty');
+              }
                 break;
               }
             }
@@ -138,27 +166,52 @@ export default {
       let droppedElement = document.getElementById(event.target.id);
       let draggedID = dropItems[1];
       
-      if(droppedElement != null && droppedElement.classList.contains('drop-area')){
-        if(event.target.childNodes.length > 0){
-          draggedZone.appendChild(event.target.childNodes[0]);
-        }
-        console.log(draggedID);
-        droppedElement.appendChild(document.getElementById(draggedID));
-      } 
-      else if(droppedElement){
-        let element = droppedElement;
-        while(element.parentNode){
-          element = element.parentNode;
-          if(element.classList.contains('drop-area')){
-            console.log(element.childNodes[0]);
-            draggedZone.appendChild(element.childNodes[0]);
-            element.appendChild(document.getElementById(draggedID));
-            
-            break;
+      // only try if the dragged element is not empty
+      if(draggedID != 'empty' && document.getElementById(draggedID) != null){
+          if(droppedElement != null && droppedElement.classList.contains('drop-area')){
+            if(event.target.childNodes.length > 0){
+              draggedZone.appendChild(event.target.childNodes[0]);
+            }
+            console.log(draggedID);
+            droppedElement.appendChild(document.getElementById(draggedID));
+            droppedElement.classList.remove('drop-area-highlighted');
+        } 
+        else if(droppedElement){
+          let element = droppedElement;
+          while(element.parentNode){
+            element = element.parentNode;
+            if(element.classList.contains('drop-area')){
+              console.log(element.childNodes[0]);
+              draggedZone.appendChild(element.childNodes[0]);
+              element.appendChild(document.getElementById(draggedID));
+              element.classList.remove('drop-area-highlighted');
+              break;
+            }
           }
         }
       }
+      
       return false;
+    },
+    dragEnter(event){
+      let dropData = event.dataTransfer.getData('text/html');
+      let dropItems = dropData.split("|");
+      let draggedID = dropItems[1];
+      if(draggedID != 'empty' && document.getElementById(draggedID) != null){
+        let element = document.getElementById(event.target.id);
+        if(element != null && element.classList.contains('drop-area')){
+          element.classList.add('drop-area-highlighted');
+        }
+        
+      }
+      
+    },
+    dragLeave(event){
+      let element = document.getElementById(event.target.id);
+      if(element != null){
+        element.classList.remove('drop-area-highlighted');
+      }
+      
     },
     selectedGraphPoint(point){
       this.selected_graph_point = point;
@@ -168,26 +221,21 @@ export default {
     },
     addWorkspace(){
         this.isWorkspaceOn = true;
-        this.$store.dispatch("logAnalytics", {log: "measuring_tools"});
     },
     toggleWorkspace(){
       this.isWorkspaceOn = !this.isWorkspaceOn;
     },
     toggleTable(){
       this.isTableOn = !this.isTableOn;
-      this.$store.dispatch('logComponent', {log:'component', name: 'table', open: this.isTableOn});
     },
     toggleStopwatch(){
       this.isStopwatchOn = !this.isStopwatchOn;
-      this.$store.dispatch('logComponent', {log:'component', name: 'stopwatch', open: this.isStopwatchOn});
     },
     toggleAutoCommands(){
       this.isAutoCommandOn = !this.isAutoCommandOn;
-      this.$store.dispatch('logComponent', {log:'component', name: 'autocommands', open: this.isAutoCommandOn});
     },
     toggleSnapshot(){
       this.isSnapshotOn = !this.isSnapshotOn;
-      this.$store.dispatch('logComponent', {log:'component', name: 'snapshot', open: this.isSnapshotOn});
     },
     clearWorkspace(){
       this.isWorkspaceOn = false;
@@ -204,14 +252,12 @@ export default {
             return false;
           }
       },
+      // UUID is generated by the practable booking system and stored in localStorage (as userName)
+      // This function should just find that userName and set it in vuex, else set uuid to null
     updateUUID(){
         let stored_uuid;
-        let course = this.getCourse;
-        let exp = this.getExperiment;
-        const item = `uuid-${exp}-${course}`
-
         if(this.getUsesLocalStorage){
-          stored_uuid = window.localStorage.getItem(item);
+          stored_uuid = window.localStorage.getItem('userName');
         } else {
           stored_uuid = null;
         }
@@ -219,27 +265,20 @@ export default {
         if(stored_uuid){
             this.$store.dispatch('setUUID', stored_uuid);
         } else{
-            let uuid = uuidv4();
-            this.$store.dispatch('setUUID', uuid);
-            if(this.getUsesLocalStorage){
-              window.localStorage.setItem(item, uuid);
-            }
-            
+          this.$store.dispatch('setUUID', 'null');
         }
       },
       checkConsent(){
         let logging_consent;
         if(this.getIsLoggingOn){
             if(this.getUsesLocalStorage){
-                let course = this.getCourse;
-                let exp = this.getExperiment;
-                const item = `consent-${exp}-${course}`
+                const item = 'practable-consent'
                 logging_consent = window.localStorage.getItem(item);
             } else {
                 logging_consent = null;
             }
             
-            if(logging_consent == null){
+            if(logging_consent == null || logging_consent == 'false'){
                 this.showConsentModal = true;
             
             } else{
@@ -247,18 +286,14 @@ export default {
                 this.$store.dispatch('setLoggingConsent', (logging_consent === 'true'));
             }
         } else{
-          // set consent internally
             this.$store.dispatch('setLoggingConsent', false);
-          // and set in local storage
+            this.showConsentModal = false;
+
             if(this.getUsesLocalStorage){
-              let course = this.getCourse
-              let exp = this.getExperiment
-              const item = `consent-${exp}-${course}`
+                const item = 'practable-consent'
                 window.localStorage.setItem(item, false);
             }
         }
-        
-        
       },
       closeConsentModal(){
         this.showConsentModal = false;

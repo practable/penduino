@@ -1,10 +1,10 @@
 <template>
-    <div class='container-fluid m-2 background-white border rounded'>
-       <div class="col pb-2 d-grid gap-2 d-sm-block">
+    <div class='container-fluid m-2 practable-component'>
+       <div class="col p-2 d-grid gap-2 d-sm-block">
         <button class="button-sm button-primary m-1" v-if="!getIsRecording" id="recordButton" @click="record">Record</button>
         <button class="button-sm button-danger m-1" v-if="getIsRecording" id="stopButton" @click="stopRecording">Stop</button>
         <button class="button-sm button-warning m-1" id="clearButton" @click="clearGraph">Reset</button>
-        <button class="button-sm button-secondary m-1" v-if="hasData" id="outputButton" @click="outputToCSV">Download CSV</button>
+        <button class="button-sm button-primary m-1" v-if="hasData" id="outputButton" @click="outputToCSV">Download CSV</button>
     </div>
     <div class='row m-2 justify-content-center'>
       <div v-if='getIsRecording' class='col-2'>
@@ -33,13 +33,14 @@ export default {
         hasPlotted: false,
         max_data_points: 5000,
         max_reached: false,
+        data_set_index: 0,      //NEW for identifying different datasets
     }
   },
   components: {
     
   },
   created(){
-		
+		window.addEventListener('keydown', this.hotkey, false);
 	},
   computed:{
     ...mapGetters([
@@ -75,23 +76,16 @@ export default {
       'setIsRecording',
       'addData',
       'clearAllData',
-      'updateColourIndex',
-      'logAnalytics'
     ]),
       record(){
           //this.$store.dispatch('setStartTime', new Date().getTime());
           this.$store.dispatch('setStartTime', this.getCurrentTime);
           this.data_points_count = 0;
-          this.setIsRecording(true);
-
-          //update the colour index for plotting in a new colour on graph
-            this.updateColourIndex();
-
-            this.logAnalytics({log:'record'});
-          
+          this.setIsRecording(true); 
       },
       stopRecording(){
           this.setIsRecording(false);
+          this.data_set_index += 1;
       },
       plot(){
           this.data_points_count++;
@@ -99,7 +93,8 @@ export default {
           let time = this.getTime;
           let ang_vel = this.getCurrentAngularVelocity;
           
-          let data_object = {id: this.getNumData, t: parseFloat(time), theta: parseFloat(angle), omega: ang_vel};
+          //add in a dataSetIndex int so that each set of data can be identified
+          let data_object = {id: this.getNumData, t: parseFloat(time), set: this.data_set_index, theta: parseFloat(angle), omega: ang_vel};
           this.addData(data_object);
           this.hasPlotted = true;
           
@@ -109,11 +104,27 @@ export default {
           this.clearAllData();
           this.max_reached = false;
           this.hasPlotted = false;
+          this.data_set_index = 0;
       },
       outputToCSV(){
-          let csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
           let data = this.$store.getters.getData;
+          let current_dataset = 0;
+          let csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
+          let date = new Date();
+
           data.forEach(function(d){
+
+            if(d.set == current_dataset + 1){
+              let hiddenElement = document.createElement('a');
+              hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+              hiddenElement.target = '_blank';
+              hiddenElement.download = `pendulum-${date.getHours()}-${date.getMinutes()}-run${current_dataset}.csv`;
+              hiddenElement.click();
+
+              csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
+              current_dataset += 1;
+            }
+
               csv += d.t.toString();
               csv += ",";
               csv += d.theta.toString();
@@ -122,12 +133,40 @@ export default {
               csv += "\n";
           });
           //console.log(csv);
+          //output the final dataset
+          
           let hiddenElement = document.createElement('a');
           hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
           hiddenElement.target = '_blank';
-          hiddenElement.download = 'pendulum.csv';
+          hiddenElement.download = `pendulum-${date.getHours()}-${date.getMinutes()}-run${current_dataset}.csv`;
           hiddenElement.click();
       },
+      // ORIGINAL METHOD
+      // outputToCSV(){
+      //     let csv = 'Time/s,Angle/rad,AngVel/rad/s\n';
+      //     let data = this.$store.getters.getData;
+      //     data.forEach(function(d){
+      //         csv += d.t.toString();
+      //         csv += ",";
+      //         csv += d.theta.toString();
+      //         csv += ',';
+      //         csv += d.omega.toString();
+      //         csv += "\n";
+      //     });
+      //     //console.log(csv);
+      //     let hiddenElement = document.createElement('a');
+      //     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+      //     hiddenElement.target = '_blank';
+      //     hiddenElement.download = 'pendulum.csv';
+      //     hiddenElement.click();
+      // },
+      hotkey(event){
+			if(event.key == "r"){
+        this.record();
+      } else if(event.key == "t"){
+        this.stopRecording();
+      }
+		},
       
   }
 }

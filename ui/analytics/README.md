@@ -1,5 +1,7 @@
 # penduino-ui
 
+This version is now out of date and will be replaced soon. Do not use.
+
 In ACTIVE DEVELOPMENT - there is no guarantee that this UI is completely functional. I am in the process of updating from Vue2 to Vue3 as well as updating features based on other UI developments. 
 
 Based upon ['penduino-ui'](https://github.com/timdrysdale/penduino-ui) by Tim Drysdale

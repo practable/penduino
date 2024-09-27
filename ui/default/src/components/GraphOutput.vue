@@ -1,5 +1,5 @@
 <template>
-<div class='container-fluid m-2 background-white border rounded'>
+<div class='container-fluid m-2 practable-component'>
     <div class="row mb-5 justify-content-center" id="chart-canvas">
         <div class="col">
             <canvas id='graph-canvas' @mousedown="startLine" @mouseup="endDrag" @mousemove="endLine"></canvas>
@@ -10,8 +10,8 @@
         <div class="col-sm-6 flex-column">
             <!-- Graph type -->
             <div>
-                <label class='m-2 txt-primary' for="graphSelect">Graph:</label>
-                <select class='button-sm button-secondary col-sm-6' name="graphSelect" id="graphSelect" v-model="currentDataParameter" @change="getAllData(true)">    
+                <label class='m-2' for="graphSelect">Graph:</label>
+                <select class='button-sm button-primary col-sm-6' name="graphSelect" id="graphSelect" v-model="currentDataParameter" @change="getAllData(true)">    
                     <option value="theta">Angle</option>
                     <option value="omega">Angular Velocity</option>
                 </select> 
@@ -19,7 +19,7 @@
 
             <!-- Gradient -->
             <div>
-                <label class='m-2 txt-primary' for="gradient">Gradient:</label>
+                <label class='m-2' for="gradient">Gradient:</label>
                 <input class='input-disabled col-sm-4' id="gradient" :value="gradient" readonly> 
             </div>
             <!-- Error bars -->
@@ -40,8 +40,8 @@
         </div>
         
         <div class='col-sm-6 flex-column'>
-            <label class='m-2 txt-primary' for="graph">Plot function: </label>
-            <select class='button-sm button-secondary col-sm-6' name="function" id="function" v-model="currentFunction">
+            <label class='m-2' for="function">Plot function: </label>
+            <select class='button-sm button-primary col-sm-6' name="function" id="function" v-model="currentFunction">
                 <option value="linear">Linear</option>
                 <option value="quadratic">Quadratic</option>
                 <option value="trigonometric">Trigonometric</option>
@@ -51,19 +51,19 @@
             <div v-if="currentFunction === 'linear'">
                
                 <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/LinearFunction.png'>
+                    <img id='linear_function' src='/images/LinearFunction.png' alt="linear function equation">
                 </div>
 
 
                 <div class='row justify-content-center'>
                     <div>
-                        <label class='txt-primary m-2' for="func_a">a = </label>
+                        <label class='m-2' for="func_a">a = </label>
                         <input type='number' class='input col-sm-3' id="func_a" v-model="func_a">
                     </div>
                     
 
                     <div>
-                        <label class='txt-primary m-2' for="func_b">b = </label>
+                        <label class='m-2' for="func_b">b = </label>
                         <input type='number' class='input col-sm-3' id="func_b" v-model="func_b">                
                     </div>
                 </div>
@@ -77,19 +77,19 @@
                 <div v-else-if="currentFunction === 'quadratic'">
 
                     <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/QuadraticFunction.png'>
+                    <img id='linear_function' src='/images/QuadraticFunction.png' alt="quadratic function equation">
                 </div>
 
 
                 <div class='row justify-content-center'>
                     <div>
-                        <label class='txt-primary m-2' for="func_a">a = </label>
+                        <label class='m-2' for="func_a">a = </label>
                         <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
                     </div>
                     
 
                     <div>
-                        <label class='txt-primary m-2' for="func_b">b = </label>
+                        <label class='m-2' for="func_b">b = </label>
                         <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">                
                     </div>
                 </div>
@@ -102,23 +102,23 @@
             <div v-else-if="currentFunction === 'trigonometric'">
 
                 <div class='row justify-content-center'>
-                    <img id='trig_function' src='/images/TrigFunction.png'>
+                    <img id='trig_function' src='/images/TrigFunction.png' alt="trigonometric function equation">
                 </div>
 
 
                 <div class='row justify-content-center'>
                     <div>
-                        <label class='txt-primary m-2' for="func_a">A</label>
+                        <label class='m-2' for="func_a">A</label>
                         <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
                     </div>
                     
                     <div>
-                        <label class='txt-primary m-2' for="func_b">&omega;</label>
+                        <label class='m-2' for="func_b">&omega;</label>
                         <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">
                     </div>
 
                     <div>
-                        <label class='txt-primary m-2' for="func_c">&phi;</label>
+                        <label class='m-2' for="func_c">&phi;</label>
                         <input type='number' class='input col-sm-3' id="func_c" v-model="func_c" size="3">                
                     </div>
                 </div>
@@ -131,19 +131,19 @@
             <div v-else-if="currentFunction === 'exponential'">
 
                  <div class='row justify-content-center'>
-                    <img id='linear_function' src='/images/ExpFunction.png'>
+                    <img id='linear_function' src='/images/ExpFunction.png' alt="exponential function equation">
                 </div>
 
 
                 <div class='row justify-content-center'>
                     <div>
-                        <label class='txt-primary m-2' for="func_a">A = </label>
+                        <label class='m-2' for="func_a">A = </label>
                         <input type='number' class='input col-sm-3' id="func_a" v-model="func_a" size="3">
                     </div>
                     
 
                     <div>
-                        <label class='txt-primary m-2' for="func_b">b = </label>
+                        <label class='m-2' for="func_b">b = </label>
                         <input type='number' class='input col-sm-3' id="func_b" v-model="func_b" size="3">                
                     </div>
                 </div>
@@ -159,9 +159,7 @@
 
     <div class="d-flex flex-row">
         <div class="col-auto me-2">
-            <toolbar parentCanvasID="graph-canvas" parentComponentName="graph" parentDivID="graph" :showDownload='true' :showPopupHelp="false" :showOptions="false">  
-
-            </toolbar>
+            <toolbar parentCanvasID="graph-canvas" parentComponentName="graph" parentDivID="graph" :showDownload='true' :showPopupHelp="false" :showOptions="false"></toolbar>
         </div>
         <div class="col-auto mt-2">
             <p v-if="getNumData < maxDataPoints">Data plotted: {{ getNumData }} / {{ maxDataPoints }}</p>
@@ -183,6 +181,7 @@ import { Chart } from 'chart.js';
 import 'chartjs-chart-error-bars'
 
 import Toolbar from './elements/Toolbar.vue';
+var scatterChart = null;        //if part of the responsive Vue data then causes a recursion error on dynamically adding datasets.
 export default {
     
     name: 'GraphOutput',
@@ -193,7 +192,7 @@ export default {
     emits:['newselectedobject'],
     data(){
         return{
-            chart: null,
+            //chart: null,
             currentDataParameter: 'theta',
             gradient_start_point: {x:0, y:0},
             gradient_end_point: {x:0, y:0},
@@ -215,7 +214,9 @@ export default {
             areErrorBarsOn: false,
             x_error_range: 0,
             y_error_range: 0.1,
-            previous_t: 0,
+            light_colours: ['rgba(0, 0, 0, 1)', 'rgba(255, 0, 0, 1)', 'rgba(0, 0, 255, 1)', '#A3A3A3', '#F5A300', '#5B5F97'],
+            dark_colours: ['rgba(255, 255, 255, 1)', 'rgba(255, 0, 255, 1)', 'rgba(0, 255, 0, 1)', 'rgba(0, 255, 255, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 0, 0, 1)']
+            
         }
     },
     mounted() {
@@ -228,7 +229,7 @@ export default {
             'getData',
             'getNumData',
             'getIsRecording',
-            'getColourIndex'
+            'getDarkTheme'
         ]),
         getAxisLabel(){
             if(this.currentDataParameter == 'theta'){
@@ -238,11 +239,14 @@ export default {
             } else{
                 return ''
             }
-        }
+        },
     },
     watch:{
         getData(){
             this.clearData(); //only runs if data array gets reset to [];
+        },
+        getDarkTheme(){
+            this.clearData();
         }
     },
     methods: {
@@ -257,9 +261,9 @@ export default {
                         this.getDataAtIndex(i);
                     }
                     this.latest_index = max_index;
-                    if(this.chart.ctx != null){
-                        this.chart.update(0);                       //actually updating the chart moved to here!
-                        this.chart.options.scales.yAxes[0].scaleLabel.labelString = this.getAxisLabel;
+                    if(scatterChart.ctx != null){
+                        scatterChart.update(0);                       //actually updating the chart moved to here!
+                        scatterChart.options.scales.yAxes[0].scaleLabel.labelString = this.getAxisLabel;
                     } else{
                         console.log('error updating chart');
                     }
@@ -273,50 +277,21 @@ export default {
             let _this = this;
             const canvas = document.getElementById('graph-canvas');
             const ctx = canvas.getContext('2d');
-            var scatterChart = new Chart(ctx, {
+            scatterChart = new Chart(ctx, {
             type: _this.getChartType(),
             data: {
-                //6 colours to loop through
-                datasets: [{
-                    label: 'colour0',
-                    data: [],
-                    pointBackgroundColor: 'rgba(0, 0, 0, 1)',
-                },
-                {
-                    label: 'colour1',
-                    data: [],
-                    pointBackgroundColor: 'rgba(0, 0, 255, 1)',
-                },
-                {
-                    label: 'colour2',
-                    data: [],
-                    pointBackgroundColor: 'rgba(0, 255, 0, 1)',
-                },
-                {
-                    label: 'colour3',
-                    data: [],
-                    pointBackgroundColor: 'rgba(255, 0, 0, 1)',
-                },
-                {
-                    label: 'colour4',
-                    data: [],
-                    pointBackgroundColor: 'rgba(255, 120, 0, 1)',
-                },
-                {
-                    label: 'colour5',
-                    data: [],
-                    pointBackgroundColor: 'rgba(150, 0, 150, 1)',
-                }]
+                datasets: []
             },
             options: {
                 legend:{
-                    display: false
+                    display: true
                 },
                 scales: {
                     xAxes: [{
                         scaleLabel:{
                             display: true,
-                            labelString: 'time/s'
+                            labelString: 'time/s',
+                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
                         type: 'linear',
                         position: 'bottom',
@@ -325,13 +300,19 @@ export default {
                                 this.updateXAxisMax(value, index, values);
                                 this.updateXAxisMin(value, index);
                                 return value;
-                            }
+                            },
+                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
+                        gridLines: {
+                            zeroLineColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
+                        }
                     }],
                     yAxes: [{
                         scaleLabel:{
                             display: true,
-                            labelString: this.getAxisLabel
+                            labelString: this.getAxisLabel,
+                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
                         type: 'linear',
                         position: 'left',
@@ -340,22 +321,27 @@ export default {
                                 this.updateYAxisMax(value, index);
                                 this.updateYAxisMin(value, index, values);
                                 return value;
-                            }
+                            },
+                            fontColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 1)' : 'rgba(0, 0, 0, 1)'
                         },
+                        gridLines: {
+                            zeroLineColor: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                            color: _this.getDarkTheme ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
+                        }
                     }],
                 },
                 responsive: true
             }
         });
-            this.chart = scatterChart;
+            //this.chart = scatterChart;
 
-            canvas.onclick = function(event){
-                let active_points = scatterChart.getElementsAtEvent(event);
-                if(active_points[0]){
-                    _this.$emit('newselectedobject', active_points[0]._index);       //data point selected so send event to let other elements know.
-                }
+            // canvas.onclick = function(event){
+            //     let active_points = scatterChart.getElementsAtEvent(event);
+            //     if(active_points[0]){
+            //         _this.$emit('newselectedobject', active_points[0]._index);       //data point selected so send event to let other elements know.
+            //     }
                 
-            };
+            // };
         },
         getChartType(){
             if(this.areErrorBarsOn){
@@ -387,8 +373,14 @@ export default {
             }
         },
         addDataToChart(data, dataset_index) {
+            //check if the next dataset doesn't exist and create it
+            if(dataset_index == this.countDataSets()){
+                this.deleteFunctionDataset();
+                this.addEmptyDataSet(dataset_index);
+            }
+            //add data to the existing dataset
             try{
-                this.chart.data.datasets[dataset_index].data.push(data);
+                scatterChart.data.datasets[dataset_index].data.push(data);
             } catch(e){
                 console.log(e);
             }
@@ -398,13 +390,13 @@ export default {
                 this.latest_index = 0;          
             }
 
-            this.chart.destroy();
+            scatterChart.destroy();
             this.createChart();
-            this.chart.update(0); //make sure chart is displayed again, even with no data
+            scatterChart.update(0); //make sure chart is displayed again, even with no data
         },
         //By default will not clear the graph of previous data
         //If passed true, will clear all data first and then get new data.
-        getAllData(toClear = false, colour_index = 0){
+        getAllData(toClear = false){
                 if(toClear){
                     this.clearData(false);
                 }
@@ -424,16 +416,10 @@ export default {
 
                     }
 
-                    if(this.previous_t > x_data){
-                        colour_index = (colour_index + 1) % 6
-                    }
-
-                    this.previous_t = x_data;
-
                     if(this.areErrorBarsOn){
-                        this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, colour_index);
+                        this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data[i].set);
                     } else{
-                        this.addDataToChart({x: x_data, y: y_data}, colour_index);
+                        this.addDataToChart({x: x_data, y: y_data}, data[i].set);
                     }
                     
 
@@ -446,10 +432,10 @@ export default {
                 }
 
                     if(this.current_data_index < this.getNumData && this.current_data_index <= this.maxDataPoints){
-                        this.chart.update(0);
-                        setTimeout(this.getAllData(false, colour_index), 20);
+                        scatterChart.update(0);
+                        setTimeout(this.getAllData(false), 20);
                     } else{
-                        this.chart.update(0);
+                        scatterChart.update(0);
                         this.current_data_index = 0;
                     }
                     
@@ -473,9 +459,9 @@ export default {
 
                         }
                         if(this.areErrorBarsOn){
-                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, this.getColourIndex);
+                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data.set);
                         } else{
-                            this.addDataToChart({x: x_data, y: y_data}, this.getColourIndex);
+                            this.addDataToChart({x: x_data, y: y_data}, data.set);
                     }
                     } else{
                         //console.log("no data");
@@ -498,9 +484,9 @@ export default {
 
                         }
                         if(this.areErrorBarsOn){
-                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, this.getColourIndex);
+                            this.addDataToChart({x: x_data, y: y_data, xMax: x_data + this.x_error_range, xMin: x_data - this.x_error_range, yMax: y_data + this.y_error_range, yMin: y_data - this.y_error_range}, data.set);
                         } else{
-                            this.addDataToChart({x: x_data, y: y_data}, this.getColourIndex);
+                            this.addDataToChart({x: x_data, y: y_data}, data.set);
                     }
                     } else{
                         //console.log("no data");
@@ -510,18 +496,18 @@ export default {
                 this.getAllData(true);      //need to recreate the whole graph with a different graph type. getAllData(true) will do this.
             },
             updateErrorBars(){
-                for(let i=0; i < this.chart.data.datasets[0].data.length; i++){
-                    let point = this.chart.data.datasets[0].data[i];
+                for(let i=0; i < scatterChart.data.datasets[0].data.length; i++){
+                    let point = scatterChart.data.datasets[0].data[i];
                     point.xMax = point.x + this.x_error_range;
                     point.xMin = point.x - this.x_error_range;
                     point.yMax = point.y + this.y_error_range;
                     point.yMin = point.y - this.y_error_range;
                 }   
 
-                this.chart.update(0);
+                scatterChart.update(0);
             },
             removeChart(){
-                this.chart.destroy();
+                scatterChart.destroy();
             },
             startLine(event){
                 event.preventDefault();
@@ -597,7 +583,7 @@ export default {
                 let canvas = document.getElementById('graph-canvas');
                 const context = canvas.getContext('2d');
                 context.clearRect(0, 0, canvas.width, canvas.height);
-                this.chart.update(0);       //instantly update with no animation
+                scatterChart.update(0);       //instantly update with no animation
 
                 context.beginPath(); 
                 // Staring point 
@@ -629,7 +615,7 @@ export default {
                     new_data.push(data);
                 }
                 
-                this.addNewDataSet('rgba(224, 0, 0, 0.5)', new_data);
+                this.addFunctionPlot('rgba(224, 0, 0, 0.5)', new_data);
             },
             linear(t){
                 return (parseFloat(this.func_a)*t + parseFloat(this.func_b));
@@ -643,18 +629,32 @@ export default {
             exponential(t){
                 return parseFloat(this.func_a)*Math.exp(parseFloat(this.func_b)*t);
             },
-            addNewDataSet(colour, data){
-                this.chart.data.datasets.push({
-                    label:"plotted function",
+            addFunctionPlot(colour, data){
+                scatterChart.data.datasets.push({
+                    label:"function",
                     pointBackgroundColor: colour,
+                    borderColor: colour,
                     data: data
                     });
-                this.chart.update(0);
+                    scatterChart.update(0);
+            },
+            addEmptyDataSet(new_index){
+                scatterChart.data.datasets.push({
+                    label:`dataset${new_index}`,
+                    pointBackgroundColor: this.getDarkTheme ? this.dark_colours[new_index % this.dark_colours.length] : this.light_colours[new_index % this.light_colours.length],
+                    borderColor: this.getDarkTheme ? this.dark_colours[new_index % this.dark_colours.length] : this.light_colours[new_index % this.light_colours.length],
+                    data: []
+                    });
+                    scatterChart.update(0);
             },
             deleteFunctionDataset(){
-                this.chart.data.datasets = this.chart.data.datasets.filter(set => set.label !== "plotted function");
-                this.chart.update(0);
+                scatterChart.data.datasets = scatterChart.data.datasets.filter(set => set.label !== "function");
+                scatterChart.update(0);
             },
+            countDataSets(){
+                let datasets = scatterChart.data.datasets.filter(set => set.label.includes("dataset"));
+                return datasets.length;
+            }
             
 
       },
@@ -685,15 +685,11 @@ export default {
     height: 30px;
 }
 
-select{
-    color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    
-}
 
 #chart-canvas{
     cursor: crosshair;
+    background-color: var(--background-color)
 }
+
 
 </style>

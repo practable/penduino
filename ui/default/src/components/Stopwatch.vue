@@ -1,14 +1,14 @@
 //Vue3 updated
 
 <template>
-    <div class='container-fluid m-2 background-white border rounded stopwatch-container' id='stopwatch-container'>
+    <div class='container-fluid m-2 practable-component' id='stopwatch-container'>
         <div class="row-sm m-2">
             <div class='form-group'><input type='text' class='form-control' id="stopwatch" :value="time_string" readonly></div>
         </div>
         <div class="col d-grid d-sm-block">
             <button class="button-sm button-primary" v-if="!isTiming" id="start" @click="startTimer">Start</button>
-            <button class="button-sm button-warning" v-if="isTiming" id="pause" @click="pauseTimer">Stop</button>
-            <button class="button-sm button-danger" id="reset" @click="resetTimer">Reset</button>
+            <button class="button-sm button-danger" v-if="isTiming" id="pause" @click="pauseTimer">Stop</button>
+            <button class="button-sm button-warning" id="reset" @click="resetTimer">Reset</button>
         </div>
     </div> 
 </template>
@@ -83,17 +83,10 @@ export default {
 </script>
 
 <style scoped>
-.stopwatch-container{
-    position: relative;
-    max-width: 40%;
-    min-width: 300px;
-    min-height: 100px;
-}
 
 #stopwatch{
     font-size: 14;
     text-align: center;
-    width: 100%;
 }
 
 </style>

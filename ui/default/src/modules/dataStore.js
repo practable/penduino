@@ -111,6 +111,11 @@ const dataStore = {
       getNumData(state){
          return state.data.length;
      },
+     getDataSets(state){
+         let datasets = helpers.GetDataSets(state.data);
+         return datasets;
+
+     }
     //  getAngularVelocity(state){
     //      let current_index = state.data.length - 1;
     //      let current_data = state.data[current_index];
@@ -130,8 +135,33 @@ const dataStore = {
       
 }
 
+export const helpers = {
+   GetDataSets(data) {
+      let datasets = [];   //array of arrays storing each separate dataset
+      let next_dataset = [];
+      let current_index = 0;
+      data.forEach(d => {
+
+         if(d.set == current_index + 1){
+            datasets.push(next_dataset);
+            current_index += 1;
+
+            next_dataset = [];
+         }
+
+         next_dataset.push(d);
+      })
+
+      if(next_dataset.length > 0){
+         datasets.push(next_dataset);
+      }
+      
+      return datasets;
+   }
+}
+
 export default dataStore
-    
+   
 //data object structure
 // {
 //     id: 1,

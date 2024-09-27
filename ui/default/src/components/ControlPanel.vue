@@ -1,5 +1,5 @@
 <template>
-<div class='container-fluid m-2 background-white border rounded'>
+<div class='container-fluid m-2 practable-component'>
 	<div>
 		<canvas id="smoothie-chart" width="640" height="120"></canvas>
 	</div>
@@ -7,73 +7,43 @@
 		<article>
 			<!-- <button id="start" class="btn btn-default btn-lg" @click="start">Start</button> -->
             <button id="start" class="button-lg button-primary" @click="start">Start</button>
-			<button id="brake" class="button-lg button-secondary" @click="brake">Brake</button>
-			<button id="load" class="button-lg button-tertiary" @click="load">Load</button>
-			<button id="free" class="button-lg button-warning" @click="free">Free</button>
-			<button id="cal" class="button-lg button-danger" @click="calibrate">Cal</button>
+			<button id="brake" class="button-lg button-primary" @click="brake">Brake</button>
+			<button id="load" class="button-lg button-primary" @click="load">Load</button>
+			<button id="free" class="button-lg button-primary" @click="free">Free</button>
+			<button id="cal" class="button-lg button-warning" @click="calibrate">Cal</button>
 		</article>
 	</div>
 
 <article>
 
-<h2 class='txt-primary m-2'> Settings </h2>
+<h2 class='m-2'> Settings </h2>
 
-
-<div class="row">
-	<div class="column1-4">&nbsp; </div>
-	<div class="column2-4">
-		<div class="row">
-			<div class="column1-3  sliderlabel"> Drive ({{driveParam}}%)</div>
-			<div class="column2-3" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-				<input type="range" min="0" max="100" v-model="driveParam" class="slider" id="driveSlider" @change="sendDrive">
-			</div>
-		</div>
+<div class="row mb-4">
+	<label class="col-4 sliderlabel" for="driveSlider"> Drive ({{driveParam}}%)</label>
+	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+		<input type="range" min="0" max="100" v-model="driveParam" class="slider" id="driveSlider" @change="sendDrive">
 	</div>
-	<div class="column1-4"></div>
+</div>
+
+<div class="row mb-4">
+	<label class="col-4 sliderlabel" for="brakeSlider"> Brake ({{brakeParam}}%)</label>
+	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+		<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake'>
+	</div>
+</div>
+
+<div class="row mb-4">
+	<label class="col-4 sliderlabel" for="startSlider"> Start bump ({{startParam}}ms)</label>
+	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+		<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" > 
+	</div>
 </div>
 
 <div class="row">
-	<div class="column1-3 sliderlabel"></div>
-	<div class="column1-2"></div>
-</div>
-
-<div class="row">
-	<div class="column1-4">&nbsp; </div>
-	<div class="column2-4">
-		<div class="row">
-			<div class="column1-3  sliderlabel"> Brake ({{brakeParam}}%)</div>
-		<div class="column2-3" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-			<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake'>
-		</div>
+	<label class="col-4 sliderlabel" for="dataSlider"> Report every {{intervalParam}}ms</label> 
+	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+		<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval'>
 	</div>
-	</div>
-	<div class="column1-4"></div>
-</div>
-
-<div class="row">
-	<div class="column1-4">&nbsp; </div>
-	<div class="column2-4">
-		<div class="row">
-			<div class="column1-3  sliderlabel"> Start bump ({{startParam}}ms)</div>
-			<div class="column2-3" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-				<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" > 
-			</div>
-	</div>
-	</div>
-	<div class="column1-4"></div>
-</div>
-
-<div class="row">
-	<div class="column1-4">&nbsp; </div>
-	<div class="column2-4">
-		<div class="row">
-			<div class="column1-3  sliderlabel"> Report every {{intervalParam}}ms</div> 
-			<div class="column2-3" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-				<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval'>
-			</div>
-			</div>
-		</div>
-	<div class="column1-4"></div>
 </div>
 
 
@@ -209,10 +179,7 @@ export default {
 				this.load();
 			} else if(event.key == 's'){
 				this.start();
-			}
-		},
-		test(){
-			console.log('SECOND');
+			} 
 		},
 		connect(){
 
@@ -233,8 +200,8 @@ export default {
 			let debug = false;
 			let wrapEncoder = true;
 
-			var initialSamplingCount = 1200 // 2 mins at 10Hz
-			var delayWeightingFactor = 60  // 1 minute drift in 1 hour
+			var initialSamplingCount = 1200
+			var delayWeightingFactor = 5
 			let encoderPPR = 2400
 
 			let responsiveSmoothie = true;
@@ -244,23 +211,23 @@ export default {
 			this.canvas = document.getElementById("smoothie-chart");
 			let series = new TimeSeries();
 			chart.addTimeSeries(series, {lineWidth:2,strokeStyle:'#0024ff'});
-			chart.streamTo(this.canvas, 0);
+			chart.streamTo(this.canvas, 200);
 
 			this.dataSocket.onopen = () =>  {
 				//dataOpen = true; 
                 _this.updateDrive(50);
-                _this.sendDrive(false);
+                _this.sendDrive();
                 console.log('drive');
 
                 setTimeout(() => {
                     _this.updateInterval(50);
-                    _this.sendInterval(false);
+                    _this.sendInterval();
                     console.log('interval');
                 }, 1000)
                 
                 setTimeout(() => {
                     _this.updateBrake(50);
-                    _this.sendBrake(false);
+                    _this.sendBrake();
                     console.log('brake');
                 }, 2000)
                 
@@ -309,7 +276,9 @@ export default {
 						thisDelay = ((delay * messageCount) + thisDelay) / (messageCount + 1)
 					} else {
 						thisDelay = (delay * b) + (thisDelay * a)
+						//thisDelay = (b * thisDelay) + (a * delay)
 					}
+
 					
 					messageCount += 1
 
@@ -327,7 +296,7 @@ export default {
 					
 					if (!isNaN(thisTime) && !isNaN(enc)){
 						series.append(msgTime + thisDelay, enc)
-
+	
                         //Calculate angular velocity using new data sent through as well as currently stored values - before updating those values
                         let values = {theta_1: enc * Math.PI / 180, theta_0:_this.$store.getters.getCurrentAngle, t_1:msgTime, t_0:_this.$store.getters.getCurrentTime}
                         _this.$store.dispatch('setCurrentAngVel', values)
@@ -376,80 +345,8 @@ export default {
 	height: 120px;
 }
 
-.slidecontainer {
-	width: 100%; /* Width of the outside container */
-}
-.slider {
-	/* -webkit-appearance: none; */
-	width: 100%;
-	height: 15px;
-	border-radius: 5px;  
-	background: #d3d3d3;
-	outline: none;
-	opacity: 0.7;
-	-webkit-transition: .2s;
-	transition: opacity .2s;
-    cursor:pointer;
-}
+.sliderlabel{ text-align: right;}
 
-.slider::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	appearance: none;
-	width: 25px;
-	height: 25px;
-	border-radius: 50%; 
-	background: #1433BA; /* Persian Blue */
-	cursor: grab;
-}
-
-.slider::-moz-range-thumb {
-	width: 25px;
-	height: 25px;
-	border-radius: 50%;
-	background: #1433BA; /* Persian Blue */
-	cursor: grab;
-}
-
-/* Mouse-over effects */
-.slider:hover {
-	opacity: 1; /* Fully shown on mouse-over */
-}
-
-.column {
-	float: left;
-	width: 50%;
-}
-
-
-.sliderlabel{ text-align: left;}
-
-.column1-4 {
-	float: left;
-	width: 30%;
-}
-
-.column2-4 {
-	float: left;
-	width: 40%;
-}
-
-.column3-4 {
-	float: left;
-	width: 75%;
-}
-
-.column1-3 {
-	float: left;
-	width: 33.3%;
-}
-.column2-3 {
-	float: left;
-	width: 66.6%;
-}
-
-.row{
-	margin-top: 12px;
-}
 
 /* Clear floats after the columns */
 .row:after {

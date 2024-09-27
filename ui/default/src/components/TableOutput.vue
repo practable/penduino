@@ -1,25 +1,41 @@
 <template>
-<div class='container-fluid m-2 background-white border rounded table'>
-    <div class="row ">
+<div class='container-fluid m-2 practable-component table'>
+    <div class="row">
     <!-- <input type="text" id="search" v-on:keyup="search" v-model="search_field" placeholder="Search the table..."> -->
 
-        <table>
+        <table v-for="table in tableData">
             <thead class='table-head'>
-                <tr class='background-primary text-white'>
-                    <!-- <th scope="col">ID</th> -->
+                <tr>
+                    <th scope="col">Dataset</th>
                     <th scope="col">Time[s]</th>
                     <th scope="col">Angle[rad]</th>
                     <th scope="col">Angular Velocity[rad/s]</th>
                 </tr>
             </thead>
-            <tr v-for="row in tableData" :id="row.id" :key="row.id" v-bind:class="[row.id == selected_row_id ? 'selected-row' : '']" @click="changeSelected(row.id)">
-                <!-- <td>{{row.id}}</td> -->
+            <tr v-for="row in table" :id="row.id" :key="row.id" v-bind:class="[row.id == selected_row_id ? 'selected-row' : '']" @click="changeSelected(row.id)">
+                <td>{{row.set}}</td>
                 <td>{{row.t.toFixed(2)}}</td>
                 <td>{{row.theta.toFixed(2)}}</td>
                 <td>{{row.omega.toFixed(2)}}</td>
             </tr>
+
+            <tfoot class="table-head">
+                <td><p></p></td>
+            </tfoot>
                                 
         </table> 
+
+        <!-- If there is no current data stored then just display a table heading -->
+        <table v-if="tableData.length == 0">
+            <thead class='table-head'>
+                <tr>
+                    <th scope="col">Dataset</th>
+                    <th scope="col">Time[s]</th>
+                    <th scope="col">Angle[rad]</th>
+                    <th scope="col">Angular Velocity[rad/s]</th>
+                </tr>
+            </thead>
+        </table>
 
     </div>
 </div>
@@ -44,7 +60,8 @@ export default {
     },
     methods: {
         updateTable(){
-            this.tableData = [...this.getData];     //get a clone of the data, not set tableData to the getData getter
+            //this.tableData = [...this.getData];     //get a clone of the data, not set tableData to the getData getter
+            this.tableData = [...this.getDataSets];
         },
     //     search(){
     //         if(this.search_field == ""){
@@ -80,6 +97,7 @@ export default {
         ...mapGetters([
             'getIsRecording',
             'getData',
+            'getDataSets'
         ])
       },
       watch:{
