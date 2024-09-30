@@ -1,55 +1,70 @@
 <template>
-<div class='container-fluid m-2 practable-component'>
+<div class='container-fluid practable-component'>
 	<!-- <div>
 		<canvas id="smoothie-chart" width="640" height="120"></canvas>
 	</div> -->
-	<div id="buttons">
-		<article>
-			<!-- <button id="start" class="btn btn-default btn-lg" @click="start">Start</button> -->
-            <button id="start" class="button-lg button-primary" @click="start">Start</button>
-			<button id="brake" class="button-lg button-primary" @click="brake">Brake</button>
-			<button id="load" class="button-lg button-primary" @click="load">Load</button>
-			<button id="free" class="button-lg button-primary" @click="free">Free</button>
-			<button id="cal" class="button-lg button-warning" @click="calibrate">Cal</button>
-		</article>
+
+	<div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+		<div class="col-lg-6" id="buttons">
+			<button id="start" class="button-xlg button-primary m-2" @click="start">Start</button>
+			<button id="brake" class="button-xlg button-primary m-2" @click="brake">Brake</button>
+			<button id="load" class="button-xlg button-primary m-2" @click="load">Load</button>
+			<button id="free" class="button-xlg button-primary m-2" @click="free">Free</button>
+			<button id="cal" class="button-xlg button-warning m-2" @click="calibrate">Cal</button>
+		</div>
+
+		<div class="col-lg-6" id="control-settings">
+
+			<div class="d-flex flex-row align-items-center justify-content-end mb-2">
+				<label class="sliderlabel" for="driveSlider"> Drive ({{driveParam}}%)</label>
+				<div class="ms-2" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+					<input type="range" min="0" max="100" v-model="driveParam" class="slider" id="driveSlider" @change="sendDrive">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row align-items-center justify-content-end mb-2">
+				<label class="sliderlabel" for="brakeSlider"> Brake ({{brakeParam}}%)</label>
+				<div class="ms-2" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+					<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake'>
+				</div>
+			</div>
+
+			<div class="d-flex flex-row align-items-center justify-content-end mb-2">
+				<label class="sliderlabel" for="startSlider"> Start bump ({{startParam}}ms)</label>
+				<div class="ms-2" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+					<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" > 
+				</div>
+			</div>
+
+			<div class="d-flex flex-row align-items-center justify-content-end mb-2">
+				<label class="sliderlabel" for="dataSlider"> Report every {{intervalParam}}ms</label> 
+				<div class="ms-2" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+					<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval'>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
-<article>
-
-<h2 class='m-2'> Settings </h2>
-
-<div class="row mb-4">
-	<label class="col-4 sliderlabel" for="driveSlider"> Drive ({{driveParam}}%)</label>
-	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-		<input type="range" min="0" max="100" v-model="driveParam" class="slider" id="driveSlider" @change="sendDrive">
-	</div>
-</div>
-
-<div class="row mb-4">
-	<label class="col-4 sliderlabel" for="brakeSlider"> Brake ({{brakeParam}}%)</label>
-	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-		<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake'>
-	</div>
-</div>
-
-<div class="row mb-4">
-	<label class="col-4 sliderlabel" for="startSlider"> Start bump ({{startParam}}ms)</label>
-	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-		<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" > 
-	</div>
-</div>
-
-<div class="row">
-	<label class="col-4 sliderlabel" for="dataSlider"> Report every {{intervalParam}}ms</label> 
-	<div class="col-6" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-		<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval'>
-	</div>
-</div>
-
-
-
-</article>
-
+	<div class="d-flex flex-row">
+        <popup-help id="popup-help-control-panel">
+            <template v-slot:header>
+                <h5> Control Panel </h5>
+            </template>
+            <template v-slot:body>
+                
+				<p> 
+					<b>Start</b> will get the pendulum moving and drive it at an amplitude set by the <b>Drive</b> percentage. <b>Brake</b> will stop the pendulum
+					at a rate set by the <b>Brake</b> percentage. <b>Load</b> short circuits the driving coil so that a current is induced when the permanent magnet
+					moves passed it, removing energy and slowing the pendulum. <b>Free</b>leaves the coil open circuited, so the pendulum slows due to intrinsic resistive forces only. 
+					<b>Cal</b> will calibrate the zero position. The <b>Report every</b> slider allows you to set the sampling period.
+					The <b>Start bump</b> slider sets the time that the start command initially energises the coil to get it moving from a cold start - it is unlikely
+					you will need to change this parameter.
+				</p>
+                    
+            </template>
+        </popup-help>
+    </div>
 
 
 </div>
@@ -62,14 +77,13 @@ import { mapActions, mapGetters } from 'vuex'
 import { SmoothieChart } from 'smoothie';
 import { TimeSeries } from 'smoothie';
 
-//import Tooltip from "./Tooltip.vue";
+import PopupHelp from './elements/PopupHelp.vue';
 
 
 export default {
 	name: "ControlPanel",
 	components:{
-		//Tooltip,
-		
+		PopupHelp
 	},
 	props:{
 		url: String,
@@ -226,14 +240,14 @@ export default {
 			let debug = false;
 			let wrapEncoder = true;
 
-			var initialSamplingCount = 1200
-			var delayWeightingFactor = 5
+			var initialSamplingCount = 2400
+			var delayWeightingFactor = 2
 			let encoderPPR = 2400
 
 			let responsiveSmoothie = true;
 			let thisTime;
 
-			var chart = new SmoothieChart({responsive: responsiveSmoothie, millisPerPixel:_this.smoothie_millis_per_pixel,grid:{fillStyle:'#eeeeee'}, interpolation:"linear",maxValue:_this.smoothie_y_max_pos,minValue:_this.smoothie_y_min_pos,interpolation:"linear", labels:{fillStyle:'#000000',precision:2}}); //interpolation:'linear
+			var chart = new SmoothieChart({responsive: responsiveSmoothie, millisPerPixel:_this.smoothie_millis_per_pixel,grid:{fillStyle:'#eeeeee'}, interpolation:"bezier",maxValue:_this.smoothie_y_max_pos,minValue:_this.smoothie_y_min_pos,interpolation:"linear", labels:{fillStyle:'#000000',precision:2}}); //interpolation:'linear
 			let canvas = document.getElementById("smoothie-chart");
 			let series = new TimeSeries();
 			chart.addTimeSeries(series, {lineWidth:2,strokeStyle:'#000000'});
@@ -260,9 +274,6 @@ export default {
                 }, 2000)
                 
                 
-				
-                
-                
                 console.log('sent starting parameters');
 				
 			};
@@ -275,6 +286,7 @@ export default {
 					var obj = JSON.parse(event.data);
 					var msgTime = obj.time;
 					var thisDelay = new Date().getTime() - msgTime;
+					//console.log(thisDelay)
 
 					var enc = obj.enc;
 
@@ -294,12 +306,9 @@ export default {
 						
 					}
 
-					
-					
 					a = 1 / delayWeightingFactor
 					b = 1 - a
 
-					
 					if (messageCount < initialSamplingCount) {
 						thisDelay = ((delay * messageCount) + thisDelay) / (messageCount + 1)
 					} else {
@@ -324,6 +333,8 @@ export default {
 					
 					if (!isNaN(thisTime) && !isNaN(enc)){
 						series.append(msgTime + thisDelay, enc)
+						//series.append(new Date().getTime(), enc)
+						
 	
                         //Calculate angular velocity using new data sent through as well as currently stored values - before updating those values
                         let values = {theta_1: enc * Math.PI / 180, theta_0:_this.$store.getters.getCurrentAngle, t_1:msgTime, t_0:_this.$store.getters.getCurrentTime}

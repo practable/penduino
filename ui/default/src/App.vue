@@ -1,6 +1,7 @@
 <template>
   <div id="app" class='container-fluid-sm m-0'>
-       <navigation-bar @toggleconsent="showConsentModal = true" @togglesnapshot="toggleSnapshot" @togglegraph="toggleGraph" @toggleautocommands="toggleAutoCommands" @togglestopwatch="toggleStopwatch" @toggletable="toggleTable" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"/>
+       <navigation-bar :isGraphOn='isGraphOn' :isStopwatchOn='isStopwatchOn' :isTableOn='isTableOn' :isAutoCommandOn='isAutoCommandOn' :isSnapshotOn='isSnapshotOn'
+       @toggleconsent="showConsentModal = true" @togglesnapshot="toggleSnapshot" @togglegraph="toggleGraph" @toggleautocommands="toggleAutoCommands" @togglestopwatch="toggleStopwatch" @toggletable="toggleTable" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"/>
 
        <consent v-if='showConsentModal && getIsLoggingOn' @consentset="closeConsentModal"/>
 
@@ -18,14 +19,14 @@
           </div>
 
           <div class='d-flex' id='second-row'>
-            <div class='drop-area drop-area-three-fifths' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
-            <div class='drop-area drop-area-one-fifth' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-recorder id='data-recorder' /></div>
-            <div class='drop-area drop-area-one-fifth' id='drop_1_2' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><auto-command v-if='isAutoCommandOn' id='auto-command' /></div>
+            <div class='drop-area drop-area-half' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
+            <div class='drop-area drop-area-one-quarter' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-recorder id='data-recorder' /></div>
+            <div class='drop-area drop-area-one-quarter' id='drop_1_2' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time[s]', 'Angle[rad]', 'Ang. Vel.[rad/s]']"/></div>
           </div>
 
           <div class='d-flex' id='third-row'>
             <div class='drop-area drop-area-half' id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><table-output v-if='isTableOn' id='table' :selected_point="selected_graph_point"/></div>
-            <div class='drop-area drop-area-half' id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time/s', 'Angle/rad', 'Ang. Vel./rad/s']"/></div>
+            <div class='drop-area drop-area-half' id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><auto-command v-if='isAutoCommandOn' id='auto-command' /></div>
           </div>
 
           <div class='d-flex' id='fourth-row'>
@@ -42,7 +43,7 @@
             <div class='drop-area drop-area-mobile' id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-recorder id='data-recorder' /></div>
             <div class='drop-area drop-area-mobile' id='drop_3_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><graph-output v-if='isGraphOn' id='graph' type="graph" @newselectedobject="selectedGraphPoint"/></div>
             <div class='drop-area drop-area-mobile' id='drop_4_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><table-output v-if='isTableOn' id='table' :selected_point="selected_graph_point"/></div>
-            <div class='drop-area drop-area-mobile' id='drop_5_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time/s', 'Angle/rad', 'Ang. Vel./rad/s']"/></div>
+            <div class='drop-area drop-area-mobile' id='drop_5_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time[s]', 'Angle[rad]', 'Ang. Vel.[rad/s]']"/></div>
             <div class='drop-area drop-area-mobile' id='drop_6_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><auto-command v-if='isAutoCommandOn' id='auto-command' /></div>
             <div class='drop-area drop-area-mobile' id='drop_7_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><stopwatch v-if='isStopwatchOn' id='stopwatch'/></div>
         </div>
@@ -96,7 +97,7 @@ export default {
       isStopwatchOn: false,
       isWorkspaceOn: false,
       isAutoCommandOn: false,
-      isSnapshotOn: false,
+      isSnapshotOn: true,
       selected_graph_point: null,
       protractorAdded: false,
       rulerAdded: false,

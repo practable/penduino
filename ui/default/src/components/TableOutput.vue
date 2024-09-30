@@ -12,16 +12,20 @@
                     <th scope="col">Angular Velocity[rad/s]</th>
                 </tr>
             </thead>
-            <tr v-for="row in table" :id="row.id" :key="row.id" v-bind:class="[row.id == selected_row_id ? 'selected-row' : '']" @click="changeSelected(row.id)">
-                <td>{{row.set}}</td>
-                <td>{{row.t.toFixed(2)}}</td>
-                <td>{{row.theta.toFixed(2)}}</td>
-                <td>{{row.omega.toFixed(2)}}</td>
-            </tr>
+            
+            <tbody>
+                <tr v-for="row in table" :id="row.id" :key="row.id"  @click="changeSelected(row.id)">
+                    <td :class="[row.id == selected_row_id ? 'selected-row' : '']">{{row.set}}</td>
+                    <td :class="[row.id == selected_row_id ? 'selected-row' : '']">{{row.t.toFixed(2)}}</td>
+                    <td :class="[row.id == selected_row_id ? 'selected-row' : '']">{{row.theta.toFixed(2)}}</td>
+                    <td :class="[row.id == selected_row_id ? 'selected-row' : '']">{{row.omega.toFixed(2)}}</td>
+                </tr>
+            </tbody>
+            
 
-            <!-- <tfoot class="table-head">
-                <td><p></p></td>
-            </tfoot> -->
+            <tfoot class="table-head">
+                <tr> </tr>
+            </tfoot>
                                 
         </table> 
 
@@ -88,9 +92,9 @@ export default {
         changeSelected(id){
             this.selected_row_id = id;
             //the selected row will be covered by the sticky table heading, so scroll to the element below
-            let scroll_id = id - 1;
-            var elmnt = document.getElementById(scroll_id);
-            elmnt.scrollIntoView(); 
+            // let scroll_id = id - 1;
+            // var elmnt = document.getElementById(scroll_id);
+            // elmnt.scrollIntoView(); 
         }
       },
       computed:{
@@ -127,9 +131,8 @@ export default {
 </script>
 
 <style scoped>
-
 .selected-row{
-    background-color: red;
+    background-color: green;
     color: white;
 }
 

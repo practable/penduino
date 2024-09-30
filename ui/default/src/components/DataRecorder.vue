@@ -1,11 +1,13 @@
 <template>
     <div class='container-fluid m-2 practable-component'>
-       <div class="col p-2 d-grid gap-2 d-sm-block">
-        <button class="button-sm button-primary m-1" v-if="!getIsRecording" id="recordButton" @click="record">Record</button>
-        <button class="button-sm button-danger m-1" v-if="getIsRecording" id="stopButton" @click="stopRecording">Stop</button>
-        <button class="button-sm button-warning m-1" id="clearButton" @click="clearGraph">Reset</button>
-        <button class="button-sm button-primary m-1" v-if="hasData" id="outputButton" @click="outputToCSV">Download CSV</button>
+
+      <div class="col p-2 d-grid gap-2 d-sm-block">
+      <button class="button-sm button-primary m-1" v-if="!getIsRecording" id="recordButton" @click="record">Record</button>
+      <button class="button-sm button-danger m-1" v-if="getIsRecording" id="stopButton" @click="stopRecording">Stop</button>
+      <button class="button-sm button-warning m-1" id="clearButton" @click="clearGraph">Reset</button>
+      <button class="button-sm button-primary m-1" v-if="hasData" id="outputButton" @click="outputToCSV">Download CSV</button>
     </div>
+
     <div class='row m-2 justify-content-center'>
       <div v-if='getIsRecording' class='col-2'>
         <img id='red-light' src='/images/red-light.png' width='20' height='20' :hidden='!showRedLight'>
@@ -14,13 +16,31 @@
         <p class='m-1'>Recorded: {{getNumData}}/{{max_data_points}} data points</p>
       </div>
     </div>
-  
+
+    <div class="d-flex flex-row">
+		    <popup-help class="me-2" id="popup-help-data-recorder">
+            <template v-slot:header>
+                <h5> Data Recorder </h5>
+            </template>
+            <template v-slot:body>
+                <p>Click <b>Record</b> to begin recording data. Recorded data will be plotted automatically on the graph component.</p>    
+                <p>Click <b>Stop</b> to stop recording data.</p>  
+                <p>Clicking <b>Reset</b> will delete all recorded data, including clearing the graph component.</p>
+                <p>If you want to save data prior to resetting then click <b>Download CSV</b> to save the data to your local computer.</p>  
+                <p>A maximum of 5000 data points can be recorded for download and 2000 for display in the graph component. It is recommended to perform
+                  runs in batches and download data in between.
+                </p>         
+            </template>
+        </popup-help>
+	    </div>
+
   </div>
 </template>
 
 <script>
 
 import { mapGetters, mapActions } from 'vuex';
+import PopupHelp from './elements/PopupHelp.vue';
 
 export default {
 
@@ -37,7 +57,7 @@ export default {
     }
   },
   components: {
-    
+    PopupHelp
   },
   created(){
 		window.addEventListener('keydown', this.hotkey, false);

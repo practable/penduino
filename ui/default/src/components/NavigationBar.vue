@@ -18,11 +18,11 @@
                    Add Component
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" id='graphmenu' href="#" @click='toggleComponent("graph")'>Graph</a></li>
-                    <li><a class="dropdown-item" id='stopwatchmenu' href="#" @click='toggleComponent("stopwatch")'>Stopwatch</a></li>
-                    <li><a class="dropdown-item" id='tablemenu' href="#" @click='toggleComponent("table")'>Table</a></li>
-                    <li><a class="dropdown-item" id='autocommandsmenu' href="#" @click='toggleComponent("autocommands")'>Auto Commands</a></li>
-                    <li><a class="dropdown-item" id='snapshotmenu' href="#" @click='toggleComponent("snapshot")'>Snapshot</a></li>
+                    <li><a :class="isGraphOn ? 'dropdown-item dropdown-checked' : 'dropdown-item'" id='graphmenu' href="#" @click='toggleComponent("graph")'>Graph</a></li>
+                    <li><a :class="isSnapshotOn ? 'dropdown-item dropdown-checked' : 'dropdown-item'" id='snapshotmenu' href="#" @click='toggleComponent("snapshot")'>Snapshot</a></li>
+                    <li><a :class="isTableOn ? 'dropdown-item dropdown-checked' : 'dropdown-item'" id='tablemenu' href="#" @click='toggleComponent("table")'>Table</a></li>
+                    <li><a :class="isAutoCommandOn ? 'dropdown-item dropdown-checked' : 'dropdown-item'" id='autocommandsmenu' href="#" @click='toggleComponent("autocommands")'>Auto Commands</a></li>
+                    <li><a :class="isStopwatchOn ? 'dropdown-item dropdown-checked' : 'dropdown-item'" id='stopwatchmenu' href="#" @click='toggleComponent("stopwatch")'>Stopwatch</a></li>
                   </ul>
               </li>
 
@@ -148,6 +148,7 @@ export default {
 
   name: 'NavigationBar',
   emits:['toggleconsent', 'clearworkspace', 'togglegraph', 'togglestopwatch', 'toggletable', 'toggleautocommands', 'toggleworkspace', 'addruler', 'addprotractor', 'togglesnapshot'],
+  props:['isGraphOn', 'isStopwatchOn', 'isTableOn', 'isAutoCommandOn', 'isSnapshotOn'],
   data () {
     return {
       disableThemeButton: false,
@@ -220,6 +221,11 @@ export default {
 </script>
 
 <style scoped>
-
+.dropdown-checked::before{
+  position: absolute;
+  left: .2rem;
+  content: '✓';
+  font-weight: 600;
+}
 
 </style>

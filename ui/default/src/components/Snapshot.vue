@@ -1,9 +1,12 @@
 <template>
 
 <div class="container-fluid m-2 practable-component" id='snapshot-div'>
+    <div class='d-grid gap-2 d-sm-block'>
+        <button id="snapshot" type='button' class="button-sm button-primary" @click="snapshot">Record Snapshot</button>
+        <button id="reset_snaps" type='button' class="button-sm button-warning" @click="toggleResetModal">Reset</button>
+    </div>
 
     <div class="row table" id='table'>
-
         <table>
             <thead class='table-head'>
                 <tr>
@@ -16,10 +19,10 @@
                 <td v-for='key in Object.keys(row)' :key="key">{{row[key].toFixed(2)}}</td>
             </tr>
 
-            <tr class='current' id='current-row'>
-                <td>{{getTime.toFixed(2)}}</td>
-                <td>{{getCurrentAngle.toFixed(2)}}</td>
-                <td>{{getCurrentAngularVelocity.toFixed(2)}}</td>
+            <tr id='current-row'>
+                <td class='current'>{{getTime.toFixed(2)}}</td>
+                <td class='current'>{{getCurrentAngle.toFixed(2)}}</td>
+                <td class='current'>{{getCurrentAngularVelocity.toFixed(2)}}</td>
             </tr> 
             
             </tbody>
@@ -29,30 +32,28 @@
                 </div>
             </div>   -->
         </table> 
-
-        
-
 	</div>
 
-    <div class='d-grid gap-2 d-sm-block'>
-        <button id="snapshot" type='button' class="button-sm button-primary" @click="snapshot">Record Snapshot</button>
-        <button id="reset_snaps" type='button' class="button-sm button-warning" @click="toggleResetModal">Reset</button>
-        <button id="download_snaps" type='button' class="button-sm button-primary" @click="outputToCSV">Download Snapshots</button>
-    </div>
+
     
-   <div class="d-flex flex-row">
-        <toolbar parentCanvasID="" parentComponentName="snapshot" parentDivID="snapshot-div" :showDownload='false' :showPopupHelp="true" :showOptions="false">  
-            <template v-slot:popup>
-                <div class='row mb-2'>
-                    <div class='col'>
-                        <h3> Snapshot tool </h3>
-                        <p> Click 'Record Snapshot' to save the current state to the snapshot table. Every time you click a new data set will be added. Click 'Download Snapshots'
-                            to download all the snapshots as a .csv file.
-                        </p>
-                    </div>
-                </div>
+   <div class="d-flex flex-row mt-2 toolbar-bottom">
+        <popup-help class="me-2" id="popup-help-snapshot">
+            <template v-slot:header>
+                <h5> Snapshot Help </h5>
             </template>
-        </toolbar>
+            <template v-slot:body>
+                <p> Click 'Record Snapshot' to save the current state to the snapshot table. Every time you click a new data set will be added. Click 'Download Snapshots'
+                    to download all the snapshots as a .csv file.
+                </p>
+            </template>
+        </popup-help>
+
+        <button id="download_snaps" type='button' class="button-toolbar button-secondary" @click="outputToCSV" aria-label="download snapshots" data-bs-toggle="tooltip" title="Download Snapshots">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+            </svg>
+        </button>
     </div>
         
 
@@ -84,7 +85,7 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex'
-import Toolbar from './elements/Toolbar.vue';
+import PopupHelp from './elements/PopupHelp.vue';
 
 export default {
 
@@ -98,7 +99,7 @@ export default {
     }
   },
   components: {
-    Toolbar
+    PopupHelp
   },
   computed:{
       ...mapGetters([
@@ -170,8 +171,8 @@ export default {
 <style scoped>
 
 .current{
-    border: thin;
-	box-shadow: 0px 0px;
+    border-top: 1px solid var(--background-color-inverted);
+    border-bottom: 1px solid var(--background-color-inverted);
     color: green
 }
 

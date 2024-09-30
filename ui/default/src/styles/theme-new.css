@@ -54,7 +54,7 @@ body.dark-theme {
     overflow-x: hidden;
 }
 
-/* Only have scrollable left and right screen divs if on a large screen size or bigger. */
+/* Only have defined screen rows if on large screens */
 @media only screen and (min-width: 992px){
     #first-row{
         overflow: auto;
@@ -76,6 +76,7 @@ body.dark-theme {
 
     #third-row{
         overflow: auto;
+        height: 40dvh;
         max-height: 100dvh;
         min-height: 20dvh;
         max-width: 100dvw;
@@ -134,18 +135,22 @@ body.dark-theme {
 
 .drop-area-full{
     width: 100dvw;
+    min-width: 50dvw;
 }
 
 .drop-area-half{
     width: 50dvw;
+    min-width: 30dvw;
 }
 
 .drop-area-three-quarters{
     width: 75dvw;
+    min-width: 30dvw;
 }
 
 .drop-area-one-quarter{
     width: 25dvw;
+    min-width: 15dvw;
 }
 
 .drop-area-one-fifth{
@@ -158,10 +163,12 @@ body.dark-theme {
 
 .drop-area-three-fifths{
     width: 60dvw;
+    min-width: 30dvw;
 }
 
 .drop-area-four-fifths{
     width: 80dvw;
+    min-width: 40dvw;
 }
 
 .drop-area-one-third{
@@ -191,6 +198,19 @@ body.dark-theme {
 .toolbar-top{
     position: sticky; 
     top: 0; 
+}
+
+.button-xlg{
+    border: none;
+    border-radius: 8px;
+    padding: 12px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 2rem;
+    margin: 8px 4px;
+    transition-duration: 0.2s;
+    cursor: pointer;
 }
 
 .button-lg{
@@ -458,20 +478,23 @@ input[type=range]::-ms-track {
     background: var(--background-color-secondary);
   }
 
-
-
 .table{
     overflow: scroll;
     max-height: 100%;
     color: var(--text-color);
-    
 }
 
 th{
     position: sticky; 
     top: 0; 
-    background: var(--background-color-inverted);
+    background-color: var(--background-color-inverted);
     color: var(--text-color-inverted);
+}
+
+td{
+    border-top: 1px solid var(--background-color-inverted);
+    background-color: var(--background-color-highlight);
+    color: var(--text-color);
 }
 
 .modal-header{
