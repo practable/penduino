@@ -130,7 +130,8 @@ export default {
   methods:{
     dragComponent(event){
         event.dataTransfer.effectAllowed = 'move';
-         console.log("Dragged id: " + event.target.id);
+         //console.log("Dragged event: ");
+         //console.log(event);
          let element = event.target;
          if(element.classList.contains('drop-area')){
            if(element.childNodes[0] != null){
@@ -142,7 +143,7 @@ export default {
          } else{
            while(element.parentNode){
               element = element.parentNode;
-              console.log(element.id);
+              //console.log(element.id);
               if(element.classList.contains('drop-area')){
                 if(element.childNodes[0] != null){
                   event.dataTransfer.setData("text/html", element.id + "|" + element.childNodes[0].id);
@@ -169,7 +170,7 @@ export default {
             if(event.target.childNodes.length > 0){
               draggedZone.appendChild(event.target.childNodes[0]);
             }
-            console.log(draggedID);
+            //console.log(draggedID);
             droppedElement.appendChild(document.getElementById(draggedID));
             droppedElement.classList.remove('drop-area-highlighted');
         } 
@@ -178,7 +179,7 @@ export default {
           while(element.parentNode){
             element = element.parentNode;
             if(element.classList.contains('drop-area')){
-              console.log(element.childNodes[0]);
+              //console.log(element.childNodes[0]);
               draggedZone.appendChild(element.childNodes[0]);
               element.appendChild(document.getElementById(draggedID));
               element.classList.remove('drop-area-highlighted');
@@ -186,22 +187,34 @@ export default {
             }
           }
         }
-      }
-      
-      return false;
-    },
-    dragEnter(event){
-      let dropData = event.dataTransfer.getData('text/html');
-      let dropItems = dropData.split("|");
-      let draggedID = dropItems[1];
-      if(draggedID != 'empty' && document.getElementById(draggedID) != null){
-        let element = document.getElementById(event.target.id);
-        if(element != null && element.classList.contains('drop-area')){
-          element.classList.add('drop-area-highlighted');
+      } else{
+        if(droppedElement != null){
+          droppedElement.classList.remove('drop-area-highlighted');
         }
         
       }
       
+      return false;
+    },
+    // dragEnter(event){
+    // console.log(event)
+    //   let dropData = event.dataTransfer.getData('text/html');
+    //   let dropItems = dropData.split("|");
+    //   let draggedID = dropItems[1];
+    //   if(draggedID != 'empty' && document.getElementById(draggedID) != null){
+    //     let element = document.getElementById(event.target.id);
+    //     if(element != null && element.classList.contains('drop-area')){
+    //       element.classList.add('drop-area-highlighted');
+    //     }
+        
+    //   }
+      
+    // },
+    dragEnter(event){
+    //console.log(event)
+    if(event.target.classList.contains('drop-area')){
+          event.target.classList.add('drop-area-highlighted');
+        }
     },
     dragLeave(event){
       let element = document.getElementById(event.target.id);

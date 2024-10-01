@@ -74,8 +74,9 @@
                         <p>Your unique user ID is given above. This helps us provide support through learning analytics.</p>
 
                         <h5>Customise the UI (Large screens only)</h5>
-                        <p>You can drag a component from one slot to another to switch their positions.</p>
-                        <p>Components can also be resized horizontally by clicking and dragging in the bottom right-hand corner of a slot.</p>
+                        <p>You can drag a component from one slot to another to switch their positions. Drag the component you want to move until the location you 
+                          want to move to becomes highlighted, then drop.
+                        </p>
 
                         <h5>Toggling components</h5>
                         <p>The <b>Add Component</b> menu in the navigation bar can be used to toggle components visibility. Most components are displayed by default.
