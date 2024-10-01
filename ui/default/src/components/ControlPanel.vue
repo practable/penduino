@@ -17,29 +17,29 @@
 
 			<div class="d-flex flex-row align-items-center justify-content-end mb-2">
 				<label class="sliderlabel" for="driveSlider"> Drive ({{driveParam}}%)</label>
-				<div class="ms-2" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-					<input type="range" min="0" max="100" v-model="driveParam" class="slider" id="driveSlider" @change="sendDrive">
+				<div class="ms-2" >
+					<input type="range" min="0" max="100" v-model="driveParam" class="slider" id="driveSlider" @change="sendDrive" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)" @mouseleave="setDraggable(true)">
 				</div>
 			</div>
 
 			<div class="d-flex flex-row align-items-center justify-content-end mb-2">
 				<label class="sliderlabel" for="brakeSlider"> Brake ({{brakeParam}}%)</label>
-				<div class="ms-2" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-					<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake'>
+				<div class="ms-2" >
+					<input type="range" min="0" max="100" v-model="brakeParam" class="slider" id="brakeSlider" @change='sendBrake' @mousedown="setDraggable(false)" @mouseup="setDraggable(true)" @mouseleave="setDraggable(true)">
 				</div>
 			</div>
 
 			<div class="d-flex flex-row align-items-center justify-content-end mb-2">
 				<label class="sliderlabel" for="startSlider"> Start bump ({{startParam}}ms)</label>
-				<div class="ms-2" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-					<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" > 
+				<div class="ms-2">
+					<input type="range" min="1" max="100" v-model="startParam" class="slider" id="startSlider" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)" @mouseleave="setDraggable(true)"> 
 				</div>
 			</div>
 
 			<div class="d-flex flex-row align-items-center justify-content-end mb-2">
 				<label class="sliderlabel" for="dataSlider"> Report every {{intervalParam}}ms</label> 
-				<div class="ms-2" @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
-					<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval'>
+				<div class="ms-2">
+					<input type="range" min="20" max="200" v-model="intervalParam" class="slider" id="dataSlider" @change='sendInterval' @mousedown="setDraggable(false)" @mouseup="setDraggable(true)" @mouseleave="setDraggable(true)">
 				</div>
 			</div>
 		</div>

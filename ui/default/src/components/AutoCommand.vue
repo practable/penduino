@@ -13,12 +13,12 @@
             </select> 
         </div>
 
-        <div class='col-md-3 d-flex flex-column align-items-center' @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+        <div class='col-md-3 d-flex flex-column align-items-center' @mousedown="setDraggable(false)" @mouseup="setDraggable(true)" @mouseleave="setDraggable(true)">
             <label class='txt-bold m-1' for="command_parameter" v-if="command_to_add == 'updateDrive' || command_to_add == 'updateBrake'">Value</label>
             <input v-if="command_to_add == 'updateDrive' || command_to_add == 'updateBrake'" type="text" class='input col-sm-6' id="command_parameter" v-model="command_parameter">
         </div>
 
-        <div class='col-md-3 d-flex flex-column align-items-center' @mousedown="setDraggable(false)" @mouseup="setDraggable(true)">
+        <div class='col-md-3 d-flex flex-column align-items-center' @mousedown="setDraggable(false)" @mouseup="setDraggable(true)" @mouseleave="setDraggable(true)">
             <label class='txt-bold m-1' for="time_interval">After</label>
             <input type="number" class='input col-sm-6' id="time_interval" v-model="time_to_add">
             <label class='txt-bold m-1' for="time_interval">seconds</label>
