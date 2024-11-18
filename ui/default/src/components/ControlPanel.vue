@@ -241,7 +241,7 @@ export default {
 			let wrapEncoder = true;
 
 			var initialSamplingCount = 2400
-			var delayWeightingFactor = 2
+			var delayWeightingFactor = 10
 			let encoderPPR = 2400
 
 			let responsiveSmoothie = true;
