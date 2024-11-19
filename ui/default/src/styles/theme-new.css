@@ -216,7 +216,7 @@ body.dark-theme {
 .button-lg{
     border: none;
     border-radius: 8px;
-    padding: 8px 8px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -229,7 +229,7 @@ body.dark-theme {
 .button-sm{
     border: none;
     border-radius: 8px;
-    padding: 6px 6%;
+    padding: 6px 6px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -274,7 +274,7 @@ body.dark-theme {
 .button-primary{
     background-color: var(--background-color-secondary);
     color: var(--text-color);
-    border-width: 1px;
+    border-width: 3px;
     border-style: solid;
     border-color: var(--button-color-primary);
 }
@@ -300,7 +300,7 @@ body.dark-theme {
 .button-tertiary{
     background-color: var(--background-color-secondary);
     color: var(--text-color);
-    border-width: 1px;
+    border-width: 3px;
     border-style: solid;
     border-color: var(--button-color-tertiary);
 }
@@ -326,7 +326,7 @@ body.dark-theme {
 .button-warning{
     background-color: var(--background-color-secondary);
     color: var(--text-color);
-    border-width: 1px;
+    border-width: 3px;
     border-style: solid;
     border-color: #f7910d;
 }
@@ -339,7 +339,7 @@ body.dark-theme {
 .button-danger{
     background-color: red;
     color: white; 
-    border-width: 1px;
+    border-width: 3px;
     border-style: solid;
     border-color: red;
 }

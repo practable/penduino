@@ -6,11 +6,11 @@
 
 	<div class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
 		<div class="col-lg-6" id="buttons">
-			<button id="start" class="button-xlg button-primary m-2" @click="start">Start</button>
-			<button id="brake" class="button-xlg button-primary m-2" @click="brake">Brake</button>
-			<button id="load" class="button-xlg button-primary m-2" @click="load">Load</button>
-			<button id="free" class="button-xlg button-primary m-2" @click="free">Free</button>
-			<button id="cal" class="button-xlg button-warning m-2" @click="calibrate">Cal</button>
+			<button id="start" class="button-lg button-primary m-2" @click="start">Start</button>
+			<button id="brake" class="button-lg button-primary m-2" @click="brake">Brake</button>
+			<button id="load" class="button-lg button-primary m-2" @click="load">Load</button>
+			<button id="free" class="button-lg button-primary m-2" @click="free">Free</button>
+			<button id="cal" class="button-lg button-warning m-2" @click="calibrate">Cal</button>
 		</div>
 
 		<div class="col-lg-6" id="control-settings">

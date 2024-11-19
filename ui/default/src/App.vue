@@ -19,9 +19,9 @@
           </div>
 
           <div class='d-flex' id='second-row'>
-            <div class='drop-area drop-area-half' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
-            <div class='drop-area drop-area-one-quarter' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-recorder id='data-recorder' /></div>
-            <div class='drop-area drop-area-one-quarter' id='drop_1_2' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time[s]', 'Angle[rad]', 'Ang. Vel.[rad/s]']"/></div>
+            <div class='drop-area drop-area-two-fifths' id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
+            <div class='drop-area drop-area-one-fifth' id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-recorder id='data-recorder' /></div>
+            <div class='drop-area drop-area-two-fifths' id='drop_1_2' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time[s]', 'Angle[rad]', 'Ang. Vel.[rad/s]']"/></div>
           </div>
 
           <div class='d-flex' id='third-row'>

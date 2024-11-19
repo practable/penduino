@@ -115,7 +115,6 @@ export default {
       snapshot(){
           let angle = this.getCurrentAngle
           let time = this.getTime;
-          console.log(this.$store.getters.getCurrentTime)
           let ang_vel = this.getCurrentAngularVelocity;
           
           let data_object = {id: this.getNumData, t: parseFloat(time), theta: parseFloat(angle), omega: ang_vel};
