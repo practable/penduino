@@ -4,7 +4,8 @@
        @toggleconsent="showConsentModal = true" @togglesnapshot="toggleSnapshot" @togglegraph="toggleGraph" @toggleautocommands="toggleAutoCommands" @togglestopwatch="toggleStopwatch" @toggletable="toggleTable" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"/>
 
        <!-- <consent v-if='showConsentModal && getIsLoggingOn' @consentset="closeConsentModal"/> -->
-
+       <logging v-if="getIsLoggingOn" id='logging' />
+       
         <div v-if="isWorkspaceOn">
           <workspace :protractorAdded="protractorAdded" :rulerAdded="rulerAdded"/>
         </div>
@@ -66,6 +67,7 @@ import NavigationBar from "./components/NavigationBar.vue";
 import Streams from "./components/Streams.vue";
 import Snapshot from "./components/Snapshot.vue"
 //import Consent from "./components/Consent.vue"
+import Logging from './components/Logging.vue'
 
 import { mapGetters } from 'vuex'
 //import { v4 as uuidv4 } from 'uuid';
@@ -84,7 +86,8 @@ export default {
     AutoCommand,
     NavigationBar,
     Snapshot,
-//    Consent
+//    Consent,
+    Logging
 
   },
   mounted(){
