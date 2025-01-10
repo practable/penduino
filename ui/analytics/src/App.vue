@@ -108,7 +108,7 @@ export default {
   created(){
     this.$store.dispatch('setUsesLocalStorage', this.hasStorage());
     this.updateUUID();
-//    this.checkConsent();
+    //this.checkConsent();
   },
   computed:{
     ...mapGetters([
