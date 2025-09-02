@@ -62,6 +62,9 @@ const uiStore = {
          },
          getDarkTheme(state){
             return state.darkTheme;
+         },
+         getAppVersion(state){
+            return import.meta.env.VITE_APP_VERSION;
          }
          
          

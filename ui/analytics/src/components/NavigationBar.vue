@@ -70,7 +70,7 @@
                 <li class="nav-item me-1">
                   <popup-help id="popup-help-navbar">
                       <template v-slot:header>
-                        <h5>Information</h5>
+                        <h5>Information (v{{ getAppVersion }})</h5>
                       </template>
 
                       <template v-slot:body>
@@ -172,7 +172,8 @@ export default {
         'getLogUUID',
         'getDarkTheme',
         'getIsChatOn',
-        'getConfigJSON'
+        'getConfigJSON',
+        'getAppVersion'
       ]),
       labName(){
         return this.getLabID == '' ? 'Pendulum Lab': ('Pendulum Lab: ' + this.getLabID);
