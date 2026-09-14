@@ -145,7 +145,15 @@ export default {
     ]),
   },
   watch:{
-   
+    isMobile() {
+      this.$nextTick(() => {
+        document.querySelectorAll('#component-grid > div, .drop-area')
+        .forEach((el) => {
+          el.style.width = '';
+          el.style.height = '';
+        });
+      });
+    },
   },
   methods:{
     ...mapActions([

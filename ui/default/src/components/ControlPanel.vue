@@ -166,7 +166,8 @@ export default {
 				if(this.url != '' && this.getDataURLObtained){
 					this.connect();	
 				} else{
-					console.log('disconnecting: ' + this.url);
+					console.log('disconnecting');
+					this.disconnect();
 				}
 				
 			} catch(e){
@@ -177,6 +178,10 @@ export default {
 		},
 		
 	},
+	beforeUnmount(){                  
+		this.disconnect();
+		window.removeEventListener('keydown', this.hotkey, false);
+  	},
     mounted(){
 		
 
@@ -221,8 +226,21 @@ export default {
 				this.start();
 			} 
 		},
-		connect(){
+		disconnect(){
+			const ws = this.dataSocket;
+			this.dataSocket = null;
+			if (!ws) return;
 
+			ws.onopen = null;
+			ws.onmessage = null;
+			ws.onclose = null;
+			ws.onerror = null;
+
+			try { ws.close(); } catch(e) { /* already closing */ }
+		},
+		connect(){
+			this.disconnect();
+			
 			let _this = this;
 
 			this.dataSocket = new WebSocket(this.url);
