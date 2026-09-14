@@ -3,8 +3,6 @@
        <navigation-bar :isGraphOn='isGraphOn' :isStopwatchOn='isStopwatchOn' :isTableOn='isTableOn' :isAutoCommandOn='isAutoCommandOn' :isSnapshotOn='isSnapshotOn'
        @toggleconsent="showConsentModal = true" @togglesnapshot="toggleSnapshot" @togglegraph="toggleGraph" @toggleautocommands="toggleAutoCommands" @togglestopwatch="toggleStopwatch" @toggletable="toggleTable" @toggleworkspace="addWorkspace" @clearworkspace="clearWorkspace" @addruler="rulerAdded = true" @addprotractor="protractorAdded = true"/>
 
-       <!-- <consent v-if='showConsentModal && getIsLoggingOn' @consentset="closeConsentModal"/> -->
-
         <div v-if="isWorkspaceOn">
           <workspace :protractorAdded="protractorAdded" :rulerAdded="rulerAdded"/>
         </div>
@@ -13,7 +11,34 @@
 
         <logging v-if="getIsLoggingOn" id='logging' />
 
-        <div v-if='!isMobile' class='row' id='component-grid'>
+
+        <div :class="isMobile ? 'd-flex flex-column' : 'row'" id='component-grid'>
+        <!-- first-row etc only exist as styles when large screen -->
+            <div :class="isMobile ? '' : 'd-flex'" id='first-row'>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-two-fifths'" id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><webcam-stream id='webcam-stream' /></div>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-three-fifths'" id='drop_0_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><graph-output v-if='isGraphOn' id='graph' type="graph" @newselectedobject="selectedGraphPoint"/></div>
+            </div>
+
+            <div :class="isMobile ? '' : 'd-flex'" id='second-row'>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-two-fifths'" id='drop_1_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-stream id='data-stream' /></div>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-one-fifth'" id='drop_1_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><data-recorder id='data-recorder' /></div>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-two-fifths'" id='drop_1_2' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><snapshot v-if='isSnapshotOn' id='snapshot' :headings="['Time[s]', 'Angle[rad]', 'Ang. Vel.[rad/s]']"/></div>
+            </div>
+
+            <div :class="isMobile ? '' : 'd-flex'" id='third-row'>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-half'" id='drop_2_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><table-output v-if='isTableOn' id='table' :selected_point="selected_graph_point"/></div>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-half'" id='drop_2_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><auto-command v-if='isAutoCommandOn' id='auto-command' /></div>
+            </div>
+
+            <div :class="isMobile ? '' : 'd-flex'" id='fourth-row'>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-half'" id='drop_3_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><stopwatch v-if='isStopwatchOn' id='stopwatch'/></div>
+              <div :class="isMobile ? 'drop-area drop-area-mobile' : 'drop-area drop-area-half'" id='drop_3_1' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"></div>
+            </div>
+        </div>
+
+
+
+        <!-- <div v-if='!isMobile' class='row' id='component-grid'>
 
           <div class='d-flex' id='first-row'>
             <div class='drop-area drop-area-one-quarter' id='drop_0_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><webcam-stream id='webcam-stream' /></div>
@@ -48,7 +73,7 @@
             <div class='drop-area drop-area-mobile' id='drop_5_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><table-output v-if='isTableOn' id='table' :selected_point="selected_graph_point"/></div>
             <div class='drop-area drop-area-mobile' id='drop_6_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><auto-command v-if='isAutoCommandOn' id='auto-command' /></div>
             <div class='drop-area drop-area-mobile' id='drop_7_0' :draggable='getDraggable' @dragstart="dragComponent" @drop='dropComponent' @dragover.prevent @dragenter='dragEnter' @dragleave="dragLeave"><stopwatch v-if='isStopwatchOn' id='stopwatch'/></div>
-        </div>
+        </div> -->
   
   </div>
 </template>
@@ -69,8 +94,7 @@ import Streams from "./components/Streams.vue";
 import Snapshot from "./components/Snapshot.vue"
 import Logging from "./components/Logging.vue"
 
-import { mapGetters } from 'vuex'
-//import { v4 as uuidv4 } from 'uuid';
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -89,9 +113,6 @@ export default {
     Logging
 
   },
-  mounted(){
-    
-  },
   data() {
     return {
       isTableOn: false,
@@ -109,27 +130,27 @@ export default {
   },
   created(){
     this.$store.dispatch('setUsesLocalStorage', this.hasStorage());
+    
+  },
+  mounted(){
     this.updateUUID();
-//    this.checkConsent();
+    window.onresize = () => {this.setWindowWidth(window.innerWidth)};
   },
   computed:{
     ...mapGetters([
       'getDraggable',
       'getUsesLocalStorage',
-      'getIsLoggingOn'
+      'getIsLoggingOn',
+      'isMobile'
     ]),
-    isMobile(){
-      if(window.screen.width < 992){
-        return true;
-      } else{
-        return false;
-      }
-    }
   },
   watch:{
    
   },
   methods:{
+    ...mapActions([
+        'setWindowWidth'
+    ]),
     dragComponent(event){
         event.dataTransfer.effectAllowed = 'move';
          //console.log("Dragged event: ");
