@@ -53,7 +53,7 @@
     </div>
 
 
-    <div class="d-flex flex-row mt-2 toolbar-bottom">
+    <div class="d-flex flex-row mt-2">
         <popup-help class="me-2" id="popup-help-snapshot">
             <template v-slot:header>
                 <h5> Autocommands </h5>
