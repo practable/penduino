@@ -215,8 +215,15 @@ body.dark-theme {
 }
 
 .toolbar-top{
-    position: sticky; 
-    top: 0; 
+    /* position: sticky; 
+    top: 0;  */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;           /* or width: 100% */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .button-xlg{
