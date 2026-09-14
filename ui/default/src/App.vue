@@ -11,6 +11,8 @@
 
         <streams id='streams' />
 
+        <logging v-if="getIsLoggingOn" id='logging' />
+
         <div v-if='!isMobile' class='row' id='component-grid'>
 
           <div class='d-flex' id='first-row'>
@@ -65,7 +67,7 @@ import AutoCommand from "./components/AutoCommand.vue";
 import NavigationBar from "./components/NavigationBar.vue";
 import Streams from "./components/Streams.vue";
 import Snapshot from "./components/Snapshot.vue"
-//import Consent from "./components/Consent.vue"
+import Logging from "./components/Logging.vue"
 
 import { mapGetters } from 'vuex'
 //import { v4 as uuidv4 } from 'uuid';
@@ -84,7 +86,7 @@ export default {
     AutoCommand,
     NavigationBar,
     Snapshot,
-//    Consent
+    Logging
 
   },
   mounted(){
